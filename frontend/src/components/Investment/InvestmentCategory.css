@@ -1,0 +1,485 @@
+.investment-category {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding: 24px;
+}
+
+.investment-header {
+  max-width: 1400px;
+  margin: 0 auto 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.investment-header h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.all-button {
+  background-color: #FDB913;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.suggested-steps {
+  max-width: 1400px;
+  margin: 0 auto 32px;
+  background: linear-gradient(135deg, #1565C0 0%, #1976D2 100%);
+  border-radius: 12px;
+  padding: 32px;
+}
+
+.suggested-steps h2 {
+  color: white;
+  font-size: 18px;
+  margin: 0 0 20px 0;
+  font-weight: 500;
+}
+
+.steps-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.step-card {
+  background-color: #B8D4F1;
+  border-radius: 8px;
+  padding: 32px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.step-icon {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+
+.step-card h3 {
+  color: #1565C0;
+  font-size: 16px;
+  margin: 0;
+  font-weight: 600;
+}
+
+.cta-button {
+  background-color: #FDB913;
+  color: #333;
+  border: none;
+  padding: 10px 28px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  transition: transform 0.2s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+}
+
+.carousel-section {
+  max-width: 1400px;
+  margin: 0 auto 32px;
+  position: relative;
+}
+
+.carousel-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+}
+
+.carousel-arrow {
+  background-color: #B8D4F1;
+  border: 2px solid #1565C0;
+  color: #1565C0;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  font-size: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.carousel-arrow:hover {
+  background-color: #1565C0;
+  color: white;
+}
+
+.carousel-content {
+  flex: 1;
+  background: linear-gradient(135deg, #2E5CB8 0%, #4A7BC8 100%);
+  border-radius: 12px;
+  padding: 48px;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-slide {
+  width: 100%;
+  color: white;
+}
+
+.slide-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.slide-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.slide-subtitle {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.slide-description {
+  font-size: 20px;
+  margin: 16px 0;
+}
+
+.slide-tagline {
+  font-size: 18px;
+  margin: 16px 0 0 0;
+  opacity: 0.95;
+}
+
+.goals-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin: 32px 0;
+}
+
+.goal-card {
+  background-color: #B8D4F1;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+}
+
+.goal-card h4 {
+  color: #1565C0;
+  font-size: 16px;
+  margin: 0 0 16px 0;
+  font-weight: 600;
+}
+
+.goal-image {
+  font-size: 64px;
+  margin: 16px 0;
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-cta {
+  background-color: #FDB913;
+  color: #333;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 16px;
+  display: block;
+  margin: 24px auto 0;
+  transition: transform 0.2s ease;
+}
+
+.carousel-cta:hover {
+  transform: translateY(-2px);
+}
+
+.slide-2 {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.stories-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.story-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 24px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.story-text {
+  font-size: 18px;
+  margin: 0;
+  flex: 1;
+}
+
+.story-details {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  font-size: 18px;
+}
+
+.story-time {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.story-icon {
+  font-size: 32px;
+}
+
+.slide-footer-box {
+  background-color: #B8D4F1;
+  border-radius: 12px;
+  padding: 24px 32px;
+  text-align: center;
+}
+
+.footer-flow {
+  color: #333;
+  font-size: 16px;
+  margin: 0 0 12px 0;
+  font-weight: 600;
+}
+
+.footer-tagline {
+  color: #1565C0;
+  font-size: 16px;
+  margin: 0 0 16px 0;
+}
+
+.slide-3 {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.expert-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 48px;
+}
+
+.expert-text {
+  flex: 1;
+}
+
+.expert-text h3 {
+  font-size: 22px;
+  margin: 0 0 20px 0;
+  font-weight: 600;
+}
+
+.expert-description {
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.expert-icon {
+  font-size: 120px;
+  flex-shrink: 0;
+}
+
+.expert-footer {
+  background-color: #B8D4F1;
+  border-radius: 12px;
+  padding: 24px 32px;
+}
+
+.expert-footer-title {
+  color: #1565C0;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+}
+
+.expert-footer-text {
+  color: #333;
+  font-size: 16px;
+  margin: 0 0 16px 0;
+}
+
+.categories-section {
+  max-width: 1400px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 12px;
+  padding: 32px;
+  position: relative;
+}
+
+.single-category-content {
+  width: 100%;
+}
+
+.content-header {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 24px;
+  padding: 16px;
+  background-color: #B8D4F1;
+  border-radius: 8px;
+}
+
+.content-header input[type="radio"] {
+  margin-right: 8px;
+}
+
+.category-info {
+  margin-bottom: 32px;
+}
+
+.category-info h3 {
+  color: #1565C0;
+  font-size: 20px;
+  margin: 0 0 12px 0;
+  text-align: center;
+}
+
+.category-desc {
+  text-align: center;
+  color: #666;
+  margin: 0 0 32px 0;
+  font-size: 15px;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.benefit-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+}
+
+.benefit-icon {
+  width: 48px;
+  height: 48px;
+  background-color: #1565C0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.benefit-item span {
+  color: #333;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.contact-button {
+  position: absolute;
+  bottom: 32px;
+  right: 32px;
+  background-color: #FDB913;
+  color: #333;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  transition: transform 0.2s ease;
+}
+
+.contact-button:hover {
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .investment-category {
+    padding: 16px;
+  }
+
+  .investment-header {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .steps-container {
+    grid-template-columns: 1fr;
+  }
+
+  .goals-container {
+    grid-template-columns: 1fr;
+  }
+
+  .benefits-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .expert-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .carousel-container {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .carousel-arrow {
+    width: 40px;
+    height: 40px;
+  }
+
+  .carousel-content {
+    padding: 24px;
+  }
+
+  .contact-button {
+    position: static;
+    width: 100%;
+    margin-top: 24px;
+  }
+}
