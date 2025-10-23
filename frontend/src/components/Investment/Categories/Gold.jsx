@@ -51,101 +51,101 @@ const Gold = () => {
   })();
 
   // Fetch latest gold price (INR per gram) on mount. Uses a free API if available.
-  useEffect(() => {
-    let isMounted = true;
+  // useEffect(() => {
+  //   let isMounted = true;
 
-    const fetchGoldPrice = async () => {
-      setIsLoadingPrice(true);
-      setPriceError(null);
-      try {
-        // Try backend spot endpoint for Bengaluru (only for gold)
-        try {
-          const spotRes = await fetch(`/api/metals/spot?metal=gold&city=Bengaluru`);
-          if (spotRes.ok) {
-            const spotJson = await spotRes.json();
-            if (isMounted && spotJson && typeof spotJson.price_per_gram === 'number') {
-              setGoldPricePerGram(spotJson.price_per_gram);
-              setChartSource(spotJson.source || 'backend-spot');
-            }
-          }
-        } catch (e) {
-          // ignore and continue
-        }
-        // Try a more reliable public API first (no key required): metals.live
-        // Example endpoint: https://api.metals.live/v1/spot
-        // It returns an array of objects like [{metal: 'gold', price: 2000, currency: 'USD', timestamp: ...}, ...]
-        // Then we try the previous data-asg.goldprice.org endpoint as a fallback.
+  //   const fetchGoldPrice = async () => {
+  //     setIsLoadingPrice(true);
+  //     setPriceError(null);
+  //     try {
+  //       // Try backend spot endpoint for Bengaluru (only for gold)
+  //       try {
+  //         const spotRes = await fetch(`/api/metals/spot?metal=gold&city=Bengaluru`);
+  //         if (spotRes.ok) {
+  //           const spotJson = await spotRes.json();
+  //           if (isMounted && spotJson && typeof spotJson.price_per_gram === 'number') {
+  //             setGoldPricePerGram(spotJson.price_per_gram);
+  //             setChartSource(spotJson.source || 'backend-spot');
+  //           }
+  //         }
+  //       } catch (e) {
+  //         // ignore and continue
+  //       }
+  //       // Try a more reliable public API first (no key required): metals.live
+  //       // Example endpoint: https://api.metals.live/v1/spot
+  //       // It returns an array of objects like [{metal: 'gold', price: 2000, currency: 'USD', timestamp: ...}, ...]
+  //       // Then we try the previous data-asg.goldprice.org endpoint as a fallback.
 
-        let json = null;
-        try {
-          const res = await fetch("https://api.metals.live/v1/spot");
-          if (res.ok) {
-            json = await res.json();
-            // metals.live returns prices in USD per troy ounce; we need INR per gram.
-            // We'll try to get USD->INR using a small inline fetch (exchangerate.host)
-            const fxRes = await fetch("https://api.exchangerate.host/latest?base=USD&symbols=INR");
-            const fxJson = fxRes.ok ? await fxRes.json() : null;
-            const usdToInr = fxJson && fxJson.rates && fxJson.rates.INR ? fxJson.rates.INR : null;
+  //       let json = null;
+  //       try {
+  //         const res = await fetch("https://api.metals.live/v1/spot");
+  //         if (res.ok) {
+  //           json = await res.json();
+  //           // metals.live returns prices in USD per troy ounce; we need INR per gram.
+  //           // We'll try to get USD->INR using a small inline fetch (exchangerate.host)
+  //           const fxRes = await fetch("https://api.exchangerate.host/latest?base=USD&symbols=INR");
+  //           const fxJson = fxRes.ok ? await fxRes.json() : null;
+  //           const usdToInr = fxJson && fxJson.rates && fxJson.rates.INR ? fxJson.rates.INR : null;
 
-            if (json && usdToInr) {
-              const goldObj = json.find((m) => m.metal && m.metal.toLowerCase() === "gold");
-              const silverObj = json.find((m) => m.metal && m.metal.toLowerCase() === "silver");
-              if (goldObj && goldObj.price && !isNaN(goldObj.price)) {
-                const ounceUsd = parseFloat(goldObj.price);
-                const ounceInr = ounceUsd * usdToInr;
-                const perGram = Math.round((ounceInr / 31.1034768) * 100) / 100;
-                if (isMounted) setGoldPricePerGram(perGram);
-              }
-              if (silverObj && silverObj.price && !isNaN(silverObj.price)) {
-                const ounceUsd = parseFloat(silverObj.price);
-                const ounceInr = ounceUsd * usdToInr;
-                const perGram = Math.round((ounceInr / 31.1034768) * 100) / 100;
-                if (isMounted) setSilverPricePerGram(perGram);
-              }
-              setIsLoadingPrice(false);
-              return;
-            }
-          }
-        } catch (e) {
-          // ignore and fall back
-        }
+  //           if (json && usdToInr) {
+  //             const goldObj = json.find((m) => m.metal && m.metal.toLowerCase() === "gold");
+  //             const silverObj = json.find((m) => m.metal && m.metal.toLowerCase() === "silver");
+  //             if (goldObj && goldObj.price && !isNaN(goldObj.price)) {
+  //               const ounceUsd = parseFloat(goldObj.price);
+  //               const ounceInr = ounceUsd * usdToInr;
+  //               const perGram = Math.round((ounceInr / 31.1034768) * 100) / 100;
+  //               if (isMounted) setGoldPricePerGram(perGram);
+  //             }
+  //             if (silverObj && silverObj.price && !isNaN(silverObj.price)) {
+  //               const ounceUsd = parseFloat(silverObj.price);
+  //               const ounceInr = ounceUsd * usdToInr;
+  //               const perGram = Math.round((ounceInr / 31.1034768) * 100) / 100;
+  //               if (isMounted) setSilverPricePerGram(perGram);
+  //             }
+  //             setIsLoadingPrice(false);
+  //             return;
+  //           }
+  //         }
+  //       } catch (e) {
+  //         // ignore and fall back
+  //       }
 
-        // Fallback: previous endpoint returning INR per ounce
-        const res2 = await fetch("https://data-asg.goldprice.org/dbXRates/INR");
-        if (!res2.ok) throw new Error("Fallback network response was not ok");
-        const json2 = await res2.json();
+  //       // Fallback: previous endpoint returning INR per ounce
+  //       const res2 = await fetch("https://data-asg.goldprice.org/dbXRates/INR");
+  //       if (!res2.ok) throw new Error("Fallback network response was not ok");
+  //       const json2 = await res2.json();
 
-        // The API returns price per ounce in USD/INR depending on endpoint.
-        // The data-asg.goldprice.org endpoint returns items[0].xauPrice which
-        // is price per ounce (troy oz). Convert to grams: 1 troy oz = 31.1034768 g
-        if (json2 && json2.items && json2.items.length > 0) {
-          const item = json2.items[0];
-          const ounceGold = parseFloat(item.xauPrice);
-          const ounceSilver = parseFloat(item.xagPrice || item.xagPriceOunce || NaN);
+  //       // The API returns price per ounce in USD/INR depending on endpoint.
+  //       // The data-asg.goldprice.org endpoint returns items[0].xauPrice which
+  //       // is price per ounce (troy oz). Convert to grams: 1 troy oz = 31.1034768 g
+  //       if (json2 && json2.items && json2.items.length > 0) {
+  //         const item = json2.items[0];
+  //         const ounceGold = parseFloat(item.xauPrice);
+  //         const ounceSilver = parseFloat(item.xagPrice || item.xagPriceOunce || NaN);
 
-          if (!isNaN(ounceGold)) {
-            const perGramGold = Math.round((ounceGold / 31.1034768) * 100) / 100;
-            if (isMounted) setGoldPricePerGram(perGramGold);
-          }
+  //         if (!isNaN(ounceGold)) {
+  //           const perGramGold = Math.round((ounceGold / 31.1034768) * 100) / 100;
+  //           if (isMounted) setGoldPricePerGram(perGramGold);
+  //         }
 
-          if (!isNaN(ounceSilver)) {
-            const perGramSilver = Math.round((ounceSilver / 31.1034768) * 100) / 100;
-            if (isMounted) setSilverPricePerGram(perGramSilver);
-          }
-        }
-        setIsLoadingPrice(false);
-      } catch (err) {
-        setPriceError("Unable to fetch live metal prices");
-        setIsLoadingPrice(false);
-      }
-    };
+  //         if (!isNaN(ounceSilver)) {
+  //           const perGramSilver = Math.round((ounceSilver / 31.1034768) * 100) / 100;
+  //           if (isMounted) setSilverPricePerGram(perGramSilver);
+  //         }
+  //       }
+  //       setIsLoadingPrice(false);
+  //     } catch (err) {
+  //       setPriceError("Unable to fetch live metal prices");
+  //       setIsLoadingPrice(false);
+  //     }
+  //   };
 
-    fetchGoldPrice();
+  //   fetchGoldPrice();
 
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  //   return () => {
+  //     isMounted = false;
+  //   };
+  // }, []);
 
   // Generate a 30-day synthetic price series around the current selected metal price.
   const generateSeriesFromPrice = (currentPrice) => {

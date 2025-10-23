@@ -53,7 +53,7 @@ function AppRoutes() {
                     <h1>PERSONEL FINANCE MANAGEMENT</h1>
                     <div>
                       <p>Carried out by</p>
-                      <p>Student 1 - Somanlingam Neelesh - 231IT074</p>
+                      <p>Student 1 - Somalingam Neelesh - 231IT074</p>
                       <p>Student 2 - Karthik Dodda - 231IT021</p>
                       <p>Student 3 - BK Hima Bindu - 231IT014</p>
                     </div>

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./InvestmentCategory.css";
 
 const InvestmentCategory = () => {
   const { category } = useParams();
+  const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Convert URL parameter back to display name
@@ -216,7 +217,7 @@ const InvestmentCategory = () => {
           <div className="step-card">
             <div className="step-icon">🎯</div>
             <h3>Create your first goal</h3>
-            <button className="cta-button">Initiate</button>
+            <button className="cta-button" onClick={() => navigate('/plan', { state: { tab: 'create-goal' } })}>Initiate</button>
           </div>
           <div className="step-card">
             <div className="step-icon">💰</div>

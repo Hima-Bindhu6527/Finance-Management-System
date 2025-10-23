@@ -25,7 +25,7 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/goals', require('./routes/goals'));
 app.use('/api/financial-plans', require('./routes/financialPlans'));
 app.use('/api/income-expense', require('./routes/incomeExpense'));
-app.use('/api/metals', require('./routes/metals'));
+// app.use('/api/metals', require('./routes/metals'));
 
 // Basic route
 app.get('/', (req, res) => {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from 'react-router-dom';
 import CreateGoal from "../components/CreateGoal";
 import CreateFinancialPlan from "../components/CreateFinancialPlan";
 import GoalsList from "../components/GoalsList";
@@ -59,6 +60,29 @@ const PlanPage = () => {
     }
   };
 
+  const location = useLocation();
+
+  // Apply tab from navigation state or query only when the location changes.
+  useEffect(() => {
+    try {
+      const stateTab = location && location.state && location.state.tab;
+      const params = new URLSearchParams(location && location.search ? location.search : window.location.search);
+      const queryTab = params.get('tab');
+      if (stateTab) {
+        setActiveTab(stateTab);
+        return;
+      }
+      if (queryTab) {
+        setActiveTab(queryTab);
+        return;
+      }
+    } catch (e) {
+      // ignore
+    }
+  }, [location]);
+
+  // Fetch data when activeTab changes. Separate effect prevents location-state from
+  // overriding user tab switches after navigation.
   useEffect(() => {
     if (activeTab === "overview" || activeTab === "goals") {
       fetchGoals();
@@ -215,33 +239,29 @@ const PlanPage = () => {
           My Goals
         </button>
         <button
-          className={`tab-button ${
-            activeTab === "financial-plans" ? "active" : ""
-          }`}
+          className={`tab-button ${activeTab === "financial-plans" ? "active" : ""
+            }`}
           onClick={() => setActiveTab("financial-plans")}
         >
           Financial Plans
         </button>
         <button
-          className={`tab-button ${
-            activeTab === "create-goal" ? "active" : ""
-          }`}
+          className={`tab-button ${activeTab === "create-goal" ? "active" : ""
+            }`}
           onClick={() => setActiveTab("create-goal")}
         >
           Create Goal
         </button>
         <button
-          className={`tab-button ${
-            activeTab === "create-plan" ? "active" : ""
-          }`}
+          className={`tab-button ${activeTab === "create-plan" ? "active" : ""
+            }`}
           onClick={() => setActiveTab("create-plan")}
         >
           Create Plan
         </button>
         <button
-          className={`tab-button ${
-            activeTab === "income-expense" ? "active" : ""
-          }`}
+          className={`tab-button ${activeTab === "income-expense" ? "active" : ""
+            }`}
           onClick={() => setActiveTab("income-expense")}
         >
           Income & Expenses

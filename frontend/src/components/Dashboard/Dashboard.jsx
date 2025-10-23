@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import "./Dashboard.css";
-import CreateGoal from "../CreateGoal";
 
 const Dashboard = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [activeCategory, setActiveCategory] = useState("Mutual Fund");
-  const [isCreateGoalOpen, setIsCreateGoalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const carouselSlides = [
     {
@@ -196,7 +196,7 @@ const Dashboard = () => {
             <h3>Create your first goal</h3>
             <button
               className="cta-button"
-              onClick={() => setIsCreateGoalOpen(true)}
+              onClick={() => navigate('/plan')}
               aria-label="Initiate Goal"
             >
               Initiate
@@ -356,26 +356,7 @@ const Dashboard = () => {
         <button className="contact-button">Contact Us</button>
       </div>
 
-      {/* Create Goal Modal */}
-      {isCreateGoalOpen && (
-        <div className="modal-overlay" onClick={() => setIsCreateGoalOpen(false)}>
-          <div
-            className="modal-content"
-            onClick={(e) => e.stopPropagation()}
-            role="dialog"
-            aria-modal="true"
-          >
-            <button
-              className="modal-close"
-              onClick={() => setIsCreateGoalOpen(false)}
-              aria-label="Close create goal"
-            >
-              ×
-            </button>
-            <CreateGoal onGoalCreated={() => setIsCreateGoalOpen(false)} />
-          </div>
-        </div>
-      )}
+      {/* Create Goal is opened via Plan page now */}
     </div>
   );
 };

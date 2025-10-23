@@ -422,33 +422,29 @@ const IncomeExpenseTracker = () => {
 
       <div className="tracker-tabs">
         <button
-          className={`tracker-tab ${
-            activeSection === "income" ? "active" : ""
-          }`}
+          className={`tracker-tab ${activeSection === "income" ? "active" : ""
+            }`}
           onClick={() => setActiveSection("income")}
         >
           📈 Income
         </button>
         <button
-          className={`tracker-tab ${
-            activeSection === "expenses" ? "active" : ""
-          }`}
+          className={`tracker-tab ${activeSection === "expenses" ? "active" : ""
+            }`}
           onClick={() => setActiveSection("expenses")}
         >
           📊 Expenses
         </button>
         <button
-          className={`tracker-tab ${
-            activeSection === "assets" ? "active" : ""
-          }`}
+          className={`tracker-tab ${activeSection === "assets" ? "active" : ""
+            }`}
           onClick={() => setActiveSection("assets")}
         >
           🧾 Assets
         </button>
         <button
-          className={`tracker-tab ${
-            activeSection === "analysis" ? "active" : ""
-          }`}
+          className={`tracker-tab ${activeSection === "analysis" ? "active" : ""
+            }`}
           onClick={() => setActiveSection("analysis")}
         >
           📋 Analysis
@@ -462,7 +458,7 @@ const IncomeExpenseTracker = () => {
               <h3>Add Income Source</h3>
               <form onSubmit={addIncomeSource} className="income-form">
                 <div className="form-group">
-                  <label>Source Name</label>
+                  <label>Source Name *</label>
                   <input
                     type="text"
                     value={incomeForm.name}
@@ -474,7 +470,7 @@ const IncomeExpenseTracker = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label>Amount (₹)</label>
+                  <label>Amount (₹) *</label>
                   <input
                     type="number"
                     value={incomeForm.amount}
@@ -570,7 +566,7 @@ const IncomeExpenseTracker = () => {
               <h3>Add Expense Category</h3>
               <form onSubmit={addExpenseCategory} className="expense-form">
                 <div className="form-group">
-                  <label>Category Name</label>
+                  <label>Category Name *</label>
                   <input
                     type="text"
                     value={expenseForm.category}
@@ -585,7 +581,7 @@ const IncomeExpenseTracker = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label>Amount (₹)</label>
+                  <label>Amount (₹) *</label>
                   <input
                     type="number"
                     value={expenseForm.amount}
@@ -695,7 +691,7 @@ const IncomeExpenseTracker = () => {
                   </select>
                 </div>
                 <div className="form-group">
-                  <label>Name</label>
+                  <label>Name *</label>
                   <input
                     type="text"
                     value={assetForm.name}
@@ -706,7 +702,7 @@ const IncomeExpenseTracker = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label>Current Value (₹)</label>
+                  <label>Current Value (₹) *</label>
                   <input
                     type="number"
                     value={assetForm.currentValue}
@@ -745,8 +741,8 @@ const IncomeExpenseTracker = () => {
             <div className="data-container">
               <h3>Your Assets</h3>
               {incomeExpenseData &&
-              incomeExpenseData.assets &&
-              incomeExpenseData.assets.length > 0 ? (
+                incomeExpenseData.assets &&
+                incomeExpenseData.assets.length > 0 ? (
                 <div className="data-table">
                   <table>
                     <thead>
@@ -827,11 +823,10 @@ const IncomeExpenseTracker = () => {
             <div className="summary-card savings">
               <h3>💰 Monthly Savings</h3>
               <div
-                className={`amount ${
-                  incomeExpenseData.monthlySavings >= 0
+                className={`amount ${incomeExpenseData.monthlySavings >= 0
                     ? "positive"
                     : "negative"
-                }`}
+                  }`}
               >
                 ₹{incomeExpenseData.monthlySavings.toLocaleString()}
               </div>
@@ -894,18 +889,18 @@ const IncomeExpenseTracker = () => {
 
             {incomeExpenseData.monthlySavings <
               incomeExpenseData.savingsPlan.savings && (
-              <div className="savings-alert">
-                <h4>⚠️ Savings Alert</h4>
-                <p>
-                  Your current savings (₹
-                  {incomeExpenseData.monthlySavings.toLocaleString()}) are below
-                  the recommended 20% (₹
-                  {incomeExpenseData.savingsPlan.savings.toLocaleString()}).
-                  Consider reducing discretionary spending or increasing income
-                  sources.
-                </p>
-              </div>
-            )}
+                <div className="savings-alert">
+                  <h4>⚠️ Savings Alert</h4>
+                  <p>
+                    Your current savings (₹
+                    {incomeExpenseData.monthlySavings.toLocaleString()}) are below
+                    the recommended 20% (₹
+                    {incomeExpenseData.savingsPlan.savings.toLocaleString()}).
+                    Consider reducing discretionary spending or increasing income
+                    sources.
+                  </p>
+                </div>
+              )}
           </div>
         </div>
       )}
