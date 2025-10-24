@@ -11,6 +11,7 @@ import Login from "./components/Auth/Login";
 import Signup from "./components/Auth/Signup";
 import Dashboard from "./components/Dashboard/Dashboard";
 import PlanPage from "./pages/Planpage";
+import ToolsPage from "./pages/ToolsPage";
 // Investment Category Components
 import MutualFund from "./components/Investment/Categories/MutualFund";
 import ULIP from "./components/Investment/Categories/ULIP";
@@ -193,13 +194,18 @@ function AppRoutes() {
             }
           />
           <Route
+            path="/tools/:calculator"
+            element={
+              <ProtectedRoute>
+                <ToolsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/tools"
             element={
               <ProtectedRoute>
-                <div className="placeholder-page">
-                  <h1>🎯 Tools Page</h1>
-                  <p>Coming soon...</p>
-                </div>
+                <Navigate to="/tools/sip-calculator" replace />
               </ProtectedRoute>
             }
           />

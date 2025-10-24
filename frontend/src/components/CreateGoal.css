@@ -66,8 +66,8 @@
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #1565C0;
+  box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.1);
 }
 
 .form-group input.error,
@@ -96,7 +96,7 @@
 }
 
 .info-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1565C0 0%, #1976D2 100%);
   color: white;
   padding: 1.5rem;
   border-radius: 10px;
@@ -120,7 +120,7 @@
 }
 
 .submit-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1565C0 0%, #1976D2 100%);
   color: white;
   border: none;
   padding: 1rem 3rem;
@@ -134,7 +134,7 @@
 
 .submit-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 15px rgba(21, 101, 192, 0.3);
 }
 
 .submit-button:disabled {

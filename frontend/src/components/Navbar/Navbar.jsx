@@ -7,7 +7,9 @@ const Navbar = () => {
   const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
   const [isInvestDropdownOpen, setIsInvestDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const [isToolsDropdownOpen, setIsToolsDropdownOpen] = useState(false);
+  const investDropdownRef = useRef(null);
+  const toolsDropdownRef = useRef(null);
 
   const handleLogout = () => {
     logout();
@@ -25,8 +27,22 @@ const Navbar = () => {
     "Unlisted Stocks",
   ];
 
+  const calculators = [
+    { name: "SIP Calculator", route: "sip-calculator" },
+    { name: "PPF Calculator", route: "ppf-calculator" },
+    { name: "EMI Calculator", route: "emi-calculator" },
+    { name: "FD Calculator", route: "fd-calculator" },
+    { name: "SWP Calculator", route: "swp-calculator" },
+  ];
+
   const toggleInvestDropdown = () => {
     setIsInvestDropdownOpen(!isInvestDropdownOpen);
+    setIsToolsDropdownOpen(false);
+  };
+
+  const toggleToolsDropdown = () => {
+    setIsToolsDropdownOpen(!isToolsDropdownOpen);
+    setIsInvestDropdownOpen(false);
   };
 
   const handleCategoryClick = (category) => {
@@ -35,11 +51,25 @@ const Navbar = () => {
     setIsInvestDropdownOpen(false);
   };
 
+  const handleCalculatorClick = (calculatorRoute) => {
+    navigate(`/tools/${calculatorRoute}`);
+    setIsToolsDropdownOpen(false);
+  };
+
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (
+        investDropdownRef.current &&
+        !investDropdownRef.current.contains(event.target)
+      ) {
         setIsInvestDropdownOpen(false);
+      }
+      if (
+        toolsDropdownRef.current &&
+        !toolsDropdownRef.current.contains(event.target)
+      ) {
+        setIsToolsDropdownOpen(false);
       }
     };
 
@@ -70,7 +100,10 @@ const Navbar = () => {
                   Plan
                 </Link>
               </li>
-              <li className="navbar-item navbar-dropdown" ref={dropdownRef}>
+              <li
+                className="navbar-item navbar-dropdown"
+                ref={investDropdownRef}
+              >
                 <button
                   className="navbar-link dropdown-toggle"
                   onClick={toggleInvestDropdown}
@@ -97,10 +130,32 @@ const Navbar = () => {
                   Report
                 </Link>
               </li>
-              <li className="navbar-item">
-                <Link to="/tools" className="navbar-link">
-                  Tools
-                </Link>
+              <li
+                className="navbar-item navbar-dropdown"
+                ref={toolsDropdownRef}
+              >
+                <button
+                  className="navbar-link dropdown-toggle"
+                  onClick={toggleToolsDropdown}
+                >
+                  Tools <span className="dropdown-arrow">▼</span>
+                </button>
+                {isToolsDropdownOpen && (
+                  <ul className="dropdown-menu">
+                    {calculators.map((calculator, index) => (
+                      <li key={index} className="dropdown-item">
+                        <button
+                          className="dropdown-link"
+                          onClick={() =>
+                            handleCalculatorClick(calculator.route)
+                          }
+                        >
+                          {calculator.name}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
               <li className="navbar-item navbar-user">
                 <span className="user-welcome">Hello, {user?.name}</span>

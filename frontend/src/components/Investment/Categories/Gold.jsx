@@ -34,13 +34,17 @@ const Gold = () => {
   const [isLive, setIsLive] = useState(true);
   const [isLoadingPrice, setIsLoadingPrice] = useState(false);
   const [priceError, setPriceError] = useState(null);
-  const [chartSource, setChartSource] = useState('synthetic');
+  const [chartSource, setChartSource] = useState("synthetic");
 
   // GST percentage can be configured via Vite env variable VITE_GST_PERCENT
   // Default to 3% when not provided.
   const GST_PERCENT = (() => {
     try {
-      if (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_GST_PERCENT) {
+      if (
+        typeof import.meta !== "undefined" &&
+        import.meta.env &&
+        import.meta.env.VITE_GST_PERCENT
+      ) {
         const parsed = Number(import.meta.env.VITE_GST_PERCENT);
         return !isNaN(parsed) && parsed >= 0 ? parsed : 3;
       }
@@ -50,104 +54,6 @@ const Gold = () => {
     return 3;
   })();
 
-  // Fetch latest gold price (INR per gram) on mount. Uses a free API if available.
-  // useEffect(() => {
-  //   let isMounted = true;
-
-  //   const fetchGoldPrice = async () => {
-  //     setIsLoadingPrice(true);
-  //     setPriceError(null);
-  //     try {
-  //       // Try backend spot endpoint for Bengaluru (only for gold)
-  //       try {
-  //         const spotRes = await fetch(`/api/metals/spot?metal=gold&city=Bengaluru`);
-  //         if (spotRes.ok) {
-  //           const spotJson = await spotRes.json();
-  //           if (isMounted && spotJson && typeof spotJson.price_per_gram === 'number') {
-  //             setGoldPricePerGram(spotJson.price_per_gram);
-  //             setChartSource(spotJson.source || 'backend-spot');
-  //           }
-  //         }
-  //       } catch (e) {
-  //         // ignore and continue
-  //       }
-  //       // Try a more reliable public API first (no key required): metals.live
-  //       // Example endpoint: https://api.metals.live/v1/spot
-  //       // It returns an array of objects like [{metal: 'gold', price: 2000, currency: 'USD', timestamp: ...}, ...]
-  //       // Then we try the previous data-asg.goldprice.org endpoint as a fallback.
-
-  //       let json = null;
-  //       try {
-  //         const res = await fetch("https://api.metals.live/v1/spot");
-  //         if (res.ok) {
-  //           json = await res.json();
-  //           // metals.live returns prices in USD per troy ounce; we need INR per gram.
-  //           // We'll try to get USD->INR using a small inline fetch (exchangerate.host)
-  //           const fxRes = await fetch("https://api.exchangerate.host/latest?base=USD&symbols=INR");
-  //           const fxJson = fxRes.ok ? await fxRes.json() : null;
-  //           const usdToInr = fxJson && fxJson.rates && fxJson.rates.INR ? fxJson.rates.INR : null;
-
-  //           if (json && usdToInr) {
-  //             const goldObj = json.find((m) => m.metal && m.metal.toLowerCase() === "gold");
-  //             const silverObj = json.find((m) => m.metal && m.metal.toLowerCase() === "silver");
-  //             if (goldObj && goldObj.price && !isNaN(goldObj.price)) {
-  //               const ounceUsd = parseFloat(goldObj.price);
-  //               const ounceInr = ounceUsd * usdToInr;
-  //               const perGram = Math.round((ounceInr / 31.1034768) * 100) / 100;
-  //               if (isMounted) setGoldPricePerGram(perGram);
-  //             }
-  //             if (silverObj && silverObj.price && !isNaN(silverObj.price)) {
-  //               const ounceUsd = parseFloat(silverObj.price);
-  //               const ounceInr = ounceUsd * usdToInr;
-  //               const perGram = Math.round((ounceInr / 31.1034768) * 100) / 100;
-  //               if (isMounted) setSilverPricePerGram(perGram);
-  //             }
-  //             setIsLoadingPrice(false);
-  //             return;
-  //           }
-  //         }
-  //       } catch (e) {
-  //         // ignore and fall back
-  //       }
-
-  //       // Fallback: previous endpoint returning INR per ounce
-  //       const res2 = await fetch("https://data-asg.goldprice.org/dbXRates/INR");
-  //       if (!res2.ok) throw new Error("Fallback network response was not ok");
-  //       const json2 = await res2.json();
-
-  //       // The API returns price per ounce in USD/INR depending on endpoint.
-  //       // The data-asg.goldprice.org endpoint returns items[0].xauPrice which
-  //       // is price per ounce (troy oz). Convert to grams: 1 troy oz = 31.1034768 g
-  //       if (json2 && json2.items && json2.items.length > 0) {
-  //         const item = json2.items[0];
-  //         const ounceGold = parseFloat(item.xauPrice);
-  //         const ounceSilver = parseFloat(item.xagPrice || item.xagPriceOunce || NaN);
-
-  //         if (!isNaN(ounceGold)) {
-  //           const perGramGold = Math.round((ounceGold / 31.1034768) * 100) / 100;
-  //           if (isMounted) setGoldPricePerGram(perGramGold);
-  //         }
-
-  //         if (!isNaN(ounceSilver)) {
-  //           const perGramSilver = Math.round((ounceSilver / 31.1034768) * 100) / 100;
-  //           if (isMounted) setSilverPricePerGram(perGramSilver);
-  //         }
-  //       }
-  //       setIsLoadingPrice(false);
-  //     } catch (err) {
-  //       setPriceError("Unable to fetch live metal prices");
-  //       setIsLoadingPrice(false);
-  //     }
-  //   };
-
-  //   fetchGoldPrice();
-
-  //   return () => {
-  //     isMounted = false;
-  //   };
-  // }, []);
-
-  // Generate a 30-day synthetic price series around the current selected metal price.
   const generateSeriesFromPrice = (currentPrice) => {
     const prices = [];
     const dates = [];
@@ -180,8 +86,12 @@ const Gold = () => {
     const fetchHistory = async () => {
       try {
         // If gold, request Bengaluru history; if silver, no city param
-        const res = await fetch(`/api/metals/history?metal=${selectedMetal}&days=30${selectedMetal === 'gold' ? '&city=Bengaluru' : ''}`);
-        if (!res.ok) throw new Error('no history');
+        const res = await fetch(
+          `/api/metals/history?metal=${selectedMetal}&days=30${
+            selectedMetal === "gold" ? "&city=Bengaluru" : ""
+          }`
+        );
+        if (!res.ok) throw new Error("no history");
         const json = await res.json();
         if (isMounted && json && json.dates && json.prices) {
           setFetchedSeries({ dates: json.dates, prices: json.prices });
@@ -203,8 +113,8 @@ const Gold = () => {
   const chartData = fetchedSeries
     ? fetchedSeries
     : selectedMetal === "gold"
-      ? generateSeriesFromPrice(goldPricePerGram)
-      : generateSeriesFromPrice(silverPricePerGram);
+    ? generateSeriesFromPrice(goldPricePerGram)
+    : generateSeriesFromPrice(silverPricePerGram);
 
   // Chart configuration
   const chartOptions = {
@@ -228,12 +138,15 @@ const Gold = () => {
         callbacks: {
           title: (items) => {
             // show full date as title
-            if (!items || items.length === 0) return '';
+            if (!items || items.length === 0) return "";
             const idx = items[0].dataIndex;
-            const label = chartData.dates && chartData.dates[idx] ? chartData.dates[idx] : '';
+            const label =
+              chartData.dates && chartData.dates[idx]
+                ? chartData.dates[idx]
+                : "";
             return label;
           },
-        }
+        },
       },
     },
     interaction: {
@@ -280,14 +193,25 @@ const Gold = () => {
     labels: chartData.dates,
     datasets: [
       {
-        label: selectedMetal === "gold" ? "Gold Price (₹/g)" : "Silver Price (₹/g)",
+        label:
+          selectedMetal === "gold" ? "Gold Price (₹/g)" : "Silver Price (₹/g)",
         data: chartData.prices,
-        borderColor: selectedMetal === "gold" ? "#4A90E2" : "#9E9E9E",
+        borderColor: selectedMetal === "gold" ? "#FFD700" : "#9E9E9E",
         backgroundColor: (context) => {
           const ctx = context.chart.ctx;
           const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-          gradient.addColorStop(0, selectedMetal === "gold" ? "rgba(74, 144, 226, 0.3)" : "rgba(158,158,158,0.25)");
-          gradient.addColorStop(1, selectedMetal === "gold" ? "rgba(74, 144, 226, 0.05)" : "rgba(158,158,158,0.05)");
+          gradient.addColorStop(
+            0,
+            selectedMetal === "gold"
+              ? "rgba(226, 208, 74, 0.3)"
+              : "rgba(158,158,158,0.25)"
+          );
+          gradient.addColorStop(
+            1,
+            selectedMetal === "gold"
+              ? "rgba(226, 196, 74, 0.05)"
+              : "rgba(158,158,158,0.05)"
+          );
           return gradient;
         },
         fill: true,
@@ -315,7 +239,8 @@ const Gold = () => {
   // Handle amount change
   const handleAmountChange = (value) => {
     setAmount(value);
-    const currentPrice = selectedMetal === "gold" ? goldPricePerGram : silverPricePerGram;
+    const currentPrice =
+      selectedMetal === "gold" ? goldPricePerGram : silverPricePerGram;
     if (buyByAmount && value && value !== "0") {
       const calculatedWeight = (parseFloat(value) / currentPrice).toFixed(2);
       setWeight(`${calculatedWeight}g`);
@@ -325,7 +250,8 @@ const Gold = () => {
   // Handle weight change
   const handleWeightChange = (value) => {
     setWeight(value);
-    const currentPrice = selectedMetal === "gold" ? goldPricePerGram : silverPricePerGram;
+    const currentPrice =
+      selectedMetal === "gold" ? goldPricePerGram : silverPricePerGram;
     if (!buyByAmount && value && value !== "0.0g") {
       const weightNum = parseFloat(value.replace("g", ""));
       const calculatedAmount = Math.round(weightNum * currentPrice);
@@ -352,11 +278,15 @@ const Gold = () => {
   };
 
   // Compute value based on selected metal and entered weight, then GST and total
-  const currentPrice = selectedMetal === 'gold' ? goldPricePerGram : silverPricePerGram;
-  const weightNumForCalc = parseFloat((weight || '').toString().replace('g', '')) || 0;
-  const valueBasedNumber = Math.round((weightNumForCalc * currentPrice) * 100) / 100;
+  const currentPrice =
+    selectedMetal === "gold" ? goldPricePerGram : silverPricePerGram;
+  const weightNumForCalc =
+    parseFloat((weight || "").toString().replace("g", "")) || 0;
+  const valueBasedNumber =
+    Math.round(weightNumForCalc * currentPrice * 100) / 100;
   // Apply GST (configurable percent) for both gold and silver
-  const gstAmount = Math.round(valueBasedNumber * (GST_PERCENT / 100) * 100) / 100;
+  const gstAmount =
+    Math.round(valueBasedNumber * (GST_PERCENT / 100) * 100) / 100;
   const totalAfterGst = Math.round((valueBasedNumber + gstAmount) * 100) / 100;
 
   return (
@@ -390,17 +320,23 @@ const Gold = () => {
 
             <div className="price-display">
               <p>
-                Value Based On Price : ₹{
-                  (
-                    (parseFloat(weight.replace("g", "")) || 0) *
-                    (selectedMetal === "gold" ? goldPricePerGram : silverPricePerGram)
-                  ).toLocaleString("en-IN", { minimumFractionDigits: 2 })
-                }
+                Value Based On Price : ₹
+                {(
+                  (parseFloat(weight.replace("g", "")) || 0) *
+                  (selectedMetal === "gold"
+                    ? goldPricePerGram
+                    : silverPricePerGram)
+                ).toLocaleString("en-IN", { minimumFractionDigits: 2 })}
               </p>
               <div className="live-price">
                 <span>
-                  {selectedMetal === "gold" ? "Price (Gold) : ₹" : "Price (Silver) : ₹"}
-                  {(selectedMetal === "gold" ? goldPricePerGram : silverPricePerGram).toLocaleString("en-IN", {
+                  {selectedMetal === "gold"
+                    ? "Price (Gold) : ₹"
+                    : "Price (Silver) : ₹"}
+                  {(selectedMetal === "gold"
+                    ? goldPricePerGram
+                    : silverPricePerGram
+                  ).toLocaleString("en-IN", {
                     minimumFractionDigits: 2,
                   })}
                   /g + {GST_PERCENT}% gst
@@ -408,26 +344,62 @@ const Gold = () => {
                 {isLive && <span className="live-indicator">LIVE</span>}
               </div>
               <div className="price-status">
-                {isLoadingPrice && <div className="loading">Loading live prices...</div>}
+                {isLoadingPrice && (
+                  <div className="loading">Loading live prices...</div>
+                )}
                 {priceError && <div className="error">{priceError}</div>}
               </div>
               <div className="price-breakdown">
                 <div className="breakdown-row">
-                  <span className="gst-label">GST ({GST_PERCENT}%) <span className="gst-tooltip" title={`GST at ${GST_PERCENT}% is applied on the transaction value. Please refer to latest tax rules for applicability and exemptions.`}>ℹ️</span></span>
-                  <span>₹ {gstAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
+                  <span className="gst-label">
+                    GST ({GST_PERCENT}%){" "}
+                    <span
+                      className="gst-tooltip"
+                      title={`GST at ${GST_PERCENT}% is applied on the transaction value. Please refer to latest tax rules for applicability and exemptions.`}
+                    >
+                      ℹ️
+                    </span>
+                  </span>
+                  <span>
+                    ₹{" "}
+                    {gstAmount.toLocaleString("en-IN", {
+                      minimumFractionDigits: 2,
+                    })}
+                  </span>
                 </div>
                 <div className="breakdown-row total">
                   <strong>Total (incl. GST)</strong>
-                  <strong>₹ {totalAfterGst.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong>
+                  <strong>
+                    ₹{" "}
+                    {totalAfterGst.toLocaleString("en-IN", {
+                      minimumFractionDigits: 2,
+                    })}
+                  </strong>
                 </div>
               </div>
               <div style={{ marginTop: 8 }}>
                 <small>
                   Check exact market rate:
-                  {selectedMetal === 'gold' ? (
-                    <a className="external-link" href="https://www.goodreturns.in/gold-rates/bangalore.html" target="_blank" rel="noreferrer"> Click here for gold rate</a>
+                  {selectedMetal === "gold" ? (
+                    <a
+                      className="external-link"
+                      href="https://www.goodreturns.in/gold-rates/bangalore.html"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {" "}
+                      Click here for gold rate
+                    </a>
                   ) : (
-                    <a className="external-link" href="https://www.goodreturns.in/silver-rates/bangalore.html" target="_blank" rel="noreferrer"> Click here for silver rate</a>
+                    <a
+                      className="external-link"
+                      href="https://www.goodreturns.in/silver-rates/bangalore.html"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {" "}
+                      Click here for silver rate
+                    </a>
                   )}
                 </small>
               </div>
@@ -489,32 +461,58 @@ const Gold = () => {
           {/* Gold Banner */}
           <div className="gold-banner">
             <div className="banner-content">
-              <h2>FINCART Gold</h2>
-              <p>Invest in 24K Pure Gold</p>
+              <h2>
+                {selectedMetal === "silver" ? "FINCART Silver" : "FINCART Gold"}
+              </h2>
+              <p>
+                {selectedMetal === "silver"
+                  ? "Invest in Pure Silver"
+                  : "Invest in 24K Pure Gold"}
+              </p>
               <div className="banner-features">
                 <span>📦 Zero storage fees</span>
                 <span>🔒 No Theft</span>
               </div>
             </div>
-            <div className="gold-bars">
-              <div className="gold-bar"></div>
-              <div className="gold-bar"></div>
-              <div className="gold-bar"></div>
+            <div
+              className={`${
+                selectedMetal === "silver" ? "silver-bars" : "gold-bars"
+              }`}
+            >
+              <div
+                className={`${
+                  selectedMetal === "silver" ? "silver-bar" : "gold-bar"
+                }`}
+              ></div>
+              <div
+                className={`${
+                  selectedMetal === "silver" ? "silver-bar" : "gold-bar"
+                }`}
+              ></div>
+              <div
+                className={`${
+                  selectedMetal === "silver" ? "silver-bar" : "gold-bar"
+                }`}
+              ></div>
             </div>
           </div>
 
           {/* Why Digital (Gold/Silver) - dynamic content */}
           <div className="why-digital-gold">
-            <h3>{selectedMetal === 'silver' ? 'WHY DIGITAL SILVER?' : 'WHY DIGITAL GOLD?'}</h3>
+            <h3>
+              {selectedMetal === "silver"
+                ? "WHY DIGITAL SILVER?"
+                : "WHY DIGITAL GOLD?"}
+            </h3>
             <div className="benefits-grid">
               <div className="benefit">
                 <div className="benefit-icon">📈</div>
                 <div>
                   <h4>Systematic Growth</h4>
                   <p>
-                    {selectedMetal === 'silver'
-                      ? 'Digital silver lets you accumulate physical value with low ticket sizes and high liquidity.'
-                      : 'With our no lock-in period, in Gold. You can achieve systematic growth of your investment.'}
+                    {selectedMetal === "silver"
+                      ? "Digital silver lets you accumulate physical value with low ticket sizes and high liquidity."
+                      : "With our no lock-in period, in Gold. You can achieve systematic growth of your investment."}
                   </p>
                 </div>
               </div>
@@ -524,9 +522,9 @@ const Gold = () => {
                 <div>
                   <h4>Accessibility</h4>
                   <p>
-                    {selectedMetal === 'silver'
-                      ? 'Buy and sell silver with small amounts and track your holdings in real time.'
-                      : 'Stay in control of your investments with 24x7 real-time portfolio tracking.'}
+                    {selectedMetal === "silver"
+                      ? "Buy and sell silver with small amounts and track your holdings in real time."
+                      : "Stay in control of your investments with 24x7 real-time portfolio tracking."}
                   </p>
                 </div>
               </div>
@@ -536,9 +534,9 @@ const Gold = () => {
                 <div>
                   <h4>Guaranteed Purity</h4>
                   <p>
-                    {selectedMetal === 'silver'
-                      ? 'We provide verified and assayed silver holdings with trusted vault partners.'
-                      : 'Invest with confidence in MMTC-approved digital gold, ensuring unmatched purity.'}
+                    {selectedMetal === "silver"
+                      ? "We provide verified and assayed silver holdings with trusted vault partners."
+                      : "Invest with confidence in MMTC-approved digital gold, ensuring unmatched purity."}
                   </p>
                 </div>
               </div>
@@ -548,9 +546,9 @@ const Gold = () => {
                 <div>
                   <h4>Security</h4>
                   <p>
-                    {selectedMetal === 'silver'
-                      ? 'Your silver holdings are secured with insured vault partners.'
-                      : 'We serve our customers with the best & trusted vault keeper that provides security for transactions and storage.'}
+                    {selectedMetal === "silver"
+                      ? "Your silver holdings are secured with insured vault partners."
+                      : "We serve our customers with the best & trusted vault keeper that provides security for transactions and storage."}
                   </p>
                 </div>
               </div>
@@ -559,7 +557,11 @@ const Gold = () => {
                 <div className="benefit-icon">💰</div>
                 <div>
                   <h4>Minimum Investment</h4>
-                  <p>{selectedMetal === 'silver' ? 'Start investing with very small amounts in silver.' : 'You can start investing with an amount as low as ₹5.'}</p>
+                  <p>
+                    {selectedMetal === "silver"
+                      ? "Start investing with very small amounts in silver."
+                      : "You can start investing with an amount as low as ₹5."}
+                  </p>
                 </div>
               </div>
 
@@ -568,9 +570,9 @@ const Gold = () => {
                 <div>
                   <h4>High Liquidity</h4>
                   <p>
-                    {selectedMetal === 'silver'
-                      ? 'Silver is easy to buy and sell online with quick settlement.'
-                      : 'With Fincart, you can buy & sell anywhere, anytime - online.'}
+                    {selectedMetal === "silver"
+                      ? "Silver is easy to buy and sell online with quick settlement."
+                      : "With Fincart, you can buy & sell anywhere, anytime - online."}
                   </p>
                 </div>
               </div>
@@ -582,10 +584,14 @@ const Gold = () => {
       {/* Price Trends Chart */}
       <div className="price-trends">
         <div className="chart-header">
-          <h3>{selectedMetal === 'silver' ? 'Silver Price Trend' : 'Gold Price Trend - Bengaluru'}</h3>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <h3>
+            {selectedMetal === "silver"
+              ? "Silver Price Trend"
+              : "Gold Price Trend"}
+          </h3>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <span className="time-period">1M</span>
-            <small style={{ color: '#666' }}>Source: {chartSource}</small>
+            <small style={{ color: "#666" }}>Source: {chartSource}</small>
           </div>
         </div>
         <div className="chart-container">

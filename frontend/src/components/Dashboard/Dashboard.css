@@ -38,7 +38,7 @@
   max-width: 1400px;
   margin: 0 auto 32px;
   /* keep the purple/blue header gradient visible */
-  background: linear-gradient(135deg, #5b4bd7 0%, #7a57d9 100%);
+  background:linear-gradient(135deg, #02308f 0%, #0077ff 100%);
   border-radius: 12px;
   padding: 32px;
   box-shadow: 0 6px 24px rgba(90, 50, 180, 0.08);
@@ -132,7 +132,7 @@
 
 .carousel-content {
   flex: 1;
-  background: linear-gradient(135deg, #4a3bb8 0%, #6d57d1 100%);
+  background: linear-gradient(135deg, #02308f 0%, #0077ff 100%);
   border-radius: 12px;
   padding: 48px;
   min-height: 400px;

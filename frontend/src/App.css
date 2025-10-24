@@ -36,7 +36,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #02308f 0%, #0077ff 100%);
   padding: 2rem;
   width: 100%;
 }
@@ -96,7 +96,7 @@ body {
 
 .home-button.secondary:hover {
   background: white;
-  color: #667eea;
+  color: #1565C0;
   transform: translateY(-3px);
 }
 

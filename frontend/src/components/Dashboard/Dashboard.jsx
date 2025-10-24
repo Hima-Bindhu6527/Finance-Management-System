@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 
 const Dashboard = () => {
@@ -183,11 +183,6 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      <div className="dashboard-header">
-        <h1>DASHBOARD</h1>
-        <button className="all-button">All</button>
-      </div>
-
       <div className="suggested-steps">
         <h2>Suggested next steps:</h2>
         <div className="steps-container">
@@ -196,7 +191,7 @@ const Dashboard = () => {
             <h3>Create your first goal</h3>
             <button
               className="cta-button"
-              onClick={() => navigate('/plan')}
+              onClick={() => navigate("/plan")}
               aria-label="Initiate Goal"
             >
               Initiate
@@ -246,7 +241,10 @@ const Dashboard = () => {
                     <div className="goal-image">👴💰</div>
                   </div>
                 </div>
-                <button className="carousel-cta">
+                <button
+                  className="carousel-cta"
+                  onClick={() => navigate("/plan")}
+                >
                   {carouselSlides[0].buttonText}
                 </button>
               </div>
@@ -275,7 +273,10 @@ const Dashboard = () => {
                 <div className="slide-footer-box">
                   <p className="footer-flow">{carouselSlides[1].footer}</p>
                   <p className="footer-tagline">{carouselSlides[1].tagline}</p>
-                  <button className="carousel-cta">
+                  <button
+                    className="carousel-cta"
+                    onClick={() => navigate("/plan")}
+                  >
                     {carouselSlides[1].buttonText}
                   </button>
                 </div>
@@ -319,8 +320,9 @@ const Dashboard = () => {
           {categories.map((category) => (
             <button
               key={category}
-              className={`category-button ${activeCategory === category ? "active" : ""
-                }`}
+              className={`category-button ${
+                activeCategory === category ? "active" : ""
+              }`}
               onClick={() => setActiveCategory(category)}
             >
               {category}

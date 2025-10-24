@@ -47,14 +47,14 @@
 }
 
 .tracker-tab:hover {
-  color: #667eea;
-  background: rgba(102, 126, 234, 0.1);
+  color: #1565C0;
+  background: rgba(21, 101, 192, 0.1);
 }
 
 .tracker-tab.active {
-  color: #667eea;
-  border-bottom-color: #667eea;
-  background: rgba(102, 126, 234, 0.1);
+  color: #1565C0;
+  border-bottom-color: #1565C0;
+  background: rgba(21, 101, 192, 0.1);
 }
 
 .section-grid {
@@ -110,15 +110,15 @@
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #1565C0;
+  box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.1);
 }
 
 .add-btn {
     margin-bottom: 0.5rem;
   width: 100%;
   padding: 0.75rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1565C0 0%, #1976D2 100%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -345,7 +345,7 @@
   background: #f7fafc;
   padding: 1.5rem;
   border-radius: 8px;
-  border-left: 4px solid #667eea;
+  border-left: 4px solid #1565C0;
 }
 
 .plan-label {

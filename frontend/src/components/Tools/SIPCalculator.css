@@ -1,0 +1,338 @@
+/* Container and Layout */
+.sip-container {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #eff6ff, #e0e7ff);
+  padding: 2rem;
+}
+
+.sip-wrapper {
+  max-width: 75rem;
+  margin: 0 auto;
+}
+
+.sip-card {
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  padding: 2rem;
+}
+
+/* Header */
+.sip-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.sip-icon {
+  width: 2rem;
+  height: 2rem;
+  color: #4f46e5;
+}
+
+.sip-title {
+  font-size: 1.875rem;
+  font-weight: bold;
+  color: #1f2937;
+  margin: 0;
+}
+
+/* Toggle Switch */
+.toggle-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.toggle-wrapper {
+  display: inline-flex;
+  background: #f3f4f6;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+}
+
+.toggle-button {
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: transparent;
+  color: #6b7280;
+}
+
+.toggle-button:hover {
+  color: #1f2937;
+}
+
+.toggle-button.active {
+  background: #4f46e5;
+  color: white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Content Grid */
+.sip-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+
+@media (max-width: 768px) {
+  .sip-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Inputs Section */
+.inputs-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.label-text {
+  color: #374151;
+  font-weight: 500;
+}
+
+.label-value {
+  color: #4f46e5;
+  font-weight: 600;
+}
+
+/* Slider Styles */
+.slider {
+  width: 100%;
+  height: 0.5rem;
+  background: #c7d2fe;
+  border-radius: 0.5rem;
+  outline: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  background: #4f46e5;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 1.25rem;
+  height: 1.25rem;
+  background: #4f46e5;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+/* Results Box */
+.results-box {
+  background: linear-gradient(to right, #eef2ff, #dbeafe);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.result-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.result-row.total {
+  border-top: 1px solid #d1d5db;
+  padding-top: 0.75rem;
+}
+
+.result-label {
+  color: #6b7280;
+}
+
+.result-value {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.result-value.returns {
+  color: #059669;
+}
+
+.result-value.total-value {
+  color: #4f46e5;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+/* Chart Section */
+.chart-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-wrapper {
+  position: relative;
+  width: 16rem;
+  height: 16rem;
+}
+
+.donut-chart {
+  transform: rotate(-90deg);
+}
+
+.progress-circle {
+  transition: stroke-dasharray 0.3s ease;
+}
+
+.chart-center {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-value {
+  font-size: 1.875rem;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.chart-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Legend */
+.legend {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.legend-color {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 0.25rem;
+}
+
+.legend-color.invested {
+  background: #4f46e5;
+}
+
+.legend-color.returns {
+  background: #c7d2fe;
+}
+
+.legend-text {
+  color: #374151;
+}
+
+/* Returns Card */
+.returns-card {
+  margin-top: 1.5rem;
+  width: 100%;
+  background: linear-gradient(to right, #d1fae5, #a7f3d0);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+.returns-label {
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.returns-percentage {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #059669;
+}
+
+.returns-period {
+  color: #6b7280;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+/* Information Section */
+.info-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.info-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.info-text {
+  color: #6b7280;
+  line-height: 1.75;
+  margin-bottom: 1rem;
+}
+
+.info-subtitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.75rem;
+}
+
+.info-list {
+  color: #6b7280;
+  padding-left: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.info-list li {
+  line-height: 1.5;
+}

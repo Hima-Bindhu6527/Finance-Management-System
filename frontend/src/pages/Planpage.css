@@ -6,20 +6,21 @@
 }
 
 .plan-header {
+  background: linear-gradient(135deg, #02308f 0%, #0077ff 100%);
   text-align: center;
   margin-bottom: 2rem;
 }
 
 .plan-header h1 {
   font-size: 2.5rem;
-  color: #333;
+  color: #ffffff;
   margin-bottom: 0.5rem;
   font-weight: 700;
 }
 
 .plan-header p {
   font-size: 1.1rem;
-  color: #000000;
+  color: #ffffff;
 }
 
 .plan-tabs {
@@ -45,14 +46,14 @@
 }
 
 .tab-button:hover {
-  color: #667eea;
-  background: rgba(102, 126, 234, 0.1);
+  color: #1565C0;
+  background: rgba(21, 101, 192, 0.1);
 }
 
 .tab-button.active {
-  color: #667eea;
-  border-bottom-color: #667eea;
-  background: rgba(102, 126, 234, 0.1);
+  color: #1565C0;
+  border-bottom-color: #1565C0;
+  background: rgba(21, 101, 192, 0.1);
 }
 
 .plan-content {
@@ -125,7 +126,7 @@
 }
 
 .card-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1565C0 0%, #1976D2 100%);
   color: white;
   border: none;
   padding: 1rem 2rem;
@@ -139,7 +140,7 @@
 
 .card-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 15px rgba(21, 101, 192, 0.3);
 }
 
 .quick-stats {
@@ -169,7 +170,7 @@
 .stat-number {
   font-size: 2rem;
   font-weight: 700;
-  color: #667eea;
+  color: #1565C0;
 }
 
 /* Responsive Design */
