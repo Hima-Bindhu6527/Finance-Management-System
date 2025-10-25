@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
+const reportRoutes = require('./routes/report'); 
 
 // Load env vars
 dotenv.config();
@@ -25,6 +26,7 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/goals', require('./routes/goals'));
 app.use('/api/financial-plans', require('./routes/financialPlans'));
 app.use('/api/income-expense', require('./routes/incomeExpense'));
+app.use('/api/reports', reportRoutes);
 // app.use('/api/metals', require('./routes/metals'));
 
 // Basic route

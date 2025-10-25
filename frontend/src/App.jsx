@@ -21,6 +21,7 @@ import LiquiLoans from "./components/Investment/Categories/LiquiLoans";
 import Insurance from "./components/Investment/Categories/Insurance";
 import Protection from "./components/Investment/Categories/Protection";
 import UnlistedStocks from "./components/Investment/Categories/UnlistedStocks";
+import Report from "./pages/Report";
 // import About from "./components/about";
 import "./App.css";
 
@@ -183,16 +184,13 @@ function AppRoutes() {
             }
           />
           <Route
-            path="/report"
-            element={
-              <ProtectedRoute>
-                <div className="placeholder-page">
-                  <h1>💳 Report Page</h1>
-                  <p>Coming soon...</p>
-                </div>
-              </ProtectedRoute>
-            }
-          />
+  path="/report"
+  element={
+    <ProtectedRoute>
+      <Report />   {/* ✅ Navigates to Report.jsx */}
+    </ProtectedRoute>
+  }
+/>
           <Route
             path="/tools/:calculator"
             element={
