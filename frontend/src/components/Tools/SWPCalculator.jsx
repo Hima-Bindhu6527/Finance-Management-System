@@ -53,7 +53,7 @@ export default function SWPCalculator() {
 
           <div className="swp-content">
             <div className="inputs-section">
-              <div className="input-group">
+              <div className="swp-input-group">
                 <label className="input-label">
                   <span className="label-text">Total Investment</span>
                   <span className="label-value">
@@ -71,7 +71,7 @@ export default function SWPCalculator() {
                 />
               </div>
 
-              <div className="input-group">
+              <div className="swp-input-group">
                 <label className="input-label">
                   <span className="label-text">Withdrawal per Month</span>
                   <span className="label-value">
@@ -89,7 +89,7 @@ export default function SWPCalculator() {
                 />
               </div>
 
-              <div className="input-group">
+              <div className="swp-input-group">
                 <label className="input-label">
                   <span className="label-text">
                     Expected Return Rate (p.a.)
@@ -107,7 +107,7 @@ export default function SWPCalculator() {
                 />
               </div>
 
-              <div className="input-group">
+              <div className="swp-input-group">
                 <label className="input-label">
                   <span className="label-text">Time Period</span>
                   <span className="label-value">{timePeriod} Years</span>

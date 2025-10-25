@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import CreateGoal from "../components/CreateGoal";
 import GoalsList from "../components/GoalsList";
 import IncomeExpenseTracker from "../components/IncomeExpenseTracker";
@@ -38,8 +38,10 @@ const PlanPage = () => {
   useEffect(() => {
     try {
       const stateTab = location && location.state && location.state.tab;
-      const params = new URLSearchParams(location && location.search ? location.search : window.location.search);
-      const queryTab = params.get('tab');
+      const params = new URLSearchParams(
+        location && location.search ? location.search : window.location.search
+      );
+      const queryTab = params.get("tab");
       if (stateTab) {
         setActiveTab(stateTab);
         return;
@@ -169,13 +171,17 @@ const PlanPage = () => {
           My Goals
         </button>
         <button
-          className={`tab-button ${activeTab === "create-goal" ? "active" : ""}`}
+          className={`tab-button ${
+            activeTab === "create-goal" ? "active" : ""
+          }`}
           onClick={() => setActiveTab("create-goal")}
         >
           Create Goal
         </button>
         <button
-          className={`tab-button ${activeTab === "income-expense" ? "active" : ""}`}
+          className={`tab-button ${
+            activeTab === "income-expense" ? "active" : ""
+          }`}
           onClick={() => setActiveTab("income-expense")}
         >
           Income & Expenses

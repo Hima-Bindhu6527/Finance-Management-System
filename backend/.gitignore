@@ -1,0 +1,78 @@
+# Node
+node_modules/
+**/node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Dependency directories
+/.pnp/
+.pnp.js
+
+# Build output
+dist/
+build/
+out/
+.vite/
+.parcel-cache/
+
+# Production
+/.turbo/
+
+# Env files
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Test artifacts
+.jest/
+test-results/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Temporary
+tmp/
+temp/
+*.tmp
+
+# Yarn Plug'n'Play
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# PM2
+pm2.pid
+
+# Misc
+*.tgz
+.cache/
+
+# Lockfiles - keep lockfiles committed for reproducible installs (uncomment if you prefer to ignore)
+# package-lock.json
+# yarn.lock

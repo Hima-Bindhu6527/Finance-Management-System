@@ -86,7 +86,7 @@ export default function SIPCalculator() {
             {/* Left Side - Inputs */}
             <div className="inputs-section">
               {investmentType === "sip" ? (
-                <div className="input-group">
+                <div className="sip-input-group">
                   <label className="input-label">
                     <span className="label-text">Monthly Investment</span>
                     <span className="label-value">
@@ -110,7 +110,7 @@ export default function SIPCalculator() {
                   </div>
                 </div>
               ) : (
-                <div className="input-group">
+                <div className="sip-input-group">
                   <label className="input-label">
                     <span className="label-text">Total Investment</span>
                     <span className="label-value">
@@ -133,7 +133,7 @@ export default function SIPCalculator() {
                 </div>
               )}
 
-              <div className="input-group">
+              <div className="sip-input-group">
                 <label className="input-label">
                   <span className="label-text">
                     Expected Return Rate (p.a.)
@@ -155,7 +155,7 @@ export default function SIPCalculator() {
                 </div>
               </div>
 
-              <div className="input-group">
+              <div className="sip-input-group">
                 <label className="input-label">
                   <span className="label-text">Time Period</span>
                   <span className="label-value">{timePeriod} Years</span>

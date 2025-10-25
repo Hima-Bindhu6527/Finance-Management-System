@@ -151,7 +151,7 @@ const FinancialPlansList = ({ plans, onPlansChange, loading }) => {
                     fontWeight: "600",
                     cursor: "pointer",
                   }}
-                  onClick={() => alert('View details not implemented yet')}
+                  onClick={() => alert("View details not implemented yet")}
                 >
                   View Details
                 </button>
@@ -169,28 +169,34 @@ const FinancialPlansList = ({ plans, onPlansChange, loading }) => {
                     cursor: "pointer",
                   }}
                   onClick={async () => {
-                    const newName = window.prompt('Enter new plan name', plan.planName);
-                    if (!newName || newName.trim() === '') return;
+                    const newName = window.prompt(
+                      "Enter new plan name",
+                      plan.planName
+                    );
+                    if (!newName || newName.trim() === "") return;
                     try {
-                      const token = localStorage.getItem('token');
-                      const res = await fetch(`http://localhost:5000/api/financial-plans/${plan._id}`, {
-                        method: 'PUT',
-                        headers: {
-                          'Content-Type': 'application/json',
-                          Authorization: `Bearer ${token}`,
-                        },
-                        body: JSON.stringify({ planName: newName }),
-                      });
+                      const token = localStorage.getItem("token");
+                      const res = await fetch(
+                        `http://localhost:5000/api/financial-plans/${plan._id}`,
+                        {
+                          method: "PUT",
+                          headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                          },
+                          body: JSON.stringify({ planName: newName }),
+                        }
+                      );
                       const data = await res.json();
                       if (res.ok) {
-                        alert('Plan updated');
+                        alert("Plan updated");
                         if (onPlansChange) onPlansChange();
                       } else {
-                        alert(data.message || 'Failed to update plan');
+                        alert(data.message || "Failed to update plan");
                       }
                     } catch (err) {
                       console.error(err);
-                      alert('Network error while updating plan');
+                      alert("Network error while updating plan");
                     }
                   }}
                 >
@@ -210,25 +216,33 @@ const FinancialPlansList = ({ plans, onPlansChange, loading }) => {
                     cursor: "pointer",
                   }}
                   onClick={async () => {
-                    if (!window.confirm('Are you sure you want to delete this financial plan?')) return;
+                    if (
+                      !window.confirm(
+                        "Are you sure you want to delete this financial plan?"
+                      )
+                    )
+                      return;
                     try {
-                      const token = localStorage.getItem('token');
-                      const res = await fetch(`http://localhost:5000/api/financial-plans/${plan._id}`, {
-                        method: 'DELETE',
-                        headers: {
-                          Authorization: `Bearer ${token}`,
-                        },
-                      });
+                      const token = localStorage.getItem("token");
+                      const res = await fetch(
+                        `http://localhost:5000/api/financial-plans/${plan._id}`,
+                        {
+                          method: "DELETE",
+                          headers: {
+                            Authorization: `Bearer ${token}`,
+                          },
+                        }
+                      );
                       const data = await res.json();
                       if (res.ok) {
-                        alert('Plan deleted');
+                        alert("Plan deleted");
                         if (onPlansChange) onPlansChange();
                       } else {
-                        alert(data.message || 'Failed to delete plan');
+                        alert(data.message || "Failed to delete plan");
                       }
                     } catch (err) {
                       console.error(err);
-                      alert('Network error while deleting plan');
+                      alert("Network error while deleting plan");
                     }
                   }}
                 >
