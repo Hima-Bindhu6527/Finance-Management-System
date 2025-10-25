@@ -12,7 +12,7 @@ const generalDetailsSchema = new mongoose.Schema({
     type: Date,
     required: [true, 'Date of birth is required'],
     validate: {
-      validator: function(value) {
+      validator: function (value) {
         const age = (new Date() - new Date(value)) / (365.25 * 24 * 60 * 60 * 1000);
         return age >= 18 && age <= 100;
       },
@@ -327,63 +327,69 @@ const financialPlanSchema = new mongoose.Schema({
 });
 
 // Update updatedAt field before saving
-financialPlanSchema.pre('save', function(next) {
+financialPlanSchema.pre('save', function (next) {
   this.updatedAt = Date.now();
   next();
 });
 
+// Update updatedAt field on findOneAndUpdate and findByIdAndUpdate
+financialPlanSchema.pre('findOneAndUpdate', function (next) {
+  this.set({ updatedAt: Date.now() });
+  next();
+});
+
 // Calculate total income
-financialPlanSchema.virtual('totalIncome').get(function() {
+financialPlanSchema.virtual('totalIncome').get(function () {
   if (!this.income) return 0;
-  return (this.income.salary || 0) + 
-         (this.income.bonuses || 0) + 
-         (this.income.otherIncome || 0) + 
-         (this.income.rentalIncome || 0) + 
-         (this.income.investmentIncome || 0);
+  return (this.income.salary || 0) +
+    (this.income.bonuses || 0) +
+    (this.income.otherIncome || 0) +
+    (this.income.rentalIncome || 0) +
+    (this.income.investmentIncome || 0);
 });
 
 // Calculate total assets value
-financialPlanSchema.virtual('totalAssetsValue').get(function() {
+financialPlanSchema.virtual('totalAssetsValue').get(function () {
   if (!this.assets) return 0;
-  
+
   let total = 0;
-  
+
   // Mutual funds
   if (this.assets.mutualFunds) {
     total += this.assets.mutualFunds.reduce((sum, fund) => sum + (fund.currentValue || 0), 0);
   }
-  
+
   // Insurance (consider coverage amount)
   if (this.assets.insurance) {
     total += this.assets.insurance.reduce((sum, policy) => sum + (policy.coverageAmount || 0), 0);
   }
-  
+
   // Other assets
   if (this.assets.otherAssets) {
     total += this.assets.otherAssets.reduce((sum, asset) => sum + (asset.currentValue || 0), 0);
   }
-  
+
   return total;
 });
 
 // Calculate total liabilities
-financialPlanSchema.virtual('totalLiabilities').get(function() {
+financialPlanSchema.virtual('totalLiabilities').get(function () {
   if (!this.assets || !this.assets.loans) return 0;
   return this.assets.loans.reduce((sum, loan) => sum + (loan.outstandingAmount || 0), 0);
 });
 
 // Calculate net worth
-financialPlanSchema.virtual('netWorth').get(function() {
+financialPlanSchema.virtual('netWorth').get(function () {
   return this.totalAssetsValue - this.totalLiabilities;
 });
 
 // Calculate total monthly expenses
-financialPlanSchema.virtual('totalMonthlyExpenses').get(function() {
+financialPlanSchema.virtual('totalMonthlyExpenses').get(function () {
   if (!this.expenses || !this.expenses.fixedExpenses) return 0;
-  
+
   return this.expenses.fixedExpenses.reduce((sum, expense) => {
     let monthlyAmount = expense.amount || 0;
-    
+
     // Convert to monthly based on frequency
     switch (expense.frequency) {
       case 'Yearly':
@@ -398,7 +404,7 @@ financialPlanSchema.virtual('totalMonthlyExpenses').get(function() {
       default: // Monthly
         break;
     }
-    
+
     return sum + monthlyAmount;
   }, 0);
 });

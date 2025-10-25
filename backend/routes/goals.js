@@ -5,7 +5,8 @@ const {
   createGoal,
   updateGoal,
   deleteGoal,
-  updateGoalProgress
+  updateGoalProgress,
+  getGoalHistory
 } = require('../controllers/goalController');
 
 const { protect } = require('../middleware/authMiddleware');
@@ -26,5 +27,8 @@ router.route('/:id')
 
 router.route('/:id/progress')
   .put(updateGoalProgress);
+
+router.route('/:id/history')
+  .get(getGoalHistory);
 
 module.exports = router;

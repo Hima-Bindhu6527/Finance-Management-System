@@ -102,6 +102,10 @@ const Dashboard = () => {
         { title: "Tax Benefits", icon: "tax" },
         { title: "Flexibility", icon: "variety" },
         { title: "Wealth Creation", icon: "investment" },
+        { title: "Market Participation", icon: "management" },
+        { title: "Life Cover", icon: "transparency" },
+        { title: "Switching Options", icon: "liquidity" },
+        { title: "Partial Withdrawals", icon: "cost" },
       ],
     },
     Gold: {
@@ -120,10 +124,14 @@ const Dashboard = () => {
       description:
         "Customized investment solutions managed by professional fund managers",
       benefits: [
-        { title: "Personalized", icon: "management" },
-        { title: "Professional", icon: "investment" },
-        { title: "Transparency", icon: "transparency" },
+        { title: "Personalized Strategy", icon: "management" },
+        { title: "Professional Management", icon: "investment" },
+        { title: "Direct Ownership", icon: "transparency" },
         { title: "Flexibility", icon: "flexibility" },
+        { title: "Custom Benchmarks", icon: "variety" },
+        { title: "Risk Management", icon: "diversification" },
+        { title: "Dedicated Manager", icon: "liquidity" },
+        { title: "Regular Reporting", icon: "cost" },
       ],
     },
     LiquiLoans: {
@@ -131,9 +139,13 @@ const Dashboard = () => {
       description: "Get instant liquidity without redeeming your investments",
       benefits: [
         { title: "Instant Approval", icon: "flexibility" },
-        { title: "Low Interest", icon: "cost" },
-        { title: "No Redemption", icon: "investment" },
+        { title: "Low Interest Rates", icon: "cost" },
+        { title: "No Redemption Required", icon: "investment" },
         { title: "Quick Disbursal", icon: "liquidity" },
+        { title: "Continue Investment Growth", icon: "management" },
+        { title: "Flexible Tenure", icon: "variety" },
+        { title: "Minimal Documentation", icon: "transparency" },
+        { title: "Online Process", icon: "diversification" },
       ],
     },
     Insurance: {
@@ -141,10 +153,14 @@ const Dashboard = () => {
       description:
         "Choose from various insurance products to secure your future",
       benefits: [
-        { title: "Life Cover", icon: "flexibility" },
-        { title: "Health Coverage", icon: "variety" },
+        { title: "Life Coverage", icon: "flexibility" },
+        { title: "Health Protection", icon: "variety" },
         { title: "Tax Benefits", icon: "tax" },
         { title: "Peace of Mind", icon: "management" },
+        { title: "Affordable Premiums", icon: "cost" },
+        { title: "Wide Coverage Options", icon: "transparency" },
+        { title: "Family Protection", icon: "liquidity" },
+        { title: "Claim Support", icon: "diversification" },
       ],
     },
     Protection: {
@@ -152,10 +168,14 @@ const Dashboard = () => {
       description:
         "Term insurance and protection plans for comprehensive coverage",
       benefits: [
-        { title: "High Coverage", icon: "flexibility" },
-        { title: "Affordable", icon: "cost" },
+        { title: "High Coverage Amount", icon: "flexibility" },
+        { title: "Affordable Premiums", icon: "cost" },
         { title: "Tax Benefits", icon: "tax" },
         { title: "Family Security", icon: "management" },
+        { title: "Easy Claim Process", icon: "liquidity" },
+        { title: "Pure Protection", icon: "transparency" },
+        { title: "Flexible Terms", icon: "variety" },
+        { title: "Rider Options", icon: "diversification" },
       ],
     },
     "Unlisted Stocks": {
@@ -163,10 +183,14 @@ const Dashboard = () => {
       description:
         "Access to pre-IPO companies with significant growth potential",
       benefits: [
-        { title: "High Returns", icon: "investment" },
+        { title: "High Return Potential", icon: "investment" },
         { title: "Early Access", icon: "flexibility" },
         { title: "Portfolio Diversification", icon: "diversification" },
-        { title: "Growth Potential", icon: "variety" },
+        { title: "Growth Opportunities", icon: "variety" },
+        { title: "Pre-IPO Benefits", icon: "management" },
+        { title: "Exclusive Investments", icon: "transparency" },
+        { title: "Lower Volatility", icon: "liquidity" },
+        { title: "Long-term Wealth", icon: "cost" },
       ],
     },
   };

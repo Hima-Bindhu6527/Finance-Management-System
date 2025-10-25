@@ -49,9 +49,9 @@ export default function EMICalculator() {
 
           <div className="emi-content">
             <div className="inputs-section">
-              <div className="input-group">
+              <div className="emi-input-group">
                 <label className="input-label">
-                  <span className="label-text">Loan Amount</span>
+                  <span className="label-text">Loan Amount :</span>
                   <span className="label-value">
                     ₹{loanAmount.toLocaleString()}
                   </span>
@@ -67,7 +67,7 @@ export default function EMICalculator() {
                 />
               </div>
 
-              <div className="input-group">
+              <div className="emi-input-group">
                 <label className="input-label">
                   <span className="label-text">Rate of Interest (p.a.)</span>
                   <span className="label-value">{rateOfInterest}%</span>
@@ -83,7 +83,7 @@ export default function EMICalculator() {
                 />
               </div>
 
-              <div className="input-group">
+              <div className="emi-input-group">
                 <label className="input-label">
                   <span className="label-text">Loan Tenure</span>
                   <span className="label-value">{loanTenure} Years</span>

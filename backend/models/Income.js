@@ -23,7 +23,7 @@ const incomeSourceSchema = new mongoose.Schema({
 });
 
 // Pre-save middleware for income subdocument
-incomeSourceSchema.pre('save', function(next) {
+incomeSourceSchema.pre('save', function (next) {
   this.monthlyAmount = this.period === 'Yearly' ? this.amount / 12 : this.amount;
   next();
 });
@@ -51,7 +51,7 @@ const expenseSchema = new mongoose.Schema({
 });
 
 // Pre-save middleware for expense subdocument
-expenseSchema.pre('save', function(next) {
+expenseSchema.pre('save', function (next) {
   this.monthlyAmount = this.period === 'Yearly' ? this.amount / 12 : this.amount;
   next();
 });
@@ -107,7 +107,7 @@ const incomeExpenseSchema = new mongoose.Schema({
 });
 
 // Pre-save middleware to calculate monthly amounts and totals
-incomeExpenseSchema.pre('save', function(next) {
+incomeExpenseSchema.pre('save', function (next) {
   // Calculate monthly amounts for incomes
   this.incomes.forEach(income => {
     if (!income.monthlyAmount) {
@@ -133,6 +133,12 @@ incomeExpenseSchema.pre('save', function(next) {
   this.savingsPlan.discretionary = this.totalMonthlyIncome * 0.3;
 
   this.updatedAt = Date.now();
+  next();
+});
+
+// Update updatedAt field on findOneAndUpdate
+incomeExpenseSchema.pre('findOneAndUpdate', function (next) {
+  this.set({ updatedAt: Date.now() });
   next();
 });
 

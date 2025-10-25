@@ -31,7 +31,7 @@ const goalSchema = new mongoose.Schema({
     type: Date,
     required: [true, 'Please add target date'],
     validate: {
-      validator: function(value) {
+      validator: function (value) {
         return value > new Date();
       },
       message: 'Target date must be in the future'
@@ -71,23 +71,76 @@ const goalSchema = new mongoose.Schema({
   updatedAt: {
     type: Date,
     default: Date.now
-  }
+  },
+  progressHistory: [{
+    amount: {
+      type: Number,
+      required: true
+    },
+    previousAmount: {
+      type: Number,
+      required: true
+    },
+    newAmount: {
+      type: Number,
+      required: true
+    },
+    action: {
+      type: String,
+      enum: ['contribution', 'withdrawal', 'adjustment'],
+      default: 'contribution'
+    },
+    note: {
+      type: String,
+      maxlength: 200
+    },
+    timestamp: {
+      type: Date,
+      default: Date.now
+    }
+  }],
+  changeHistory: [{
+    field: {
+      type: String,
+      required: true
+    },
+    oldValue: {
+      type: mongoose.Schema.Types.Mixed
+    },
+    newValue: {
+      type: mongoose.Schema.Types.Mixed
+    },
+    changedBy: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User'
+    },
+    timestamp: {
+      type: Date,
+      default: Date.now
+    }
+  }]
 });
 
 // Update updatedAt field before saving
-goalSchema.pre('save', function(next) {
+goalSchema.pre('save', function (next) {
   this.updatedAt = Date.now();
   next();
 });
 
+// Update updatedAt field on findOneAndUpdate and findByIdAndUpdate
+goalSchema.pre('findOneAndUpdate', function (next) {
+  this.set({ updatedAt: Date.now() });
+  next();
+});
+
 // Calculate progress percentage
-goalSchema.virtual('progressPercentage').get(function() {
+goalSchema.virtual('progressPercentage').get(function () {
   if (this.targetAmount <= 0) return 0;
   return Math.min((this.currentAmount / this.targetAmount) * 100, 100);
 });
 
 // Calculate months remaining
-goalSchema.virtual('monthsRemaining').get(function() {
+goalSchema.virtual('monthsRemaining').get(function () {
   const now = new Date();
   const target = new Date(this.targetDate);
   const diffTime = Math.abs(target - now);
@@ -96,7 +149,7 @@ goalSchema.virtual('monthsRemaining').get(function() {
 });
 
 // Mark goal as completed when current amount reaches target
-goalSchema.pre('save', function(next) {
+goalSchema.pre('save', function (next) {
   if (this.currentAmount >= this.targetAmount && !this.isCompleted) {
     this.isCompleted = true;
     this.completedAt = new Date();

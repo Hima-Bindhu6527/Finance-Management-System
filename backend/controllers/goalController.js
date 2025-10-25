@@ -7,7 +7,7 @@ const asyncHandler = require('express-async-handler');
 const getGoals = asyncHandler(async (req, res) => {
   try {
     const goals = await Goal.find({ user: req.user.id }).sort({ createdAt: -1 });
-    
+
     res.status(200).json({
       success: true,
       count: goals.length,
@@ -65,6 +65,8 @@ const createGoal = asyncHandler(async (req, res) => {
     // Add user to req.body
     req.body.user = req.user.id;
 
+    console.log(`createGoal: user=${req.user.id} payload=${JSON.stringify(req.body)}`);
+
     // Validate required fields
     const { goalName, targetAmount, monthlyContribution, targetDate, category } = req.body;
 
@@ -106,7 +108,7 @@ const createGoal = asyncHandler(async (req, res) => {
         errors: messages
       });
     }
-    
+
     res.status(500).json({
       success: false,
       message: 'Server Error',
@@ -167,14 +169,47 @@ const updateGoal = asyncHandler(async (req, res) => {
       });
     }
 
-    goal = await Goal.findByIdAndUpdate(req.params.id, req.body, {
+    // Debug log for update operations
+    console.log(`updateGoal called by user=${req.user.id} for goal=${req.params.id} payload=${JSON.stringify(req.body)}`);
+
+    // Track changes for history
+    const changeHistory = [];
+    const fieldsToTrack = ['goalName', 'targetAmount', 'monthlyContribution', 'targetDate', 'priority', 'category', 'description'];
+
+    fieldsToTrack.forEach(field => {
+      if (req.body[field] !== undefined && req.body[field] !== goal[field]) {
+        changeHistory.push({
+          field: field,
+          oldValue: goal[field],
+          newValue: req.body[field],
+          changedBy: req.user.id,
+          timestamp: new Date()
+        });
+      }
+    });
+
+    // Prepare update object with updatedAt timestamp
+    const updateObj = {
+      ...req.body,
+      updatedAt: Date.now()
+    };
+
+    // Add change history if there are any changes
+    if (changeHistory.length > 0) {
+      updateObj.$push = { changeHistory: { $each: changeHistory } };
+    }
+
+    // Update the goal in database
+    goal = await Goal.findByIdAndUpdate(req.params.id, updateObj, {
       new: true,
       runValidators: true
     });
 
     res.status(200).json({
       success: true,
-      data: goal
+      data: goal,
+      message: 'Goal updated successfully',
+      changesTracked: changeHistory.length
     });
   } catch (error) {
     if (error.name === 'ValidationError') {
@@ -185,7 +220,7 @@ const updateGoal = asyncHandler(async (req, res) => {
         errors: messages
       });
     }
-    
+
     res.status(500).json({
       success: false,
       message: 'Server Error',
@@ -216,6 +251,8 @@ const deleteGoal = asyncHandler(async (req, res) => {
       });
     }
 
+    console.log(`deleteGoal: user=${req.user.id} deleting goal=${req.params.id}`);
+
     await goal.deleteOne();
 
     res.status(200).json({
@@ -232,17 +269,26 @@ const deleteGoal = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Update goal progress
+// @desc    Update goal progress (adds provided amount to existing currentAmount)
 // @route   PUT /api/goals/:id/progress
 // @access  Private
 const updateGoalProgress = asyncHandler(async (req, res) => {
   try {
-    const { currentAmount } = req.body;
+    // Treat provided currentAmount as an increment to add to existing currentAmount
+    let { currentAmount, note } = req.body;
 
-    if (currentAmount === undefined || currentAmount < 0) {
+    if (currentAmount === undefined) {
       return res.status(400).json({
         success: false,
-        message: 'Please provide a valid current amount (must be 0 or greater)'
+        message: 'Please provide a currentAmount to add (number >= 0)'
+      });
+    }
+
+    currentAmount = Number(currentAmount);
+    if (isNaN(currentAmount) || currentAmount < 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide a valid non-negative number for currentAmount'
       });
     }
 
@@ -263,13 +309,87 @@ const updateGoalProgress = asyncHandler(async (req, res) => {
       });
     }
 
-    goal.currentAmount = currentAmount;
-    await goal.save();
+    // Store previous amount for history
+    const previousAmount = goal.currentAmount;
+    const increment = currentAmount;
+    const newAmount = previousAmount + increment;
+
+    // Debug log for progress updates
+    console.log(`updateGoalProgress: user=${req.user.id} goal=${req.params.id} add=${increment} prev=${previousAmount} new=${newAmount}`);
+
+    // Create history entry
+    const historyEntry = {
+      amount: increment,
+      previousAmount: previousAmount,
+      newAmount: newAmount,
+      action: increment >= 0 ? 'contribution' : 'withdrawal',
+      note: note || 'Progress update',
+      timestamp: new Date()
+    };
+
+    // Update goal with increment and add to history
+    let updatedGoal = await Goal.findOneAndUpdate(
+      { _id: req.params.id, user: req.user.id },
+      {
+        $inc: { currentAmount: increment },
+        $push: { progressHistory: historyEntry },
+        $set: { updatedAt: Date.now() }
+      },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedGoal) {
+      return res.status(404).json({ success: false, message: 'Goal not found or not authorized' });
+    }
 
     res.status(200).json({
       success: true,
-      data: goal,
-      message: 'Goal progress updated successfully'
+      data: updatedGoal,
+      message: 'Goal progress updated successfully',
+      historyEntry: historyEntry
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Server Error',
+      error: error.message
+    });
+  }
+});
+
+// @desc    Get goal history (progress and changes)
+// @route   GET /api/goals/:id/history
+// @access  Private
+const getGoalHistory = asyncHandler(async (req, res) => {
+  try {
+    const goal = await Goal.findById(req.params.id);
+
+    if (!goal) {
+      return res.status(404).json({
+        success: false,
+        message: 'Goal not found'
+      });
+    }
+
+    // Make sure user owns goal
+    if (goal.user.toString() !== req.user.id) {
+      return res.status(401).json({
+        success: false,
+        message: 'Not authorized'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {
+        goalId: goal._id,
+        goalName: goal.goalName,
+        progressHistory: goal.progressHistory || [],
+        changeHistory: goal.changeHistory || [],
+        totalContributions: (goal.progressHistory || []).reduce((sum, entry) => sum + entry.amount, 0),
+        numberOfContributions: (goal.progressHistory || []).length,
+        numberOfChanges: (goal.changeHistory || []).length
+      }
     });
   } catch (error) {
     res.status(500).json({
@@ -286,5 +406,6 @@ module.exports = {
   createGoal,
   updateGoal,
   deleteGoal,
-  updateGoalProgress
+  updateGoalProgress,
+  getGoalHistory
 };
