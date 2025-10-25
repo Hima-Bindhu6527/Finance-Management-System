@@ -47,7 +47,7 @@ export default function FDCalculator() {
 
           <div className="fd-content">
             <div className="inputs-section">
-              <div className="input-group">
+              <div className="fd-input-group">
                 <label className="input-label">
                   <span className="label-text">Total Investment</span>
                   <span className="label-value">
@@ -65,7 +65,7 @@ export default function FDCalculator() {
                 />
               </div>
 
-              <div className="input-group">
+              <div className="fd-input-group">
                 <label className="input-label">
                   <span className="label-text">Rate of Interest (p.a.)</span>
                   <span className="label-value">{rateOfInterest}%</span>
@@ -81,7 +81,7 @@ export default function FDCalculator() {
                 />
               </div>
 
-              <div className="input-group">
+              <div className="fd-input-group">
                 <label className="input-label">
                   <span className="label-text">Time Period</span>
                   <span className="label-value">{timePeriod} Years</span>
@@ -125,8 +125,6 @@ export default function FDCalculator() {
                   </span>
                 </div>
               </div>
-
-              <button className="invest-button">INVEST NOW</button>
             </div>
 
             <div className="chart-section">

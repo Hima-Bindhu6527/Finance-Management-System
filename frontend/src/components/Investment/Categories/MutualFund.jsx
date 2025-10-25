@@ -3,52 +3,54 @@ import "./MutualFund.css";
 
 const MutualFund = () => {
   const amcCompanies = [
-    { name: "TRUST Mutual Fund", logo: "🛡️" },
-    { name: "Capitalmind Mutual Fund", logo: "📊" },
-    { name: "JioBlackRock Mutual Fund", logo: "💎" },
-    { name: "Unifi Mutual Fund", logo: "🔷" },
-    { name: "Helios Mutual Fund", logo: "☀️" },
-    { name: "Bajaj Finserv Mutual Fund", logo: "🅱️" },
-    { name: "Navi Mutual Fund", logo: "🔲" },
-    { name: "Bandhan Mutual Fund", logo: "🔥" },
-    { name: "Union Mutual Fund", logo: "⭕" },
-    { name: "Nippon India Mutual Fund", logo: "💠" },
-    { name: "360 ONE Mutual Fund", logo: "🔄" },
-    { name: "WhiteOak Capital Mutual Fund", logo: "🌳" },
-    { name: "PGIM India Mutual Fund", logo: "🏛️" },
-    { name: "Motilal Oswal Mutual Fund", logo: "📈" },
-    { name: "Bank of India Mutual Fund", logo: "🏦" },
-    { name: "Mirae Asset Mutual Fund", logo: "🎯" },
-    { name: "Aditya Birla Sun Life Mutual Fund", logo: "☀️" },
-    { name: "Franklin Templeton Mutual Fund", logo: "⚓" },
-    { name: "LIC Mutual Fund", logo: "🛡️" },
-    { name: "JM Financial Mutual Fund", logo: "💼" },
-    { name: "ICICI Prudential Mutual Fund", logo: "🔺" },
-    { name: "Quant Mutual Fund", logo: "❓" },
-    { name: "Canara Robeco Mutual Fund", logo: "🏢" },
-    { name: "Mahindra Manulife Mutual Fund", logo: "Ⓜ️" },
-    { name: "Samco Mutual Fund", logo: "💹" },
-    { name: "NJ Mutual Fund", logo: "🔶" },
-    { name: "ITI Mutual Fund", logo: "📱" },
-    { name: "The Wealth Company Mutual Fund", logo: "💰" },
-    { name: "SBI Mutual Fund", logo: "🏦" },
-    { name: "DSP Mutual Fund", logo: "📊" },
-    { name: "Tata Mutual Fund", logo: "🚗" },
-    { name: "Edelweiss Mutual Fund", logo: "❄️" },
-    { name: "Invesco Mutual Fund", logo: "🔼" },
-    { name: "Sundaram Mutual Fund", logo: "🏢" },
-    { name: "HDFC Mutual Fund", logo: "🏛️" },
-    { name: "HSBC Mutual Fund", logo: "🔺" },
-    { name: "PPFAS Mutual Fund", logo: "🌿" },
-    { name: "Baroda BNP Paribas Mutual Fund", logo: "🏦" },
-    { name: "Quantum Mutual Fund", logo: "⚛️" },
-    { name: "Taurus Mutual Fund", logo: "🐂" },
-    { name: "Shriram Mutual Fund", logo: "📊" },
-    { name: "Groww Mutual Fund", logo: "🌊" },
-    { name: "Kotak Mahindra Mutual Fund", logo: "♾️" },
-    { name: "Zerodha Mutual Fund", logo: "🔄" },
-    { name: "Axis Mutual Fund", logo: "🔻" },
-    { name: "UTI Mutual Fund", logo: "☀️" },
+    // Use the image from the public assets folder. Make sure the file exists at:
+    // frontend/public/assets/1)Trust_Mutual_Fund.png
+    { name: "TRUST Mutual Fund", logo: "/assets/1)Trust_Mutual_Fund.png" },
+    { name: "Capitalmind Mutual Fund", logo: "/assets/2)Capitalmind_Mutual_Fund.png" },
+    { name: "JioBlackRock Mutual Fund", logo: "/assets/3)JioBlacRock_Mutual_Fund.png" },
+    { name: "Unifi Mutual Fund", logo: "/assets/4)Unifi_Mutual_Fund.png" },
+    { name: "Helios Mutual Fund", logo: "/assets/5)Helios_Mutual_Fund.png" },
+    { name: "Bajaj Finserv Mutual Fund", logo: "/assets/6)Bajaj_Mutual_Fund.png" },
+    { name: "Navi Mutual Fund", logo: "/assets/7)Navi_Mutual_Fund.png" },
+    { name: "Bandhan Mutual Fund", logo: "/assets/8)Bandhan_Mutual_Fund.png" },
+    { name: "Union Mutual Fund", logo: "/assets/9)Union_Mutual_Fund.png" },
+    { name: "Nippon India Mutual Fund", logo: "/assets/10)Nippon_India_Mutual_Fund.png" },
+    { name: "360 ONE Mutual Fund", logo: "/assets/11)360_ONE_Mutual_Fund.png" },
+    { name: "WhiteOak Capital Mutual Fund", logo: "/assets/12)WhiteOak_Mutual_Fund.png" },
+    { name: "PGIM India Mutual Fund", logo: "/assets/13)PGIM_India_Mutual_Fund.png" },
+    { name: "Motilal Oswal Mutual Fund", logo: "/assets/14)Motilal_Oswal_Mutual_Fund.png" },
+    { name: "Bank of India Mutual Fund", logo: "/assets/15)Bank_of_India_Mutual_Fund.png" },
+    { name: "Mirae Asset Mutual Fund", logo: "/assets/16)Mirae_Asset_Mutual_Fund.png" },
+    { name: "Aditya Birla Sun Life Mutual Fund", logo: "/assets/17)Aditya_Birla_Mutual_Fund.png" },
+    { name: "Franklin Templeton Mutual Fund", logo: "/assets/18)Franklin_Mutual_Fund.png" },
+    { name: "LIC Mutual Fund", logo: "/assets/19)LIC_Mutual_Fund.png" },
+    { name: "JM Financial Mutual Fund", logo: "/assets/20)JM_Mutual_Fund.png" },
+    { name: "ICICI Prudential Mutual Fund", logo: "/assets/21)ICICI_Mutual_Fund.png" },
+    { name: "Quant Mutual Fund", logo: "/assets/22)Quant_Mutual_Fund.png" },
+    { name: "Canara Robeco Mutual Fund", logo: "/assets/23)Canara_Mutual_Fund.png" },
+    { name: "Mahindra Manulife Mutual Fund", logo: "/assets/24)Mahindra_Mutual_Fund.png" },
+    { name: "Samco Mutual Fund", logo: "/assets/25)Samco_Mutual_Fund.png" },
+    { name: "NJ Mutual Fund", logo: "/assets/26)NJ_Mutual_Fund.png" },
+    { name: "ITI Mutual Fund", logo: "/assets/27)ITI_Mutual_Fund.png" },
+    { name: "The Wealth Company Mutual Fund", logo: "/assets/28)Wealth_Mutual_Fund.png" },
+    { name: "SBI Mutual Fund", logo: "/assets/29)SBI_Mutual_Fund.png" },
+    { name: "DSP Mutual Fund", logo: "/assets/30)DSP_Mutual_Fund.png" },
+    { name: "Tata Mutual Fund", logo: "/assets/31)TATA_Mutual_Fund.png" },
+    { name: "Edelweiss Mutual Fund", logo: "/assets/32)Edelweiss_Mutual_Fund.png" },
+    { name: "Invesco Mutual Fund", logo: "/assets/33)Invesco_Mutual_Fund.png" },
+    { name: "Sundaram Mutual Fund", logo: "/assets/34)Sundaram_Mutual_Fund.png" },
+    { name: "HDFC Mutual Fund", logo: "/assets/35)HDFC_Mutual_Fund.png" },
+    { name: "HSBC Mutual Fund", logo: "/assets/36)HSBC_Mutual_Fund.png" },
+    { name: "PPFAS Mutual Fund", logo: "/assets/37)PPFAS_Mutual_Fund.png" },
+    { name: "Baroda BNP Paribas Mutual Fund", logo: "/assets/38)Baroda_Mutual_Fund.png" },
+    { name: "Quantum Mutual Fund", logo: "/assets/39)Quantum_Mutual_Fund.png" },
+    { name: "Taurus Mutual Fund", logo: "/assets/40)Taurus_Mutual_Fund.png" },
+    { name: "Shriram Mutual Fund", logo: "/assets/41)Shivam_Mutual_Fund.png" },
+    { name: "Groww Mutual Fund", logo: "/assets/42)Groww_Mutual_Fund.png" },
+    { name: "Kotak Mahindra Mutual Fund", logo: "/assets/43)Kotak_Mutual_Fund.png" },
+    { name: "Zerodha Mutual Fund", logo: "/assets/44)Zerodha_Mutual_Fund.png" },
+    { name: "Axis Mutual Fund", logo: "/assets/45)Axis_Mutual_Fund.png" },
+    { name: "UTI Mutual Fund", logo: "/assets/46)UTI_Mutual_Fund.png" },
   ];
 
   return (
@@ -57,12 +59,726 @@ const MutualFund = () => {
       <section className="amc-section">
         <h2 className="amc-title">Asset Management Company (AMC)</h2>
         <div className="amc-grid">
-          {amcCompanies.map((company, index) => (
-            <div key={index} className="amc-card">
-              <div className="amc-logo">{company.logo}</div>
-              <p className="amc-name">{company.name}</p>
-            </div>
-          ))}
+          {amcCompanies.map((company, index) => {
+            const isImageUrl =
+              typeof company.logo === "string" &&
+              (
+                company.logo.startsWith("data:") ||
+                company.logo.startsWith("/") ||
+                company.logo.startsWith("http") ||
+                /\.(jpeg|jpg|png|gif|svg|webp)$/i.test(company.logo)
+              );
+
+            // Special-case: make the TRUST and Capitalmind Mutual Fund cards open the Groww pages
+            const is1 = company.name === "TRUST Mutual Fund";
+            const is2 = company.name === "Capitalmind Mutual Fund";
+            const is3 = company.name === "JioBlackRock Mutual Fund";
+            const is4 = company.name === "Unifi Mutual Fund";
+            const is5 = company.name === "Helios Mutual Fund";
+            const is6 = company.name === "Bajaj Finserv Mutual Fund";
+            const is7 = company.name === "Navi Mutual Fund";
+            const is8 = company.name === "Bandhan Mutual Fund";
+            const is9 = company.name === "Union Mutual Fund";
+            const is10 = company.name === "Nippon India Mutual Fund";
+            const is11 = company.name === "360 ONE Mutual Fund";
+            const is12 = company.name === "WhiteOak Capital Mutual Fund";
+            const is13 = company.name === "PGIM India Mutual Fund";
+            const is14 = company.name === "Motilal Oswal Mutual Fund";
+            const is15 = company.name === "Bank of India Mutual Fund";
+            const is16 = company.name === "Mirae Asset Mutual Fund";
+            const is17 = company.name === "Aditya Birla Sun Life Mutual Fund";
+            const is18 = company.name === "Franklin Templeton Mutual Fund";
+            const is19 = company.name === "LIC Mutual Fund";
+            const is20 = company.name === "JM Financial Mutual Fund";
+            const is21 = company.name === "ICICI Prudential Mutual Fund";
+            const is22 = company.name === "Quant Mutual Fund";
+            const is23 = company.name === "Canara Robeco Mutual Fund";
+            const is24 = company.name === "Mahindra Manulife Mutual Fund";
+            const is25 = company.name === "Samco Mutual Fund";
+            const is26 = company.name === "NJ Mutual Fund";
+            const is27 = company.name === "ITI Mutual Fund";
+            const is28 = company.name === "The Wealth Company Mutual Fund";
+            const is29 = company.name === "SBI Mutual Fund";
+            const is30 = company.name === "DSP Mutual Fund";
+            const is31 = company.name === "Tata Mutual Fund";
+            const is32 = company.name === "Edelweiss Mutual Fund";
+            const is33 = company.name === "Invesco Mutual Fund";
+            const is34 = company.name === "Sundaram Mutual Fund";
+            const is35 = company.name === "HDFC Mutual Fund";
+            const is36 = company.name === "HSBC Mutual Fund";
+            const is37 = company.name === "PPFAS Mutual Fund";
+            const is38 = company.name === "Baroda BNP Paribas Mutual Fund";
+            const is39 = company.name === "Quantum Mutual Fund";
+            const is40 = company.name === "Taurus Mutual Fund";
+            const is41 = company.name === "Shriram Mutual Fund";
+            const is42 = company.name === "Groww Mutual Fund";
+            const is43 = company.name === "Kotak Mahindra Mutual Fund";
+            const is44 = company.name === "Zerodha Mutual Fund";
+            const is45 = company.name === "Axis Mutual Fund";
+            const is46 = company.name === "UTI Mutual Fund";
+
+            const cardContent = (
+              <div className="amc-card">
+                <div className="amc-logo">
+                  {isImageUrl ? (
+                    <img src={company.logo} alt={`${company.name} logo`} />
+                  ) : (
+                    <span className="amc-emoji">{company.logo}</span>
+                  )}
+                </div>
+                <p className="amc-name">{company.name}</p>
+              </div>
+            );
+
+            if (is46) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/uti-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is45) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/axis-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is44) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/zerodha-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is43) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/kotak-mahindra-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is42) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/groww-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is41) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/shriram-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is40) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/taurus-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is39) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/quantum-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is38) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/baroda-bnp-paribas-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is37) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/ppfas-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is36) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/hsbc-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is35) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/hdfc-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is34) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/sundaram-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is33) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/invesco-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is32) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/edelweiss-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is31) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/tata-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is30) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/dsp-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is29) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/sbi-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is28) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/the-wealth-company-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is27) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/iti-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is26) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href=" https://groww.in/mutual-funds/amc/nj-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is25) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/samco-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is24) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/mahindra-manulife-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is23) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href=" https://groww.in/mutual-funds/amc/canara-robeco-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is22) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/quant-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is21) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/icici-prudential-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is20) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/jm-financial-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is19) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/lic-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is18) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/franklin-templeton-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is17) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/aditya-birla-sun-life-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is16) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/mirae-asset-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is15) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/bank-of-india-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is14) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/motilal-oswal-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is13) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/pgim-india-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is12) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/whiteoak-capital-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+
+
+            if (is11) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/360-one-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is10) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/nippon-india-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is9) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/union-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+
+            if (is8) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/bandhan-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is7) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/navi-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is6) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/bajaj-finserv-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is5) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/helios-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is4) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/unifi-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is1) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/trust-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is2) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/capitalmind-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            if (is3) {
+              return (
+                <a
+                  key={index}
+                  className="amc-link"
+                  href="https://groww.in/mutual-funds/amc/jioblackrock-mutual-funds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cardContent}
+                </a>
+              );
+            }
+
+            return <div key={index}>{cardContent}</div>;
+          })}
         </div>
       </section>
 

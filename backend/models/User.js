@@ -27,20 +27,66 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   }
+  ,
+  // Profile fields
+  fullNameAsPerPAN: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  dateOfBirth: {
+    type: Date,
+  },
+  gender: {
+    type: String,
+    enum: ['Male', 'Female', 'Other'],
+  },
+  maritalStatus: {
+    type: String,
+    enum: ['Single', 'Married', 'Divorced', 'Widowed'],
+  },
+  companyName: {
+    type: String,
+    trim: true,
+  },
+  designation: {
+    type: String,
+    trim: true,
+  },
+  isSmoker: {
+    type: Boolean,
+    default: false,
+  },
+  hasChildren: {
+    type: Boolean,
+    default: false,
+  },
+  numberOfChildren: {
+    type: Number,
+    default: 0,
+  },
+  hasDependents: {
+    type: Boolean,
+    default: false,
+  },
+  numberOfDependents: {
+    type: Number,
+    default: 0,
+  }
 });
 
 // Encrypt password before saving
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     next();
   }
-  
+
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
 
 // Compare password method
-userSchema.methods.matchPassword = async function(enteredPassword) {
+userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 

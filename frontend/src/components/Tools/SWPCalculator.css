@@ -63,9 +63,11 @@
   gap: 2rem;
 }
 
-.input-group {
+.swp-input-group {
   display: flex;
   flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
 .input-label {

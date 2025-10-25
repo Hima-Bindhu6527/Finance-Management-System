@@ -45,7 +45,7 @@ export default function PPFCalculator() {
 
           <div className="ppf-content">
             <div className="inputs-section">
-              <div className="input-group">
+              <div className="ppf-input-group">
                 <label className="input-label">
                   <span className="label-text">Yearly Investment</span>
                   <span className="label-value">
@@ -67,7 +67,7 @@ export default function PPFCalculator() {
                 </div>
               </div>
 
-              <div className="input-group">
+              <div className="ppf-input-group">
                 <label className="input-label">
                   <span className="label-text">Time Period (Years)</span>
                   <span className="label-value">{timePeriod}</span>
@@ -86,7 +86,7 @@ export default function PPFCalculator() {
                 </div>
               </div>
 
-              <div className="input-group">
+              <div className="ppf-input-group">
                 <label className="input-label">
                   <span className="label-text">Rate of Interest</span>
                   <span className="label-value">{rateOfInterest}%</span>
@@ -135,8 +135,6 @@ export default function PPFCalculator() {
                   </span>
                 </div>
               </div>
-
-              <button className="invest-button">INVEST NOW</button>
             </div>
 
             <div className="chart-section">
