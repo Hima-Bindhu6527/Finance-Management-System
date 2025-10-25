@@ -1,0 +1,501 @@
+.gold-investment {
+  min-height: 100vh;
+  background-color: #f5f7fa;
+  padding: 24px;
+}
+
+.gold-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+/* Left Side - Calculator */
+.gold-calculator {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.calculator-tabs {
+  display: flex;
+  background: #f8f9fa;
+}
+
+.tab {
+  flex: 1;
+  padding: 16px;
+  border: none;
+  background: transparent;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tab.active {
+  background: white;
+  color: #1565C0;
+  font-weight: 600;
+}
+
+.tab:hover {
+  background: #e3f2fd;
+}
+
+.gold-locker {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.locker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.mmtc-badge {
+  text-align: right;
+}
+
+.mmtc-badge span {
+  display: block;
+  color: #1565C0;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.mmtc-badge small {
+  color: #666;
+  font-size: 12px;
+}
+
+.price-display {
+  margin-top: 16px;
+}
+
+.price-display p {
+  color: #666;
+  margin: 0 0 8px 0;
+  font-size: 14px;
+}
+
+.live-price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.live-indicator {
+  background: #ff4444;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  animation: blink 2s infinite;
+}
+
+@keyframes blink {
+
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0.5;
+  }
+}
+
+.buy-options {
+  padding: 20px;
+}
+
+.price-status {
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.price-status .loading {
+  color: #1565C0;
+  font-weight: 600;
+}
+
+.price-status .error {
+  color: #d32f2f;
+  font-weight: 600;
+}
+
+.price-breakdown {
+  margin-top: 12px;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 12px;
+}
+
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.breakdown-row.total {
+  border-top: 1px dashed #e0e0e0;
+  padding-top: 8px;
+  margin-top: 8px;
+}
+
+.breakdown-row.total strong {
+  color: #1565C0;
+}
+
+/* GST tooltip */
+.gst-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gst-tooltip {
+  font-size: 12px;
+  color: #777;
+  cursor: help;
+}
+
+/* silver resources styles removed */
+
+.radio-group {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.radio-group input[type="radio"] {
+  accent-color: #1565C0;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.input-field {
+  flex: 1;
+}
+
+.input-field label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.input-field input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.input-field input:focus {
+  outline: none;
+  border-color: #1565C0;
+}
+
+.converter-arrow {
+  font-size: 20px;
+  color: #1565C0;
+  font-weight: bold;
+}
+
+
+
+/* Right Side - Information */
+.gold-info {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.gold-banner {
+  background: linear-gradient(135deg, #02308f 0%, #0077ff 100%);
+  border-radius: 12px;
+  padding: 32px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.banner-content h2 {
+  font-size: 28px;
+  margin: 0 0 8px 0;
+  font-weight: 700;
+}
+
+.banner-content p {
+  font-size: 18px;
+  margin: 0 0 16px 0;
+  opacity: 0.9;
+}
+
+.banner-features {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.banner-features span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.gold-bars {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+}
+
+.gold-bar {
+  width: 80px;
+  height: 20px;
+  background: linear-gradient(45deg, #FFD700 0%, #FFA500 50%, #FFD700 100%);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+  position: relative;
+}
+.silver-bars {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+}
+
+.silver-bar {
+  width: 80px;
+  height: 20px;
+  background: linear-gradient(45deg, #a8a8a8 0%, #fffaf0 50%, #aeaeae 100%);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.993);
+  position: relative;
+}
+
+.gold-bar::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+.why-digital-gold {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.why-digital-gold h3 {
+  color: #1565C0;
+  font-size: 18px;
+  margin: 0 0 24px 0;
+  font-weight: 600;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.benefit {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.benefit-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f8ff;
+  border-radius: 8px;
+}
+
+.benefit h4 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  color: #1565C0;
+  font-weight: 600;
+}
+
+.benefit p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Price Trends Chart */
+.price-trends {
+  max-width: 1400px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.external-link {
+  color: #1565C0;
+  text-decoration: none;
+  margin-left: 6px;
+  font-weight: 600;
+}
+
+.external-link:hover {
+  text-decoration: underline;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.chart-header h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+  font-weight: 600;
+}
+
+.time-period {
+  background: #e3f2fd;
+  color: #1565C0;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.chart-container {
+  height: 400px;
+  position: relative;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .gold-container {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gold-banner {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .gold-investment {
+    padding: 16px;
+  }
+
+  .input-group {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .converter-arrow {
+    transform: rotate(90deg);
+  }
+
+  .radio-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .banner-features {
+    justify-content: center;
+  }
+
+  .gold-banner {
+    padding: 24px;
+  }
+
+  .banner-content h2 {
+    font-size: 24px;
+  }
+
+  .banner-content p {
+    font-size: 16px;
+  }
+
+  .chart-container {
+    height: 300px;
+  }
+
+  .benefit {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .calculator-tabs {
+    flex-direction: column;
+  }
+
+  .gold-locker {
+    padding: 16px;
+  }
+
+  .buy-options {
+    padding: 16px;
+  }
+
+  .why-digital-gold {
+    padding: 16px;
+  }
+
+  .price-trends {
+    padding: 16px;
+  }
+}
