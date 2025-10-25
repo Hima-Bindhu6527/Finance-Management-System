@@ -35,13 +35,20 @@
 }
 
 .amc-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #f1f3f9 0%, #e9e6ed 100%);
   border-radius: 15px;
   padding: 1.5rem;
   text-align: center;
   transition: all 0.3s ease;
   cursor: pointer;
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+}
+
+/* Make the anchor wrapping a card behave like a block and inherit styles */
+.amc-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
 }
 
 .amc-card:hover {
@@ -55,10 +62,21 @@
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
+.amc-logo img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  display: inline-block;
+}
+
+.amc-emoji {
+  display: inline-block;
+}
+
 .amc-name {
   font-size: 0.9rem;
   font-weight: 600;
-  color: white;
+  color: rgb(49, 46, 46);
   margin: 0;
   line-height: 1.3;
 }
