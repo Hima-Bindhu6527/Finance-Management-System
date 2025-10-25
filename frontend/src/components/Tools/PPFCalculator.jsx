@@ -135,8 +135,6 @@ export default function PPFCalculator() {
                   </span>
                 </div>
               </div>
-
-              <button className="invest-button">INVEST NOW</button>
             </div>
 
             <div className="chart-section">

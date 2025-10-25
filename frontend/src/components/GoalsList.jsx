@@ -369,6 +369,7 @@ const GoalsList = ({ goals, onGoalsChange, loading }) => {
             >
               <h3 style={{ margin: 0 }}>{historyGoalName} - History</h3>
               <button
+                className="history-btn"
                 onClick={() => setShowHistory(false)}
                 style={{ padding: "0.25rem 0.5rem" }}
               >

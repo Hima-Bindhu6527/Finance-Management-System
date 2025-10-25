@@ -152,7 +152,7 @@ const PlanPage = () => {
 
   return (
     <div className="plan-page">
-      <div className="plan-header">
+      <div className="Plan-Header">
         <h1>Financial Planning</h1>
         <p>Manage your goals and create comprehensive financial plans</p>
       </div>
