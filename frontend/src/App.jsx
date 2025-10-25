@@ -12,6 +12,7 @@ import Signup from "./components/Auth/Signup";
 import Dashboard from "./components/Dashboard/Dashboard";
 import PlanPage from "./pages/Planpage";
 import ToolsPage from "./pages/ToolsPage";
+import ProfilePage from "./pages/ProfilePage";
 // Investment Category Components
 import MutualFund from "./components/Investment/Categories/MutualFund";
 import ULIP from "./components/Investment/Categories/ULIP";
@@ -101,6 +102,14 @@ function AppRoutes() {
             element={
               <ProtectedRoute>
                 <PlanPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
               </ProtectedRoute>
             }
           />

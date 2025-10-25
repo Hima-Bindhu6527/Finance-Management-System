@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import "./Navbar.css";
+import ProfileDropdown from "./ProfileDropdown";
 
 const Navbar = () => {
   const { isAuthenticated, user, logout } = useAuth();
@@ -158,13 +159,7 @@ const Navbar = () => {
                 )}
               </li>
               <li className="navbar-item navbar-user">
-                <span className="user-welcome">Hello, {user?.name}</span>
-                <button
-                  onClick={handleLogout}
-                  className="navbar-button logout-btn"
-                >
-                  Logout
-                </button>
+                <ProfileDropdown user={user} onLogout={handleLogout} />
               </li>
             </>
           ) : (

@@ -17,7 +17,7 @@ exports.signup = async (req, res) => {
 
     // Check if user exists
     const userExists = await User.findOne({ email });
-    
+
     if (userExists) {
       return res.status(400).json({
         success: false,
@@ -100,20 +100,95 @@ exports.login = async (req, res) => {
 // @access  Private
 exports.getMe = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id);
+    // return full user object (exclude password)
+    const user = await User.findById(req.user.id).select('-password');
 
     res.status(200).json({
       success: true,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email
-      }
+      user
     });
   } catch (error) {
     res.status(400).json({
       success: false,
       message: error.message
     });
+  }
+};
+
+// @desc    Change password for current user
+// @route   PUT /api/auth/change-password
+// @access  Private
+exports.changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ success: false, message: 'Please provide current and new password' });
+    }
+
+    // Get user with password
+    const user = await User.findById(req.user.id).select('+password');
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    // Check current password
+    const isMatch = await user.matchPassword(currentPassword);
+    if (!isMatch) {
+      return res.status(401).json({ success: false, message: 'Current password is incorrect' });
+    }
+
+    // Update password
+    user.password = newPassword;
+    await user.save();
+
+    res.status(200).json({ success: true, message: 'Password updated successfully' });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Update profile for current user
+// @route   PUT /api/auth/profile
+// @access  Private
+exports.updateProfile = async (req, res) => {
+  try {
+    const updateData = { ...req.body };
+
+    // Prevent updating protected fields
+    delete updateData.email;
+    delete updateData.password;
+
+    // If dateOfBirth provided, ensure user is at least 18 years old
+    if (updateData.dateOfBirth) {
+      const dob = new Date(updateData.dateOfBirth);
+      if (isNaN(dob.getTime())) {
+        return res.status(400).json({ success: false, message: 'Invalid dateOfBirth' });
+      }
+      const today = new Date();
+      let age = today.getFullYear() - dob.getFullYear();
+      const m = today.getMonth() - dob.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+        age--;
+      }
+      if (age < 18) {
+        return res.status(400).json({ success: false, message: 'User must be at least 18 years old' });
+      }
+    }
+
+    const user = await User.findByIdAndUpdate(req.user.id, updateData, {
+      new: true,
+      runValidators: true,
+      select: '-password'
+    });
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
   }
 };
