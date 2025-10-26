@@ -23,6 +23,7 @@ import ETF from "./components/Investment/Categories/ETF";
 import Bonds from "./components/Investment/Categories/Bonds";
 import FixedDeposits from "./components/Investment/Categories/FixedDeposits";
 import RealEstate from "./components/Investment/Categories/RealEstate";
+import Report from "./pages/Report";
 // import About from "./components/about";
 import "./App.css";
 
@@ -204,10 +205,7 @@ function AppRoutes() {
             path="/report"
             element={
               <ProtectedRoute>
-                <div className="placeholder-page">
-                  <h1>💳 Report Page</h1>
-                  <p>Coming soon...</p>
-                </div>
+                <Report /> {/* ✅ Navigates to Report.jsx */}
               </ProtectedRoute>
             }
           />
