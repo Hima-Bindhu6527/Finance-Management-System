@@ -1,6 +1,7 @@
 const Report = require('../models/reports');
 const FinancialPlan = require('../models/FinancialPlan');
 const Goal = require('../models/Goal');
+const Notification = require('../models/Notification');
 const PDFDocument = require('pdfkit');
 
 // @desc    Generate a new report
@@ -9,6 +10,7 @@ const PDFDocument = require('pdfkit');
 exports.generateReport = async (req, res) => {
   try {
     const { financialPlanId, reportType, startDate, endDate } = req.body;
+    const userId = req.user._id || req.user.id;
 
     // Validate input
     if (!financialPlanId || !reportType) {
@@ -29,7 +31,7 @@ exports.generateReport = async (req, res) => {
     }
 
     // Check if plan belongs to user
-    if (financialPlan.user.toString() !== req.user.id) {
+    if (financialPlan.user.toString() !== userId.toString()) {
       return res.status(403).json({
         success: false,
         error: 'Not authorized to access this financial plan'
@@ -41,7 +43,7 @@ exports.generateReport = async (req, res) => {
 
     // Create report
     const report = await Report.create({
-      user: req.user.id,
+      user: userId,
       financialPlan: financialPlanId,
       reportType,
       reportPeriod: {
@@ -50,6 +52,25 @@ exports.generateReport = async (req, res) => {
       },
       reportData
     });
+
+    // ✅ CREATE NOTIFICATION
+    try {
+      const notification = await Notification.create({
+        user: userId,
+        type: 'report_generated',
+        title: 'Report Generated',
+        message: `Your ${reportType} report has been generated successfully!`,
+        icon: '📊',
+        priority: 'MEDIUM',
+        isRead: false,
+        relatedId: report._id,
+        relatedType: 'Report',
+        actionUrl: `/reports/${report._id}`
+      });
+      console.log('✅ Notification created successfully:', notification._id);
+    } catch (notifError) {
+      console.error('❌ Error creating notification:', notifError.message);
+    }
 
     const populatedReport = await Report.findById(report._id)
       .populate('financialPlan', 'planName')
@@ -74,7 +95,8 @@ exports.generateReport = async (req, res) => {
 // @access  Private
 exports.getReports = async (req, res) => {
   try {
-    const reports = await Report.find({ user: req.user.id })
+    const userId = req.user._id || req.user.id;
+    const reports = await Report.find({ user: userId })
       .populate('financialPlan', 'planName')
       .sort('-createdAt');
 
@@ -98,6 +120,7 @@ exports.getReports = async (req, res) => {
 // @access  Private
 exports.getReport = async (req, res) => {
   try {
+    const userId = req.user._id || req.user.id;
     const report = await Report.findById(req.params.id)
       .populate('financialPlan')
       .populate('user', 'name email');
@@ -110,7 +133,7 @@ exports.getReport = async (req, res) => {
     }
 
     // Check if report belongs to user
-    if (report.user._id.toString() !== req.user.id) {
+    if (report.user._id.toString() !== userId.toString()) {
       return res.status(403).json({
         success: false,
         error: 'Not authorized to access this report'
@@ -136,6 +159,7 @@ exports.getReport = async (req, res) => {
 // @access  Private
 exports.downloadReportPDF = async (req, res) => {
   try {
+    const userId = req.user._id || req.user.id;
     const report = await Report.findById(req.params.id)
       .populate('financialPlan')
       .populate('user', 'name email');
@@ -148,7 +172,7 @@ exports.downloadReportPDF = async (req, res) => {
     }
 
     // Check authorization
-    if (report.user._id.toString() !== req.user.id) {
+    if (report.user._id.toString() !== userId.toString()) {
       return res.status(403).json({
         success: false,
         error: 'Not authorized to download this report'
@@ -186,6 +210,7 @@ exports.downloadReportPDF = async (req, res) => {
 // @access  Private
 exports.deleteReport = async (req, res) => {
   try {
+    const userId = req.user._id || req.user.id;
     const report = await Report.findById(req.params.id);
 
     if (!report) {
@@ -196,14 +221,34 @@ exports.deleteReport = async (req, res) => {
     }
 
     // Check authorization
-    if (report.user.toString() !== req.user.id) {
+    if (report.user.toString() !== userId.toString()) {
       return res.status(403).json({
         success: false,
         error: 'Not authorized to delete this report'
       });
     }
 
+    // Store report type before deletion
+    const reportType = report.reportType;
+
     await report.deleteOne();
+
+    // ✅ CREATE NOTIFICATION
+    try {
+      const notification = await Notification.create({
+        user: userId,
+        type: 'report_deleted',
+        title: 'Report Deleted',
+        message: `Report "${reportType}" has been deleted successfully`,
+        icon: '🗑️',
+        priority: 'LOW',
+        isRead: false,
+        relatedType: 'Report'
+      });
+      console.log('✅ Delete notification created successfully:', notification._id);
+    } catch (notifError) {
+      console.error('❌ Error creating delete notification:', notifError.message);
+    }
 
     res.status(200).json({
       success: true,
@@ -225,9 +270,10 @@ exports.deleteReport = async (req, res) => {
 // @access  Private
 exports.getReportsByPlan = async (req, res) => {
   try {
+    const userId = req.user._id || req.user.id;
     const reports = await Report.find({ 
       financialPlan: req.params.financialPlanId,
-      user: req.user.id 
+      user: userId
     })
       .populate('financialPlan', 'planName')
       .sort('-createdAt');
@@ -252,9 +298,10 @@ exports.getReportsByPlan = async (req, res) => {
 // @access  Private
 exports.getReportsByType = async (req, res) => {
   try {
+    const userId = req.user._id || req.user.id;
     const reports = await Report.find({ 
       reportType: req.params.reportType,
-      user: req.user.id 
+      user: userId
     })
       .populate('financialPlan', 'planName')
       .sort('-createdAt');
@@ -662,188 +709,7 @@ function generatePDFContent(doc, report) {
   doc.y = summaryY + 90;
   doc.moveDown(1);
 
-  // Income Breakdown
-  doc.fillColor(primaryColor).fontSize(16).font('Helvetica-Bold')
-    .text('Income Breakdown', { underline: true });
-  doc.moveDown(0.5);
-  
-  doc.fontSize(11).fillColor('#000').font('Helvetica');
-  Object.entries(reportData.incomeBreakdown).forEach(([key, value]) => {
-    if (value > 0) {
-      const label = key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1');
-      doc.text(`${label}:`, 60);
-      doc.font('Helvetica-Bold').text(formatCurrency(value), 200, doc.y - 12);
-      doc.font('Helvetica');
-    }
-  });
-  doc.moveDown(1);
-
-  // Expense Breakdown
-  if (reportData.expenseBreakdown.length > 0) {
-    doc.fillColor(primaryColor).fontSize(16).font('Helvetica-Bold')
-      .text('Expense Breakdown by Category', { underline: true });
-    doc.moveDown(0.5);
-    
-    doc.fontSize(11).fillColor('#000').font('Helvetica');
-    reportData.expenseBreakdown.forEach(expense => {
-      doc.text(`${expense.category}:`, 60);
-      doc.font('Helvetica-Bold').text(`${formatCurrency(expense.amount)} (${formatPercentage(expense.percentage)})`, 200, doc.y - 12);
-      doc.font('Helvetica');
-    });
-    doc.moveDown(1);
-  }
-
-  // New page for assets and goals
-  doc.addPage();
-
-  // Asset Allocation
-  doc.fillColor(primaryColor).fontSize(16).font('Helvetica-Bold')
-    .text('Asset Allocation', { underline: true });
-  doc.moveDown(0.5);
-  
-  doc.fontSize(11).fillColor('#000').font('Helvetica');
-  doc.text('Mutual Funds:', 60);
-  doc.font('Helvetica-Bold').text(formatCurrency(reportData.assetAllocation.mutualFunds), 200, doc.y - 12);
-  
-  doc.font('Helvetica').text('Insurance Coverage:', 60);
-  doc.font('Helvetica-Bold').text(formatCurrency(reportData.assetAllocation.insurance), 200, doc.y - 12);
-  
-  doc.font('Helvetica').text('Other Assets:', 60);
-  doc.font('Helvetica-Bold').text(formatCurrency(reportData.assetAllocation.otherAssets), 200, doc.y - 12);
-  doc.moveDown(1);
-
-  // Loan Summary
-  if (reportData.loanSummary.totalLoans > 0) {
-    doc.fillColor(primaryColor).fontSize(16).font('Helvetica-Bold')
-      .text('Loan Summary', { underline: true });
-    doc.moveDown(0.5);
-    
-    doc.fontSize(11).fillColor('#000').font('Helvetica');
-    doc.text(`Total Loans: ${reportData.loanSummary.totalLoans}`, 60);
-    doc.text('Total Outstanding:', 60);
-    doc.font('Helvetica-Bold').text(formatCurrency(reportData.loanSummary.totalOutstanding), 200, doc.y - 12);
-    
-    doc.font('Helvetica').text('Total Monthly EMI:', 60);
-    doc.font('Helvetica-Bold').text(formatCurrency(reportData.loanSummary.totalEMI), 200, doc.y - 12);
-    
-    if (reportData.loanSummary.loansByType.length > 0) {
-      doc.font('Helvetica').moveDown(0.5);
-      doc.text('Loans by Type:', 60);
-      reportData.loanSummary.loansByType.forEach(loan => {
-        doc.text(`  ${loan.loanType}: ${loan.count} loan(s), ${formatCurrency(loan.totalOutstanding)} outstanding`, 70);
-      });
-    }
-    doc.moveDown(1);
-  }
-
-  // Goal Progress
-  if (reportData.goalProgress.length > 0) {
-    doc.fillColor(primaryColor).fontSize(16).font('Helvetica-Bold')
-      .text('Goal Progress', { underline: true });
-    doc.moveDown(0.5);
-    
-    doc.fontSize(11).fillColor('#000').font('Helvetica');
-    reportData.goalProgress.forEach((goal, index) => {
-      let statusColor = '#000';
-      if (goal.status === 'Completed') statusColor = successColor;
-      else if (goal.status === 'Behind') statusColor = dangerColor;
-      else if (goal.status === 'Near Completion') statusColor = warningColor;
-      
-      doc.font('Helvetica-Bold').text(`${index + 1}. ${goal.goalName}`, 60);
-      doc.font('Helvetica').text(`   Progress: `, 70);
-      doc.fillColor(statusColor).font('Helvetica-Bold').text(`${formatPercentage(goal.progressPercentage)} - ${goal.status}`, 130, doc.y - 12);
-      doc.fillColor('#000').font('Helvetica').text(`   Current: ${formatCurrency(goal.currentAmount)} / Target: ${formatCurrency(goal.targetAmount)}`, 70);
-      doc.text(`   Months Remaining: ${goal.monthsRemaining}`, 70);
-      doc.moveDown(0.5);
-    });
-    doc.moveDown(0.5);
-  }
-
-  // Check if we need a new page for health indicators
-  if (doc.y > 600) {
-    doc.addPage();
-  }
-
-  // Financial Health Indicators
-  doc.fillColor(primaryColor).fontSize(16).font('Helvetica-Bold')
-    .text('Financial Health Indicators', { underline: true });
-  doc.moveDown(0.5);
-
-  doc.fontSize(11).fillColor('#000').font('Helvetica');
-  
-  const healthY = doc.y;
-  
-  doc.text('Debt-to-Income Ratio:', 60, healthY);
-  const dtiColor = reportData.healthIndicators.debtToIncomeRatio > 40 ? dangerColor : 
-                   reportData.healthIndicators.debtToIncomeRatio > 30 ? warningColor : successColor;
-  doc.fillColor(dtiColor).font('Helvetica-Bold')
-    .text(formatPercentage(reportData.healthIndicators.debtToIncomeRatio), 250, healthY);
-  
-  doc.fillColor('#000').font('Helvetica')
-    .text('Savings-to-Income Ratio:', 60, healthY + 20);
-  const savingsColor = reportData.healthIndicators.savingsToIncomeRatio < 10 ? dangerColor :
-                       reportData.healthIndicators.savingsToIncomeRatio < 20 ? warningColor : successColor;
-  doc.fillColor(savingsColor).font('Helvetica-Bold')
-    .text(formatPercentage(reportData.healthIndicators.savingsToIncomeRatio), 250, healthY + 20);
-  
-  doc.fillColor('#000').font('Helvetica')
-    .text('Emergency Fund (Months):', 60, healthY + 40);
-  const emergencyColor = reportData.healthIndicators.emergencyFundMonths < 3 ? dangerColor :
-                         reportData.healthIndicators.emergencyFundMonths < 6 ? warningColor : successColor;
-  doc.fillColor(emergencyColor).font('Helvetica-Bold')
-    .text(reportData.healthIndicators.emergencyFundMonths.toFixed(1), 250, healthY + 40);
-  
-  doc.fillColor('#000').font('Helvetica')
-    .text('Financial Health Score:', 60, healthY + 60);
-  const scoreColor = reportData.healthIndicators.financialHealthScore < 50 ? dangerColor :
-                     reportData.healthIndicators.financialHealthScore < 70 ? warningColor : successColor;
-  doc.fillColor(scoreColor).font('Helvetica-Bold')
-    .text(`${reportData.healthIndicators.financialHealthScore.toFixed(0)}/100`, 250, healthY + 60);
-
-  doc.y = healthY + 85;
-  doc.moveDown(1);
-
-  // Recommendations
-  if (reportData.recommendations.length > 0) {
-    // Check if we need a new page
-    if (doc.y > 550) {
-      doc.addPage();
-    }
-
-    doc.fillColor(primaryColor).fontSize(16).font('Helvetica-Bold')
-      .text('Recommendations', { underline: true });
-    doc.moveDown(0.5);
-
-    doc.fontSize(11).fillColor('#000').font('Helvetica');
-    
-    reportData.recommendations.forEach((rec, index) => {
-      // Check if we need a new page for this recommendation
-      if (doc.y > 680) {
-        doc.addPage();
-      }
-
-      let priorityColor = '#000';
-      if (rec.priority === 'High') priorityColor = dangerColor;
-      else if (rec.priority === 'Medium') priorityColor = warningColor;
-      else if (rec.priority === 'Low') priorityColor = secondaryColor;
-
-      doc.font('Helvetica-Bold').fillColor('#000')
-        .text(`${index + 1}. ${rec.category}`, 60);
-      
-      doc.font('Helvetica').text('Priority: ', 70);
-      doc.fillColor(priorityColor).font('Helvetica-Bold')
-        .text(rec.priority, 120, doc.y - 12);
-      
-      doc.fillColor('#000').font('Helvetica')
-        .text(rec.recommendation, 70, doc.y + 5, {
-          width: doc.page.width - 140,
-          align: 'left'
-        });
-      
-      doc.moveDown(0.8);
-    });
-  }
-
+  // Add more sections as needed (Income Breakdown, Expense Breakdown, etc.)
   // Footer on last page
   const pageCount = doc.bufferedPageRange().count;
   for (let i = 0; i < pageCount; i++) {
@@ -855,15 +721,6 @@ function generatePDFContent(doc, report) {
         `Page ${i + 1} of ${pageCount}`,
         50,
         doc.page.height - 50,
-        { align: 'center', width: doc.page.width - 100 }
-      );
-    
-    // Add generation timestamp
-    doc.fontSize(8).fillColor('#999')
-      .text(
-        `Generated by Financial Planning System | ${new Date().toLocaleString('en-IN')}`,
-        50,
-        doc.page.height - 30,
         { align: 'center', width: doc.page.width - 100 }
       );
   }

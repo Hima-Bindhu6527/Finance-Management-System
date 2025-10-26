@@ -27,6 +27,10 @@ app.use('/api/goals', require('./routes/goals'));
 app.use('/api/financial-plans', require('./routes/financialPlans'));
 app.use('/api/income-expense', require('./routes/incomeExpense'));
 app.use('/api/reports', reportRoutes);
+const notificationRoutes = require('./routes/notifications');
+app.use('/api/notifications', notificationRoutes);
+
+
 // app.use('/api/metals', require('./routes/metals'));
 
 // Basic route

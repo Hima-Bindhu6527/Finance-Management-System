@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import "./Navbar.css";
 import ProfileDropdown from "./ProfileDropdown";
+import NotificationBell from "../Notifications/NotificationBell";
 
 const Navbar = () => {
   const { isAuthenticated, user, logout } = useAuth();
@@ -57,7 +58,7 @@ const Navbar = () => {
     setIsToolsDropdownOpen(false);
   };
 
-  // Close dropdown when clicking outside
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -73,7 +74,6 @@ const Navbar = () => {
         setIsToolsDropdownOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -101,10 +101,7 @@ const Navbar = () => {
                   Plan
                 </Link>
               </li>
-              <li
-                className="navbar-item navbar-dropdown"
-                ref={investDropdownRef}
-              >
+              <li className="navbar-item navbar-dropdown" ref={investDropdownRef}>
                 <button
                   className="navbar-link dropdown-toggle"
                   onClick={toggleInvestDropdown}
@@ -131,10 +128,7 @@ const Navbar = () => {
                   Report
                 </Link>
               </li>
-              <li
-                className="navbar-item navbar-dropdown"
-                ref={toolsDropdownRef}
-              >
+              <li className="navbar-item navbar-dropdown" ref={toolsDropdownRef}>
                 <button
                   className="navbar-link dropdown-toggle"
                   onClick={toggleToolsDropdown}
@@ -143,22 +137,22 @@ const Navbar = () => {
                 </button>
                 {isToolsDropdownOpen && (
                   <ul className="dropdown-menu">
-                    {calculators.map((calculator, index) => (
+                    {calculators.map((calc, index) => (
                       <li key={index} className="dropdown-item">
                         <button
                           className="dropdown-link"
-                          onClick={() =>
-                            handleCalculatorClick(calculator.route)
-                          }
+                          onClick={() => handleCalculatorClick(calc.route)}
                         >
-                          {calculator.name}
+                          {calc.name}
                         </button>
                       </li>
                     ))}
                   </ul>
                 )}
               </li>
+              {/* 🔔 Notification + Profile */}
               <li className="navbar-item navbar-user">
+                <NotificationBell />
                 <ProfileDropdown user={user} onLogout={handleLogout} />
               </li>
             </>

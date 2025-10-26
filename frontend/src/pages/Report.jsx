@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Report.css";
+import { notificationService } from "../components/services/notificationService";
+
 
 const ReportPage = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -146,6 +148,7 @@ const ReportPage = () => {
 
       if (response.ok) {
         alert("Report generated successfully!");
+
         setReportForm({
           financialPlanId: "",
           reportType: "Comprehensive",
