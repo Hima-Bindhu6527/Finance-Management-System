@@ -1,0 +1,1033 @@
+/* FixedDeposits Component CSS with consistent color theme */
+
+/* CSS Variables */
+:root {
+  --primary-blue: #1565C0;
+  --primary-blue-dark: #0D47A1;
+  --light-blue: #e3f2fd;
+  --light-blue-accent: #B8D4F1;
+  --gold: #FDB913;
+  --gold-dark: #FFB300;
+  --green: #28a745;
+  --yellow: #ffc107;
+  --yellow-light: #fff9e6;
+  --yellow-accent: #fff3cd;
+  --white: #ffffff;
+  --text-dark: #333333;
+  --text-gray: #666666;
+  --border-color: #e0e0e0;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 8px 15px rgba(0, 0, 0, 0.2);
+  --warning-red: #dc3545;
+  --warning-red-light: #f8d7da;
+}
+
+/* Animations */
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes gradientSweep {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Main Container */
+.fd-content-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  color: var(--text-dark);
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
+  min-height: 100vh;
+}
+
+/* Header Section */
+.fd-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+  border-radius: 20px;
+  color: var(--white);
+  animation: slideInDown 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-hover);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.fd-header h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  background: linear-gradient(45deg, var(--white), var(--light-blue-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: block;
+  width: 100%;
+}
+
+.fd-subtitle {
+      color: var(--white);
+  font-size: 1.2rem;
+  opacity: 0.9;
+  max-width: 600px;
+  line-height: 1.6;
+  display: block;
+  width: 100%;
+}
+
+/* Tab Navigation */
+.fd-tab-navigation {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+  background: var(--white);
+  border-radius: 15px;
+  padding: 8px;
+  box-shadow: var(--shadow);
+  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+}
+
+.fd-tab-navigation button {
+  padding: 12px 24px;
+  border: none;
+  background: transparent;
+  color: var(--text-gray);
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 0 4px;
+}
+
+.fd-tab-navigation button.active,
+.fd-tab-navigation button:hover {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+/* Overview Section */
+.fd-overview-section {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 40px;
+  box-shadow: var(--shadow);
+  animation: slideInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
+}
+
+.fd-intro-content {
+  margin-bottom: 40px;
+}
+
+.fd-intro-content h2 {
+  color: var(--primary-blue);
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.fd-intro-content p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-gray);
+  margin-bottom: 16px;
+}
+
+/* Benefits Section */
+.benefits-section {
+  margin: 40px 0;
+}
+
+.benefits-section h3 {
+  color: var(--green);
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 0;
+  margin-bottom: 40px;
+}
+
+.benefit-card {
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  border-left: 4px solid var(--green);
+  margin: 10px;
+}
+
+.benefit-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--green);
+}
+
+.benefit-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: var(--green);
+}
+
+.benefit-card h4 {
+  color: var(--primary-blue);
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.benefit-card p {
+  color: var(--text-gray);
+  line-height: 1.6;
+}
+
+/* How It Works Section */
+.how-it-works {
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 30px 0;
+  border-left: 5px solid var(--primary-blue);
+}
+
+.how-it-works h3 {
+  color: var(--primary-blue);
+  font-size: 2rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.steps-list {
+  list-style: none;
+  counter-reset: step-counter;
+  margin: 0;
+  padding: 0;
+}
+
+.steps-list li {
+  counter-increment: step-counter;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+  padding-left: 60px;
+  color: var(--text-gray);
+  line-height: 1.6;
+  transition: all 0.3s ease;
+}
+
+.steps-list li:before {
+  content: counter(step-counter);
+  position: absolute;
+  left: 0;
+  top: 15px;
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+  color: var(--white);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  box-shadow: var(--shadow);
+}
+
+.steps-list li:hover {
+  transform: translateX(5px);
+  color: var(--primary-blue);
+}
+
+.steps-list li:last-child {
+  border-bottom: none;
+}
+
+/* Tips Section */
+.tips-section {
+  background: linear-gradient(135deg, var(--yellow-light) 0%, var(--white) 100%);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 30px 0;
+  border-left: 5px solid var(--yellow);
+  box-shadow: var(--shadow);
+}
+
+.tips-section h3 {
+  color: var(--primary-blue);
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.tips-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tips-list li {
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+  padding-left: 30px;
+  color: var(--text-dark);
+  line-height: 1.6;
+  transition: all 0.3s ease;
+}
+
+.tips-list li:before {
+  content: '💡';
+  position: absolute;
+  left: 0;
+}
+
+.tips-list li:hover {
+  transform: translateX(5px);
+  color: var(--primary-blue);
+}
+
+.tips-list li:last-child {
+  border-bottom: none;
+}
+
+/* Comparison Box */
+.comparison-box {
+  background: var(--light-blue);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 30px 0;
+  overflow-x: auto;
+}
+
+.comparison-box h4 {
+  color: var(--primary-blue);
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.comparison-box table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.comparison-box th {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+  color: var(--white);
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.comparison-box td {
+  padding: 15px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-gray);
+  transition: background-color 0.3s ease;
+}
+
+.comparison-box tr:hover td {
+  background: var(--light-blue);
+}
+
+.comparison-box tr:last-child td {
+  border-bottom: none;
+}
+
+/* FD Types Section */
+.fd-types-section {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 40px;
+  margin: 40px 0;
+  box-shadow: var(--shadow);
+}
+
+.fd-types-section h2 {
+  color: var(--primary-blue);
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.fd-types-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.type-card {
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
+  border-radius: 15px;
+  padding: 30px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.type-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--primary-blue);
+}
+
+.type-card h3 {
+  color: var(--primary-blue);
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.type-card p {
+  color: var(--text-gray);
+  line-height: 1.6;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.features-list {
+  list-style: none;
+  margin-bottom: 20px;
+  padding: 0;
+}
+
+.features-list li {
+  padding: 8px 0;
+  position: relative;
+  padding-left: 25px;
+  color: var(--text-gray);
+}
+
+.features-list li:before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--green);
+  font-weight: bold;
+}
+
+.providers {
+  background: var(--yellow-light);
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  color: var(--text-dark);
+  border-left: 4px solid var(--gold);
+}
+
+.providers strong {
+  color: var(--primary-blue);
+  font-weight: 600;
+}
+
+.tenure-info {
+  background: var(--light-blue);
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  color: var(--text-dark);
+  border-left: 4px solid var(--primary-blue);
+}
+
+.tenure-info strong {
+  color: var(--primary-blue);
+  font-weight: 600;
+}
+
+.note-info {
+  background: var(--warning-red-light);
+  border-radius: 10px;
+  padding: 15px;
+  color: var(--text-dark);
+  border-left: 4px solid var(--warning-red);
+  font-style: italic;
+}
+
+/* Special FDs Section */
+.special-fds {
+  margin: 40px 0;
+}
+
+.special-fds h3 {
+  color: var(--primary-blue);
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.special-schemes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.scheme-card {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+  color: var(--white);
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.scheme-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--white), var(--light-blue-accent), var(--white));
+  transform: scaleX(0);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scheme-card:hover::before {
+  transform: scaleX(1);
+}
+
+.scheme-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-hover);
+}
+
+.scheme-card h4 {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.scheme-card p {
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+/* Taxation Section */
+.taxation-section {
+  background: var(--white);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 30px 0;
+  box-shadow: var(--shadow);
+  border-left: 5px solid var(--warning-red);
+}
+
+.taxation-section h3 {
+  color: var(--warning-red);
+  font-size: 2rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.tax-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.tax-card {
+  background: linear-gradient(135deg, var(--warning-red-light) 0%, var(--white) 100%);
+  border-radius: 10px;
+  padding: 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  border-left: 4px solid var(--warning-red);
+}
+
+.tax-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  border-color: var(--warning-red);
+}
+
+.tax-card h4 {
+  color: var(--primary-blue);
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.tax-card p {
+  color: var(--text-gray);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Rates Section */
+.rates-section {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 40px;
+  margin: 40px 0;
+  box-shadow: var(--shadow);
+}
+
+.rates-section h2 {
+  color: var(--primary-blue);
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.rates-note {
+  background: var(--yellow-accent);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
+  color: var(--text-dark);
+  border-left: 4px solid var(--yellow);
+  text-align: center;
+  font-style: italic;
+}
+
+.rates-table {
+  background: var(--light-blue);
+  border-radius: 15px;
+  padding: 20px;
+  margin: 30px 0;
+  overflow-x: auto;
+}
+
+.rates-table table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.rates-table th {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+  color: var(--white);
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.rates-table td {
+  padding: 15px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-gray);
+  transition: background-color 0.3s ease;
+}
+
+.rates-table tr:hover td {
+  background: var(--light-blue);
+}
+
+.rates-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Rate Factors */
+.rate-factors {
+  margin: 30px 0;
+}
+
+.rate-factors h3 {
+  color: var(--primary-blue);
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.factors-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.factors-list li {
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+  padding-left: 30px;
+  color: var(--text-dark);
+  line-height: 1.6;
+  transition: all 0.3s ease;
+}
+
+.factors-list li:before {
+  content: '📊';
+  position: absolute;
+  left: 0;
+}
+
+.factors-list li:hover {
+  transform: translateX(5px);
+  color: var(--primary-blue);
+}
+
+.factors-list li:last-child {
+  border-bottom: none;
+}
+
+/* Rate Trends */
+.rate-trends {
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 30px 0;
+  border-left: 5px solid var(--green);
+}
+
+.rate-trends h3 {
+  color: var(--green);
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.rate-trends p {
+  color: var(--text-gray);
+  line-height: 1.7;
+  font-size: 1.1rem;
+}
+
+/* Calculator Info */
+.calculator-info {
+  background: var(--white);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 30px 0;
+  box-shadow: var(--shadow);
+  border-left: 5px solid var(--gold);
+}
+
+.calculator-info h3 {
+  color: var(--primary-blue);
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.example-calculation {
+  background: var(--yellow-light);
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.example-calculation h4 {
+  color: var(--primary-blue);
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.example-calculation p {
+  color: var(--text-gray);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.result {
+  background: linear-gradient(135deg, var(--green) 0%, #218838 100%);
+  color: var(--white);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.2rem;
+  box-shadow: var(--shadow);
+}
+
+/* When to Invest */
+.when-to-invest {
+  margin: 40px 0;
+}
+
+.when-to-invest h3 {
+  color: var(--primary-blue);
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.investment-scenarios {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.scenario-card {
+  border-radius: 15px;
+  padding: 25px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.scenario-card.good {
+  background: linear-gradient(135deg, var(--green) 0%, #218838 100%);
+  color: var(--white);
+}
+
+.scenario-card.caution {
+  background: linear-gradient(135deg, var(--warning-red) 0%, #c82333 100%);
+  color: var(--white);
+}
+
+.scenario-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--white);
+  transform: scaleX(0);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scenario-card:hover::before {
+  transform: scaleX(1);
+}
+
+.scenario-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+
+.scenario-card h4 {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.scenario-card p {
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+/* CTA Section */
+.cta-section {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+  border-radius: 20px;
+  padding: 50px 30px;
+  text-align: center;
+  margin: 50px 0;
+  color: var(--white);
+  box-shadow: var(--shadow-hover);
+}
+
+.cta-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.cta-section p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  opacity: 0.9;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contact-button {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+  color: var(--white);
+  padding: 15px 40px;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.contact-button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: var(--shadow-hover);
+  background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 100%);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .fd-content-wrapper {
+    padding: 15px;
+  }
+
+  .fd-header {
+    padding: 30px 15px;
+  }
+
+  .fd-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .fd-subtitle {
+    font-size: 1rem;
+  }
+
+  .fd-tab-navigation {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .fd-tab-navigation button {
+    width: 100%;
+    margin: 0;
+  }
+
+  .benefits-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .fd-types-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .special-schemes {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .tax-cards {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .investment-scenarios {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .comparison-box,
+  .rates-table {
+    font-size: 0.9rem;
+  }
+
+  .cta-section {
+    padding: 40px 20px;
+  }
+
+  .cta-section h2 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .fd-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .fd-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .benefit-card,
+  .type-card,
+  .scheme-card {
+    padding: 20px;
+  }
+
+  .contact-button {
+    padding: 12px 30px;
+    font-size: 1rem;
+  }
+
+  .comparison-box th,
+  .comparison-box td,
+  .rates-table th,
+  .rates-table td {
+    padding: 10px;
+    font-size: 0.8rem;
+  }
+
+  .steps-list li {
+    padding-left: 50px;
+  }
+
+  .steps-list li:before {
+    width: 35px;
+    height: 35px;
+    font-size: 0.9rem;
+  }
+
+  .result {
+    font-size: 1rem;
+    padding: 15px;
+  }
+}

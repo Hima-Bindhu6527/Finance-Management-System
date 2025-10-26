@@ -19,13 +19,14 @@ const Navbar = () => {
 
   const investmentCategories = [
     "Mutual Fund",
-    "ULIP",
     "Gold",
-    "PMS",
-    "LiquiLoans",
     "Insurance",
-    "Protection",
-    "Unlisted Stocks",
+    "Stocks",
+    "Cryptocurrency",
+    "ETF",
+    "Bonds",
+    "Fixed Deposits",
+    "Real Estate",
   ];
 
   const calculators = [

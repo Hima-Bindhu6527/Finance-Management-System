@@ -1,0 +1,1060 @@
+/* ETF Component CSS with consistent color theme */
+
+/* CSS Variables */
+:root {
+  --primary-blue: #1565C0;
+  --primary-blue-dark: #0D47A1;
+  --light-blue: #e3f2fd;
+  --light-blue-accent: #B8D4F1;
+  --gold: #FDB913;
+  --gold-dark: #FFB300;
+  --green: #28a745;
+  --yellow: #ffc107;
+  --yellow-light: #fff9e6;
+  --yellow-accent: #fff3cd;
+  --white: #ffffff;
+  --text-dark: #333333;
+  --text-gray: #666666;
+  --border-color: #e0e0e0;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 8px 15px rgba(0, 0, 0, 0.2);
+  --warning-red: #dc3545;
+  --warning-red-light: #f8d7da;
+}
+
+/* Animations */
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes gradientSweep {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Main Container */
+.etf-content-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  color: var(--text-dark);
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
+  min-height: 100vh;
+}
+
+/* Header Section */
+.etf-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+  border-radius: 20px;
+  color: var(--white);
+  animation: slideInDown 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-hover);
+}
+
+.etf-header h1 {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  font-weight: 700;
+  background: linear-gradient(45deg, var(--white), var(--light-blue-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.etf-subtitle {
+  font-size: 1.2rem;
+  margin: 0;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Tab Navigation */
+.etf-tab-navigation {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+  background: var(--white);
+  border-radius: 15px;
+  padding: 8px;
+  box-shadow: var(--shadow);
+  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+}
+
+.etf-tab-navigation button {
+  padding: 12px 24px;
+  border: none;
+  background: transparent;
+  color: var(--text-gray);
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 0 4px;
+}
+
+.etf-tab-navigation button.active,
+.etf-tab-navigation button:hover {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+/* Overview Section */
+.etf-overview-section {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 40px;
+  box-shadow: var(--shadow);
+  animation: slideInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
+}
+
+.etf-intro-content {
+  margin-bottom: 40px;
+}
+
+.etf-intro-content h2 {
+  color: var(--primary-blue);
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.etf-intro-content p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-gray);
+  margin-bottom: 16px;
+}
+
+/* Definition Section */
+.definition-section {
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 30px 0;
+  border-left: 5px solid var(--primary-blue);
+}
+
+.definition-section h3 {
+  color: var(--primary-blue);
+  font-size: 2rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.definition-section p {
+  color: var(--text-gray);
+  line-height: 1.7;
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+}
+
+/* How Works Section */
+.how-works-section {
+  margin: 40px 0;
+}
+
+.how-works-section h3 {
+  color: var(--primary-blue);
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.etf-work-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.work-step-card {
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
+  border-radius: 15px;
+  padding: 30px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.work-step-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+}
+
+.work-step-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--primary-blue);
+}
+
+.work-step-card:hover::before {
+  left: 100%;
+}
+
+.step-number {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+  color: var(--white);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 auto 20px;
+  box-shadow: var(--shadow);
+}
+
+.work-step-card h4 {
+  color: var(--primary-blue);
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.work-step-card p {
+  color: var(--text-gray);
+  line-height: 1.6;
+}
+
+/* Popular ETFs Section */
+.popular-etfs {
+  background: var(--white);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 30px 0;
+  box-shadow: var(--shadow);
+  border-left: 5px solid var(--gold);
+}
+
+.popular-etfs h3 {
+  color: var(--primary-blue);
+  font-size: 2rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.etf-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.etf-item {
+  background: linear-gradient(135deg, var(--yellow-light) 0%, var(--white) 100%);
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.etf-item:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  border-color: var(--gold);
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+  color: var(--white);
+}
+
+/* ETF Types Section */
+.etf-types-section {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 40px;
+  margin: 40px 0;
+  box-shadow: var(--shadow);
+}
+
+.etf-types-section h2 {
+  color: var(--primary-blue);
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.section-intro {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-gray);
+  text-align: center;
+  margin-bottom: 40px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.etf-types-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.type-card {
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
+  border-radius: 15px;
+  padding: 30px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.type-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--primary-blue);
+}
+
+.type-card h3 {
+  color: var(--primary-blue);
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.type-description {
+  color: var(--text-gray);
+  line-height: 1.6;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.type-example {
+  background: var(--yellow-light);
+  border-radius: 10px;
+  padding: 15px;
+  color: var(--text-dark);
+  border-left: 4px solid var(--gold);
+  font-style: italic;
+  margin-bottom: 15px;
+}
+
+/* Index Info Section */
+.index-info {
+  margin: 30px 0;
+}
+
+.index-info h4 {
+  color: var(--primary-blue);
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.indices-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.index-item {
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  font-weight: 600;
+  color: var(--primary-blue);
+}
+
+.index-item:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  border-color: var(--primary-blue);
+}
+
+/* Benefits and Risks Section */
+.benefits-risks-section {
+  margin: 40px 0;
+}
+
+.benefits-container {
+  margin-bottom: 40px;
+}
+
+.benefits-container h3 {
+  color: var(--green);
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 0;
+  margin-bottom: 40px;
+}
+
+.benefit-card {
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  border-left: 4px solid var(--green);
+  margin: 10px;
+}
+
+.benefit-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--green);
+}
+
+.benefit-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: var(--green);
+}
+
+.benefit-card h4 {
+  color: var(--primary-blue);
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.benefit-card p {
+  color: var(--text-gray);
+  line-height: 1.6;
+}
+
+.risks-container h3 {
+  color: var(--warning-red);
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.risks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 0;
+}
+
+.risk-card {
+  background: linear-gradient(135deg, var(--warning-red-light) 0%, var(--white) 100%);
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  border-left: 4px solid var(--warning-red);
+  margin: 10px;
+}
+
+.risk-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--warning-red);
+}
+
+.risk-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: var(--warning-red);
+}
+
+.risk-card h4 {
+  color: var(--primary-blue);
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.risk-card p {
+  color: var(--text-gray);
+  line-height: 1.6;
+}
+
+/* Tips Section */
+.tips-section {
+  background: linear-gradient(135deg, var(--yellow-light) 0%, var(--white) 100%);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 30px 0;
+  border-left: 5px solid var(--yellow);
+  box-shadow: var(--shadow);
+}
+
+.tips-section h3 {
+  color: var(--primary-blue);
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.tips-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tips-list li {
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+  padding-left: 30px;
+  color: var(--text-dark);
+  line-height: 1.6;
+  transition: all 0.3s ease;
+}
+
+.tips-list li:before {
+  content: '💡';
+  position: absolute;
+  left: 0;
+}
+
+.tips-list li:hover {
+  transform: translateX(5px);
+  color: var(--primary-blue);
+}
+
+.tips-list li:last-child {
+  border-bottom: none;
+}
+
+/* Compare Section */
+.compare-section {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 40px;
+  margin: 40px 0;
+  box-shadow: var(--shadow);
+}
+
+.compare-section h2 {
+  color: var(--primary-blue);
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.comparison-table {
+  background: var(--light-blue);
+  border-radius: 15px;
+  padding: 20px;
+  margin: 30px 0;
+  overflow-x: auto;
+}
+
+.comparison-table table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.comparison-table th {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+  color: var(--white);
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.comparison-table td {
+  padding: 15px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-gray);
+  transition: background-color 0.3s ease;
+}
+
+.comparison-table tr:hover td {
+  background: var(--light-blue);
+}
+
+.comparison-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* When to Choose Section */
+.when-to-choose {
+  margin: 40px 0;
+}
+
+.when-to-choose h4 {
+  color: var(--primary-blue);
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.choice-card {
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 20px 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  border-left: 5px solid var(--gold);
+}
+
+.choice-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--primary-blue);
+}
+
+.choice-card h5 {
+  color: var(--primary-blue);
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.choice-card p {
+  color: var(--text-gray);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+/* Tax Info Section */
+.tax-info {
+  background: var(--yellow-light);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 30px 0;
+  border-left: 5px solid var(--yellow);
+  box-shadow: var(--shadow);
+}
+
+.tax-info h3 {
+  color: var(--primary-blue);
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.tax-info p {
+  color: var(--text-dark);
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+/* Invest Section */
+.invest-section {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 40px;
+  margin: 40px 0;
+  box-shadow: var(--shadow);
+}
+
+.invest-section h2 {
+  color: var(--primary-blue);
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.investment-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  margin: 30px 0;
+}
+
+.investment-step-card {
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.investment-step-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-blue), var(--gold), var(--green));
+  transform: scaleX(0);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.investment-step-card:hover::before {
+  transform: scaleX(1);
+}
+
+.investment-step-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--primary-blue);
+}
+
+.step-badge {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+  color: var(--white);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  margin: 0 auto 15px;
+  box-shadow: var(--shadow);
+}
+
+.investment-step-card h4 {
+  color: var(--primary-blue);
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.investment-step-card p {
+  color: var(--text-gray);
+  line-height: 1.6;
+}
+
+/* Detailed Process Section */
+.detailed-process {
+  margin: 40px 0;
+}
+
+.detailed-process h3 {
+  color: var(--primary-blue);
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.process-list {
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: var(--shadow);
+}
+
+.process-item {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.process-item:hover {
+  transform: translateX(5px);
+}
+
+.process-item:last-child {
+  border-bottom: none;
+}
+
+.process-item h4 {
+  color: var(--primary-blue);
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.process-item p {
+  color: var(--text-gray);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Important Considerations */
+.important-considerations {
+  background: var(--yellow-light);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 30px 0;
+  border-left: 5px solid var(--yellow);
+  box-shadow: var(--shadow);
+}
+
+.important-considerations h3 {
+  color: var(--primary-blue);
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.considerations-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.considerations-list li {
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+  padding-left: 30px;
+  color: var(--text-dark);
+  line-height: 1.6;
+  transition: all 0.3s ease;
+}
+
+.considerations-list li:before {
+  content: '⚠️';
+  position: absolute;
+  left: 0;
+}
+
+.considerations-list li:hover {
+  transform: translateX(5px);
+  color: var(--primary-blue);
+}
+
+.considerations-list li:last-child {
+  border-bottom: none;
+}
+
+/* CTA Section */
+.cta-section {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+  border-radius: 20px;
+  padding: 50px 30px;
+  text-align: center;
+  margin: 50px 0;
+  color: var(--white);
+  box-shadow: var(--shadow-hover);
+}
+
+.cta-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.cta-section p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  opacity: 0.9;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contact-button {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+  color: var(--white);
+  padding: 15px 40px;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.contact-button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: var(--shadow-hover);
+  background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 100%);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .etf-content-wrapper {
+    padding: 15px;
+  }
+
+  .etf-header {
+    padding: 30px 15px;
+  }
+
+  .etf-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .etf-subtitle {
+    font-size: 1rem;
+  }
+
+  .etf-tab-navigation {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .etf-tab-navigation button {
+    width: 100%;
+    margin: 0;
+  }
+
+  .etf-work-steps {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .etf-types-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .indices-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+  }
+
+  .benefits-grid,
+  .risks-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .investment-steps {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .comparison-table {
+    font-size: 0.9rem;
+  }
+
+  .cta-section {
+    padding: 40px 20px;
+  }
+
+  .cta-section h2 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .etf-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .etf-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .section-intro {
+    font-size: 1rem;
+  }
+
+  .work-step-card,
+  .type-card,
+  .benefit-card,
+  .risk-card {
+    padding: 20px;
+  }
+
+  .indices-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-button {
+    padding: 12px 30px;
+    font-size: 1rem;
+  }
+
+  .comparison-table {
+    font-size: 0.8rem;
+  }
+
+  .comparison-table th,
+  .comparison-table td {
+    padding: 10px;
+  }
+
+  .step-number {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+
+  .step-badge {
+    width: 35px;
+    height: 35px;
+    font-size: 0.9rem;
+  }
+}

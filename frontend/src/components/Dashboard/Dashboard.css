@@ -181,30 +181,108 @@
   margin: 32px 0;
 }
 
+@media (max-width: 768px) {
+  .goals-container {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+  
+  .goal-card {
+    padding: 20px;
+  }
+  
+  .goal-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  .goals-container {
+    gap: 16px;
+  }
+}
+
 .goal-card {
-  background-color: #B8D4F1;
-  border-radius: 12px;
-  padding: 24px;
+  background: linear-gradient(135deg, #B8D4F1 0%, #e3f2fd 100%);
+  border-radius: 16px;
+  padding: 28px;
   text-align: center;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  box-shadow: 0 4px 12px rgba(21, 101, 192, 0.1);
 }
 
-.goal-card h4 {
-  color: #1565C0;
-  font-size: 16px;
-  margin: 0 0 16px 0;
-  font-weight: 600;
+.goal-card:hover {
+  transform: translateY(-4px);
+  border-color: #1565C0;
+  box-shadow: 0 8px 24px rgba(21, 101, 192, 0.2);
+  background: linear-gradient(135deg, #ffffff 0%, #B8D4F1 100%);
 }
 
-.goal-image {
-  font-size: 64px;
-  margin: 16px 0;
-  background: white;
-  border-radius: 12px;
-  padding: 24px;
-  min-height: 120px;
+.goal-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0 auto 16px auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.goal-title {
+  color: #1565C0 !important;
+  font-size: 18px !important;
+  margin: 0 0 12px 0 !important;
+  font-weight: 700 !important;
+}
+
+.goal-description {
+  color: #555;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0 0 16px 0;
+  font-weight: 500;
+}
+
+.goal-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.goal-highlight {
+  background: linear-gradient(135deg, #FDB913 0%, #FFB300 100%);
+  border-radius: 20px;
+  padding: 6px 12px;
+}
+
+.highlight-label {
+  color: #333;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.goal-timeframe {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  border-radius: 20px;
+  padding: 6px 12px;
+}
+
+.timeframe-label {
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .carousel-cta {
@@ -292,53 +370,143 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
+  padding: 20px 0;
 }
 
-.expert-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 48px;
+.tools-header {
+  text-align: center;
+  margin-bottom: 24px;
 }
 
-.expert-text {
-  flex: 1;
+.tools-header h3 {
+  font-size: 24px;
+  margin: 0 0 16px 0;
+  font-weight: 700;
+  color: #ffffff;
 }
 
-.expert-text h3 {
-  font-size: 22px;
-  margin: 0 0 20px 0;
-  font-weight: 600;
-}
-
-.expert-description {
+.tools-description {
   font-size: 16px;
   line-height: 1.6;
   margin: 0;
+  color: #ffffff;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.expert-icon {
-  font-size: 120px;
-  flex-shrink: 0;
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin: 32px 0;
 }
 
-.expert-footer {
-  background-color: #B8D4F1;
+.tool-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: 2px solid #e3f2fd;
+  border-radius: 12px;
+  padding: 20px 16px;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(21, 101, 192, 0.1);
+}
+
+.tool-card:hover {
+  transform: translateY(-4px);
+  border-color: #1565C0;
+  box-shadow: 0 6px 20px rgba(21, 101, 192, 0.2);
+  background: linear-gradient(135deg, #e3f2fd 0%, #ffffff 100%);
+}
+
+.tool-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.tool-name {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: #1565C0;
+}
+
+.tool-description {
+  font-size: 12px;
+  color: #666;
+  margin: 0 0 10px 0;
+  line-height: 1.4;
+}
+
+.tool-benefit {
+  font-size: 11px;
+  color: #28a745;
+  font-weight: 600;
+  background: rgba(40, 167, 69, 0.1);
+  padding: 4px 8px;
+  border-radius: 12px;
+  display: inline-block;
+}
+
+.tools-footer {
+  background: linear-gradient(135deg, #B8D4F1 0%, #e3f2fd 100%);
   border-radius: 12px;
   padding: 24px 32px;
+  text-align: center;
 }
 
-.expert-footer-title {
+.tools-footer-title {
   color: #1565C0;
   font-size: 18px;
   font-weight: 600;
   margin: 0 0 12px 0;
 }
 
-.expert-footer-text {
+.tools-footer-text {
   color: #333;
   font-size: 16px;
   margin: 0 0 16px 0;
+}
+
+@media (max-width: 1024px) {
+  .tools-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  
+  .tool-card {
+    padding: 16px 12px;
+  }
+  
+  .tool-icon {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .tools-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  
+  .tools-header h3 {
+    font-size: 20px;
+  }
+  
+  .tools-description {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tools-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .slide-3 {
+    gap: 20px;
+  }
 }
 
 .categories-section {
@@ -452,43 +620,7 @@
   gap: 24px;
   max-width: 900px;
   margin: 0 auto;
-}
-
- .benefit-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  padding: 20px;
-}
-
-.benefit-icon {
-  width: 48px;
-  height: 48px;
-  background-color: #1565C0;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* color: white; */
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.benefit-item span {
-  color: #333;
-  font-size: 14px;
-  font-weight: 600;
-  text-align: center;
-}
-
-/* --- BENEFITS GRID --- */
-/* .benefits-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  max-width: 900px;
-  margin: 0 auto;
+  padding: 0;
 }
 
 @media (max-width: 1024px) {
@@ -503,62 +635,69 @@
   }
 }
 
-/* --- BENEFIT CARD --- */
 .benefit-item {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
   padding: 24px;
-  background-color: #667eea;
-  /* bright blue */
+  background: linear-gradient(135deg, #e3f2fd 0%, #B8D4F1 100%);
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  position: relative;
 }
 
 .benefit-item:hover {
   transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 20px rgba(21, 101, 192, 0.15);
+  border-color: #1565C0;
+  background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%);
 }
 
-/* --- ICON INSIDE EACH CARD --- */
 .benefit-icon {
-  font-size: 24px;
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #1565C0 0%, #0D47A1 100%);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #1565C0 0%, #1976D2 100%);
-  /* color: white; */
-  border-radius: 8px;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
   flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(21, 101, 192, 0.3);
 }
 
-/* --- TEXT UNDER ICON --- */
 .benefit-item span {
-  /* color: white; */
-  font-size: 16px;
+  color: #333;
+  font-size: 14px;
   font-weight: 600;
   text-align: center;
+  line-height: 1.4;
 }
 
-*/ .contact-button {
-  position: absolute;
+.know-more-button {
   bottom: 32px;
   right: 32px;
-  background-color: #FDB913;
+  background: linear-gradient(135deg, #FDB913 0%, #FFB300 100%);
   color: #333;
   border: none;
-  padding: 12px 28px;
-  border-radius: 6px;
+  padding: 14px 32px;
+  border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
   font-size: 14px;
-  transition: transform 0.2s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(253, 185, 19, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.contact-button:hover {
+.know-more-button:hover {
   transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(253, 185, 19, 0.4);
+  background: linear-gradient(135deg, #FFB300 0%, #FDB913 100%);
 }

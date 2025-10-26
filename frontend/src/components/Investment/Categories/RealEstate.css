@@ -1,0 +1,1062 @@
+/* RealEstate Component CSS with consistent color theme */
+
+/* CSS Variables */
+:root {
+  --primary-blue: #1565C0;
+  --primary-blue-dark: #0D47A1;
+  --light-blue: #e3f2fd;
+  --light-blue-accent: #B8D4F1;
+  --gold: #FDB913;
+  --gold-dark: #FFB300;
+  --green: #28a745;
+  --yellow: #ffc107;
+  --yellow-light: #fff9e6;
+  --yellow-accent: #fff3cd;
+  --white: #ffffff;
+  --text-dark: #333333;
+  --text-gray: #666666;
+  --border-color: #e0e0e0;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 8px 15px rgba(0, 0, 0, 0.2);
+  --warning-red: #dc3545;
+  --warning-red-light: #f8d7da;
+}
+
+/* Animations */
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes gradientSweep {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Main Container */
+.realestate-content-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  color: var(--text-dark);
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
+  min-height: 100vh;
+}
+
+/* Header Section */
+.realestate-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+  border-radius: 20px;
+  color: var(--white);
+  animation: slideInDown 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-hover);
+}
+
+.realestate-header h1 {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  font-weight: 700;
+  background: linear-gradient(45deg, var(--white), var(--light-blue-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.realestate-subtitle {
+  font-size: 1.2rem;
+  margin: 0;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Tab Navigation */
+.realestate-tab-navigation {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+  background: var(--white);
+  border-radius: 15px;
+  padding: 8px;
+  box-shadow: var(--shadow);
+  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+}
+
+.realestate-tab-navigation button {
+  padding: 12px 24px;
+  border: none;
+  background: transparent;
+  color: var(--text-gray);
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 0 4px;
+}
+
+.realestate-tab-navigation button.active,
+.realestate-tab-navigation button:hover {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+/* Overview Section */
+.realestate-overview-section {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 40px;
+  box-shadow: var(--shadow);
+  animation: slideInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
+}
+
+.realestate-intro-content {
+  margin-bottom: 40px;
+}
+
+.realestate-intro-content h2 {
+  color: var(--primary-blue);
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.realestate-intro-content p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-gray);
+  margin-bottom: 16px;
+}
+
+/* Benefits Section */
+.benefits-section {
+  margin: 40px 0;
+}
+
+.benefits-section h3 {
+  color: var(--green);
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 0;
+  margin-bottom: 40px;
+}
+
+.benefit-card {
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  border-left: 4px solid var(--green);
+  margin: 10px;
+}
+
+.benefit-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--green);
+}
+
+.benefit-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: var(--green);
+}
+
+.benefit-card h4 {
+  color: var(--primary-blue);
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.benefit-card p {
+  color: var(--text-gray);
+  line-height: 1.6;
+}
+
+/* Tax Benefits Section */
+.tax-benefits-section {
+  background: linear-gradient(135deg, var(--yellow-light) 0%, var(--white) 100%);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 30px 0;
+  border-left: 5px solid var(--yellow);
+  box-shadow: var(--shadow);
+}
+
+.tax-benefits-section h3 {
+  color: var(--primary-blue);
+  font-size: 2rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.tax-table {
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 20px 0;
+  box-shadow: var(--shadow);
+}
+
+.tax-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tax-table th {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+  color: var(--white);
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.tax-table td {
+  padding: 15px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-gray);
+  transition: background-color 0.3s ease;
+}
+
+.tax-table tr:hover td {
+  background: var(--light-blue);
+}
+
+.tax-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Comparison Section */
+.comparison-section {
+  background: var(--light-blue);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 30px 0;
+  overflow-x: auto;
+}
+
+.comparison-section h3 {
+  color: var(--primary-blue);
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.comparison-section table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.comparison-section th {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+  color: var(--white);
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.comparison-section td {
+  padding: 15px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-gray);
+  transition: background-color 0.3s ease;
+}
+
+.comparison-section tr:hover td {
+  background: var(--light-blue);
+}
+
+.comparison-section tr:last-child td {
+  border-bottom: none;
+}
+
+/* Risk Section */
+.risk-section {
+  background: linear-gradient(135deg, var(--warning-red-light) 0%, var(--white) 100%);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 30px 0;
+  border-left: 5px solid var(--warning-red);
+  box-shadow: var(--shadow);
+}
+
+.risk-section h3 {
+  color: var(--warning-red);
+  font-size: 2rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.risk-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.risk-list li {
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+  padding-left: 30px;
+  color: var(--text-dark);
+  line-height: 1.6;
+  transition: all 0.3s ease;
+}
+
+.risk-list li:before {
+  content: '⚠️';
+  position: absolute;
+  left: 0;
+}
+
+.risk-list li:hover {
+  transform: translateX(5px);
+  color: var(--warning-red);
+}
+
+.risk-list li:last-child {
+  border-bottom: none;
+}
+
+/* Real Estate Types Section */
+.realestate-types-section {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 40px;
+  margin: 40px 0;
+  box-shadow: var(--shadow);
+}
+
+.realestate-types-section h2 {
+  color: var(--primary-blue);
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.realestate-types-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.type-card {
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
+  border-radius: 15px;
+  padding: 30px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.type-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--primary-blue);
+}
+
+.type-card h3 {
+  color: var(--primary-blue);
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.type-card p {
+  color: var(--text-gray);
+  line-height: 1.6;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.features-list {
+  list-style: none;
+  margin-bottom: 20px;
+  padding: 0;
+}
+
+.features-list li {
+  padding: 8px 0;
+  position: relative;
+  padding-left: 25px;
+  color: var(--text-gray);
+}
+
+.features-list li:before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--green);
+  font-weight: bold;
+}
+
+.investment-info {
+  background: var(--yellow-light);
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  color: var(--text-dark);
+  border-left: 4px solid var(--gold);
+}
+
+.investment-info strong {
+  color: var(--primary-blue);
+  font-weight: 600;
+}
+
+/* REITs Section */
+.reits-section {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 40px;
+  margin: 40px 0;
+  box-shadow: var(--shadow);
+}
+
+.reits-section h2 {
+  color: var(--primary-blue);
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.reits-intro {
+  background: var(--light-blue);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 30px 0;
+  border-left: 5px solid var(--primary-blue);
+}
+
+.reits-intro p {
+  color: var(--text-gray);
+  line-height: 1.7;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.reits-table {
+  background: var(--light-blue);
+  border-radius: 15px;
+  padding: 20px;
+  margin: 30px 0;
+  overflow-x: auto;
+}
+
+.reits-table table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.reits-table th {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+  color: var(--white);
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.reits-table td {
+  padding: 15px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-gray);
+  transition: background-color 0.3s ease;
+}
+
+.reits-table tr:hover td {
+  background: var(--light-blue);
+}
+
+.reits-table tr:last-child td {
+  border-bottom: none;
+}
+
+.reits-benefits {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.benefit-card.reit {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+  color: var(--white);
+  border: none;
+  border-left: 4px solid var(--white);
+}
+
+.benefit-card.reit h4 {
+  color: var(--white);
+}
+
+.benefit-card.reit p {
+  color: var(--white);
+  opacity: 0.9;
+}
+
+/* Investment Strategies */
+.investment-strategies {
+  margin: 40px 0;
+}
+
+.investment-strategies h3 {
+  color: var(--primary-blue);
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.strategies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.strategy-card {
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
+  border-radius: 15px;
+  padding: 25px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  border-left: 4px solid var(--green);
+}
+
+.strategy-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--green);
+}
+
+.strategy-card h4 {
+  color: var(--primary-blue);
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.strategy-card p {
+  color: var(--text-gray);
+  line-height: 1.6;
+}
+
+/* Tips Section */
+.tips-section {
+  background: linear-gradient(135deg, var(--yellow-light) 0%, var(--white) 100%);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 30px 0;
+  border-left: 5px solid var(--yellow);
+  box-shadow: var(--shadow);
+}
+
+.tips-section h3 {
+  color: var(--primary-blue);
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.factors-table {
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 20px 0;
+  box-shadow: var(--shadow);
+}
+
+.factors-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.factors-table th {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+  color: var(--white);
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.factors-table td {
+  padding: 15px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-gray);
+  transition: background-color 0.3s ease;
+}
+
+.factors-table tr:hover td {
+  background: var(--light-blue);
+}
+
+.factors-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Due Diligence */
+.due-diligence {
+  margin: 40px 0;
+}
+
+.due-diligence h3 {
+  color: var(--primary-blue);
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.checklist {
+  background: var(--white);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 30px 0;
+  box-shadow: var(--shadow);
+  border-left: 5px solid var(--green);
+}
+
+.checklist-section {
+  margin-bottom: 30px;
+}
+
+.checklist-section h4 {
+  color: var(--primary-blue);
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.checklist-section ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.checklist-section li {
+  padding: 10px 0;
+  position: relative;
+  padding-left: 30px;
+  color: var(--text-gray);
+  line-height: 1.6;
+  transition: all 0.3s ease;
+}
+
+.checklist-section li:before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--green);
+  font-weight: bold;
+}
+
+.checklist-section li:hover {
+  transform: translateX(5px);
+  color: var(--primary-blue);
+}
+
+/* Location Tips */
+.location-tips {
+  margin: 40px 0;
+}
+
+.location-tips h3 {
+  color: var(--primary-blue);
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.location-factors {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.factor-card {
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  border-left: 4px solid var(--gold);
+}
+
+.factor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--gold);
+}
+
+.factor-card h4 {
+  color: var(--primary-blue);
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.factor-card p {
+  color: var(--text-gray);
+  line-height: 1.6;
+}
+
+/* Do's and Don'ts */
+.dos-donts {
+  margin: 40px 0;
+}
+
+.dos-donts h3 {
+  color: var(--primary-blue);
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.dos-donts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+.dos {
+  background: linear-gradient(135deg, var(--green) 0%, #218838 100%);
+  color: var(--white);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: var(--shadow);
+}
+
+.donts {
+  background: linear-gradient(135deg, var(--warning-red) 0%, #c82333 100%);
+  color: var(--white);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: var(--shadow);
+}
+
+.dos h4,
+.donts h4 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.dos ul,
+.donts ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dos li,
+.donts li {
+  padding: 10px 0;
+  position: relative;
+  padding-left: 30px;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.dos li:before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--white);
+  font-weight: bold;
+}
+
+.donts li:before {
+  content: '✗';
+  position: absolute;
+  left: 0;
+  color: var(--white);
+  font-weight: bold;
+}
+
+/* Financing Tips */
+.financing-tips {
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 30px 0;
+  border-left: 5px solid var(--primary-blue);
+}
+
+.financing-tips h3 {
+  color: var(--primary-blue);
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.financing-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.financing-list li {
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+  padding-left: 30px;
+  color: var(--text-dark);
+  line-height: 1.6;
+  transition: all 0.3s ease;
+}
+
+.financing-list li:before {
+  content: '💰';
+  position: absolute;
+  left: 0;
+}
+
+.financing-list li:hover {
+  transform: translateX(5px);
+  color: var(--primary-blue);
+}
+
+.financing-list li:last-child {
+  border-bottom: none;
+}
+
+/* CTA Section */
+.cta-section {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+  border-radius: 20px;
+  padding: 50px 30px;
+  text-align: center;
+  margin: 50px 0;
+  color: var(--white);
+  box-shadow: var(--shadow-hover);
+}
+
+.cta-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.cta-section p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  opacity: 0.9;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contact-button {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+  color: var(--white);
+  padding: 15px 40px;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.contact-button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: var(--shadow-hover);
+  background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 100%);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .realestate-content-wrapper {
+    padding: 15px;
+  }
+
+  .realestate-header {
+    padding: 30px 15px;
+  }
+
+  .realestate-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .realestate-subtitle {
+    font-size: 1rem;
+  }
+
+  .realestate-tab-navigation {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .realestate-tab-navigation button {
+    width: 100%;
+    margin: 0;
+  }
+
+  .benefits-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .realestate-types-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .strategies-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .location-factors {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .dos-donts-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .reits-benefits {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .comparison-section,
+  .tax-table,
+  .reits-table,
+  .factors-table {
+    font-size: 0.9rem;
+  }
+
+  .cta-section {
+    padding: 40px 20px;
+  }
+
+  .cta-section h2 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .realestate-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .realestate-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .benefit-card,
+  .type-card,
+  .strategy-card,
+  .factor-card {
+    padding: 20px;
+  }
+
+  .contact-button {
+    padding: 12px 30px;
+    font-size: 1rem;
+  }
+
+  .comparison-section th,
+  .comparison-section td,
+  .tax-table th,
+  .tax-table td,
+  .reits-table th,
+  .reits-table td,
+  .factors-table th,
+  .factors-table td {
+    padding: 10px;
+    font-size: 0.8rem;
+  }
+
+  .dos,
+  .donts {
+    padding: 20px;
+  }
+
+  .checklist {
+    padding: 20px;
+  }
+}

@@ -15,13 +15,14 @@ import ToolsPage from "./pages/ToolsPage";
 import ProfilePage from "./pages/ProfilePage";
 // Investment Category Components
 import MutualFund from "./components/Investment/Categories/MutualFund";
-import ULIP from "./components/Investment/Categories/ULIP";
 import Gold from "./components/Investment/Categories/Gold";
-import PMS from "./components/Investment/Categories/PMS";
-import LiquiLoans from "./components/Investment/Categories/LiquiLoans";
 import Insurance from "./components/Investment/Categories/Insurance";
-import Protection from "./components/Investment/Categories/Protection";
-import UnlistedStocks from "./components/Investment/Categories/UnlistedStocks";
+import Stocks from "./components/Investment/Categories/Stocks";
+import Cryptocurrency from "./components/Investment/Categories/Cryptocurrency";
+import ETF from "./components/Investment/Categories/ETF";
+import Bonds from "./components/Investment/Categories/Bonds";
+import FixedDeposits from "./components/Investment/Categories/FixedDeposits";
+import RealEstate from "./components/Investment/Categories/RealEstate";
 // import About from "./components/about";
 import "./App.css";
 
@@ -123,34 +124,10 @@ function AppRoutes() {
             }
           />
           <Route
-            path="/invest/ulip"
-            element={
-              <ProtectedRoute>
-                <ULIP />
-              </ProtectedRoute>
-            }
-          />
-          <Route
             path="/invest/gold"
             element={
               <ProtectedRoute>
                 <Gold />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/invest/pms"
-            element={
-              <ProtectedRoute>
-                <PMS />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/invest/liquiloans"
-            element={
-              <ProtectedRoute>
-                <LiquiLoans />
               </ProtectedRoute>
             }
           />
@@ -163,18 +140,50 @@ function AppRoutes() {
             }
           />
           <Route
-            path="/invest/protection"
+            path="/invest/stocks"
             element={
               <ProtectedRoute>
-                <Protection />
+                <Stocks />
               </ProtectedRoute>
             }
           />
           <Route
-            path="/invest/unlisted-stocks"
+            path="/invest/cryptocurrency"
             element={
               <ProtectedRoute>
-                <UnlistedStocks />
+                <Cryptocurrency />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/invest/etf"
+            element={
+              <ProtectedRoute>
+                <ETF />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/invest/bonds"
+            element={
+              <ProtectedRoute>
+                <Bonds />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/invest/fixed-deposits"
+            element={
+              <ProtectedRoute>
+                <FixedDeposits />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/invest/real-estate"
+            element={
+              <ProtectedRoute>
+                <RealEstate />
               </ProtectedRoute>
             }
           />

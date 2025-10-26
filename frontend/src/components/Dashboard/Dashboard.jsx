@@ -7,6 +7,14 @@ const Dashboard = () => {
   const [activeCategory, setActiveCategory] = useState("Mutual Fund");
   const navigate = useNavigate();
 
+  // Function to convert category name to URL-friendly path
+  const getCategoryPath = (categoryName) => {
+    return categoryName
+      .toLowerCase()
+      .replace(/\s+/g, "-") // Replace spaces with hyphens
+      .replace(/[^a-z0-9-]/g, ""); // Remove special characters except hyphens
+  };
+
   const carouselSlides = [
     {
       title: "80% of Investors between age group",
@@ -14,9 +22,33 @@ const Dashboard = () => {
       description: "1 child opt for following goals.",
       tagline: "Feel free to explore",
       goals: [
-        { name: "Wealth Creation", image: "wealth" },
-        { name: "Car Purchase", image: "car" },
-        { name: "Secure Retirement", image: "retirement" },
+        {
+          name: "Wealth Creation",
+          image: "wealth",
+          icon: "💎",
+          description:
+            "Build a diversified portfolio for long-term financial growth",
+          highlight: "Average 12-15% returns",
+          timeframe: "5-20 years",
+        },
+        {
+          name: "Car Purchase",
+          image: "car",
+          icon: "🏎️",
+          description:
+            "Save systematically for your dream car without compromising lifestyle",
+          highlight: "Goal-based planning",
+          timeframe: "2-5 years",
+        },
+        {
+          name: "Secure Retirement",
+          image: "retirement",
+          icon: "🏖️",
+          description:
+            "Ensure financial independence for a comfortable retirement life",
+          highlight: "Corpus up to 10Cr+",
+          timeframe: "15-30 years",
+        },
       ],
       buttonText: "Let's Begin",
     },
@@ -54,25 +86,58 @@ const Dashboard = () => {
       buttonText: "Start My Plan",
     },
     {
-      title: "Do you prefer a personalised plan created by our experts?",
+      title: "Powerful Financial Tools at Your Fingertips",
       description:
-        "We can create a comprehensive financial plan that covers all of yours goals and requirements, no matter how complex your financial status is. The plan can be tailormade for your individual needs and priorities.",
-      footer: "Book your appointment with our expert.",
-      tagline:
-        "We will get in touch with you and begin the journey to create your personalised plan",
-      buttonText: "Connect",
+        "Access professional-grade calculators and investment insights to make informed financial decisions. Our comprehensive toolkit helps you plan, calculate, and track your financial journey.",
+      tools: [
+        {
+          name: "SIP Calculator",
+          description: "Calculate systematic investment returns",
+          icon: "📈",
+          benefit: "Plan your monthly investments",
+        },
+        {
+          name: "EMI Calculator",
+          description: "Calculate loan EMIs instantly",
+          icon: "🏠",
+          benefit: "Budget your loan payments",
+        },
+        {
+          name: "PPF Calculator",
+          description: "Calculate PPF maturity and returns",
+          icon: "🏛️",
+          benefit: "Tax-saving investments",
+        },
+        {
+          name: "FD Calculator",
+          description: "Calculate fixed deposit returns",
+          icon: "🏦",
+          benefit: "Safe investment planning",
+        },
+        {
+          name: "Investment Categories",
+          description: "Explore 9+ investment options",
+          icon: "💼",
+          benefit: "Diversify your portfolio",
+        },
+      ],
+      footer: "All tools designed for smart financial planning",
+      tagline: "Start exploring our comprehensive financial toolkit",
+      buttonText: "Explore Tools",
+      route: "/tools",
     },
   ];
 
   const categories = [
     "Mutual Fund",
-    "ULIP",
     "Gold",
-    "PMS",
-    "LiquiLoans",
     "Insurance",
-    "Protection",
-    "Unlisted Stocks",
+    "Stocks",
+    "Cryptocurrency",
+    "ETF",
+    "Bonds",
+    "Fixed Deposits",
+    "Real Estate",
   ];
 
   const categoryContent = {
@@ -93,21 +158,6 @@ const Dashboard = () => {
         { title: "Tax Benefit", icon: "tax" },
       ],
     },
-    ULIP: {
-      title: "Unit Linked Insurance Plans combine insurance with investment",
-      description:
-        "ULIP provides life cover along with investment in equity and debt instruments",
-      benefits: [
-        { title: "Dual Benefit", icon: "flexibility" },
-        { title: "Tax Benefits", icon: "tax" },
-        { title: "Flexibility", icon: "variety" },
-        { title: "Wealth Creation", icon: "investment" },
-        { title: "Market Participation", icon: "management" },
-        { title: "Life Cover", icon: "transparency" },
-        { title: "Switching Options", icon: "liquidity" },
-        { title: "Partial Withdrawals", icon: "cost" },
-      ],
-    },
     Gold: {
       title: "Gold investment offers stability and hedge against inflation",
       description:
@@ -117,35 +167,6 @@ const Dashboard = () => {
         { title: "Liquidity", icon: "liquidity" },
         { title: "Hedge", icon: "variety" },
         { title: "Portfolio Diversification", icon: "diversification" },
-      ],
-    },
-    PMS: {
-      title: "Portfolio Management Services for sophisticated investors",
-      description:
-        "Customized investment solutions managed by professional fund managers",
-      benefits: [
-        { title: "Personalized Strategy", icon: "management" },
-        { title: "Professional Management", icon: "investment" },
-        { title: "Direct Ownership", icon: "transparency" },
-        { title: "Flexibility", icon: "flexibility" },
-        { title: "Custom Benchmarks", icon: "variety" },
-        { title: "Risk Management", icon: "diversification" },
-        { title: "Dedicated Manager", icon: "liquidity" },
-        { title: "Regular Reporting", icon: "cost" },
-      ],
-    },
-    LiquiLoans: {
-      title: "Quick loans against your mutual fund investments",
-      description: "Get instant liquidity without redeeming your investments",
-      benefits: [
-        { title: "Instant Approval", icon: "flexibility" },
-        { title: "Low Interest Rates", icon: "cost" },
-        { title: "No Redemption Required", icon: "investment" },
-        { title: "Quick Disbursal", icon: "liquidity" },
-        { title: "Continue Investment Growth", icon: "management" },
-        { title: "Flexible Tenure", icon: "variety" },
-        { title: "Minimal Documentation", icon: "transparency" },
-        { title: "Online Process", icon: "diversification" },
       ],
     },
     Insurance: {
@@ -163,34 +184,94 @@ const Dashboard = () => {
         { title: "Claim Support", icon: "diversification" },
       ],
     },
-    Protection: {
-      title: "Protect your family's financial future",
+    Stocks: {
+      title: "Build long-term wealth through equity investments",
       description:
-        "Term insurance and protection plans for comprehensive coverage",
+        "Direct ownership in companies with potential for high returns",
       benefits: [
-        { title: "High Coverage Amount", icon: "flexibility" },
-        { title: "Affordable Premiums", icon: "cost" },
-        { title: "Tax Benefits", icon: "tax" },
-        { title: "Family Security", icon: "management" },
-        { title: "Easy Claim Process", icon: "liquidity" },
-        { title: "Pure Protection", icon: "transparency" },
-        { title: "Flexible Terms", icon: "variety" },
-        { title: "Rider Options", icon: "diversification" },
+        { title: "Ownership", icon: "flexibility" },
+        { title: "Capital Appreciation", icon: "investment" },
+        { title: "Dividend Income", icon: "variety" },
+        { title: "Liquidity", icon: "liquidity" },
+        { title: "Voting Rights", icon: "management" },
+        { title: "Inflation Hedge", icon: "transparency" },
+        { title: "Diversification", icon: "diversification" },
+        { title: "Long-term Growth", icon: "cost" },
       ],
     },
-    "Unlisted Stocks": {
-      title: "Invest in high-growth unlisted companies",
+    Cryptocurrency: {
+      title: "Explore the world of digital currencies and blockchain",
       description:
-        "Access to pre-IPO companies with significant growth potential",
+        "High-risk, high-reward investment in decentralized digital assets",
       benefits: [
-        { title: "High Return Potential", icon: "investment" },
-        { title: "Early Access", icon: "flexibility" },
+        { title: "24/7 Trading", icon: "flexibility" },
+        { title: "High Returns Potential", icon: "investment" },
+        { title: "Decentralization", icon: "variety" },
+        { title: "Global Access", icon: "liquidity" },
+        { title: "Blockchain Technology", icon: "management" },
         { title: "Portfolio Diversification", icon: "diversification" },
-        { title: "Growth Opportunities", icon: "variety" },
-        { title: "Pre-IPO Benefits", icon: "management" },
-        { title: "Exclusive Investments", icon: "transparency" },
-        { title: "Lower Volatility", icon: "liquidity" },
-        { title: "Long-term Wealth", icon: "cost" },
+        { title: "Innovation", icon: "transparency" },
+        { title: "Digital Future", icon: "cost" },
+      ],
+    },
+    ETF: {
+      title: "Exchange-Traded Funds for diversified, low-cost investing",
+      description:
+        "Combine benefits of mutual funds with flexibility of stock trading",
+      benefits: [
+        { title: "Low Cost", icon: "cost" },
+        { title: "Diversification", icon: "diversification" },
+        { title: "Flexibility", icon: "flexibility" },
+        { title: "Transparency", icon: "transparency" },
+        { title: "Tax Efficiency", icon: "tax" },
+        { title: "No Entry/Exit Load", icon: "liquidity" },
+        { title: "Real-time Trading", icon: "management" },
+        { title: "Index Tracking", icon: "investment" },
+      ],
+    },
+    Bonds: {
+      title: "Secure your future with stable, predictable returns",
+      description:
+        "Fixed income securities issued by governments and corporations",
+      benefits: [
+        { title: "Fixed Income", icon: "investment" },
+        { title: "Capital Preservation", icon: "flexibility" },
+        { title: "Diversification", icon: "diversification" },
+        { title: "Tax Benefits", icon: "tax" },
+        { title: "Liquidity Options", icon: "liquidity" },
+        { title: "Better than FDs", icon: "variety" },
+        { title: "Credit Ratings", icon: "transparency" },
+        { title: "Regular Coupon", icon: "management" },
+      ],
+    },
+    "Fixed Deposits": {
+      title: "Safe and guaranteed returns for risk-averse investors",
+      description:
+        "Traditional fixed deposits with assured returns and capital safety",
+      benefits: [
+        { title: "Guaranteed Returns", icon: "investment" },
+        { title: "Capital Safety", icon: "flexibility" },
+        { title: "Flexible Tenure", icon: "variety" },
+        { title: "Easy Investment", icon: "management" },
+        { title: "Loan Facility", icon: "liquidity" },
+        { title: "Senior Citizen Benefits", icon: "tax" },
+        { title: "DICGC Insured", icon: "transparency" },
+        { title: "No Market Risk", icon: "diversification" },
+      ],
+    },
+    "Real Estate": {
+      title: "Build wealth through property ownership and investment",
+      description:
+        "Tangible asset investment with rental income and appreciation potential",
+      benefits: [
+        { title: "Tangible Asset", icon: "flexibility" },
+        { title: "Rental Income", icon: "investment" },
+        { title: "Capital Appreciation", icon: "variety" },
+        { title: "Inflation Hedge", icon: "transparency" },
+        { title: "Loan Collateral", icon: "liquidity" },
+        { title: "Tax Benefits", icon: "tax" },
+        { title: "Legacy Asset", icon: "management" },
+        { title: "Portfolio Diversification", icon: "diversification" },
       ],
     },
   };
@@ -252,18 +333,25 @@ const Dashboard = () => {
                   <p className="slide-tagline">{carouselSlides[0].tagline}</p>
                 </div>
                 <div className="goals-container">
-                  <div className="goal-card">
-                    <h4>Wealth Creation</h4>
-                    <div className="goal-image">👨‍👩‍👧💰</div>
-                  </div>
-                  <div className="goal-card">
-                    <h4>Car Purchase</h4>
-                    <div className="goal-image">🚗</div>
-                  </div>
-                  <div className="goal-card">
-                    <h4>Secure Retirement</h4>
-                    <div className="goal-image">👴💰</div>
-                  </div>
+                  {carouselSlides[0].goals.map((goal, index) => (
+                    <div key={index} className="goal-card">
+                      <div className="goal-icon">{goal.icon}</div>
+                      <h4 className="goal-title">{goal.name}</h4>
+                      <p className="goal-description">{goal.description}</p>
+                      <div className="goal-stats">
+                        <div className="goal-highlight">
+                          <span className="highlight-label">
+                            � {goal.highlight}
+                          </span>
+                        </div>
+                        <div className="goal-timeframe">
+                          <span className="timeframe-label">
+                            ⏱️ {goal.timeframe}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
                 <button
                   className="carousel-cta"
@@ -309,23 +397,33 @@ const Dashboard = () => {
 
             {currentSlide === 2 && (
               <div className="carousel-slide slide-3">
-                <div className="expert-content">
-                  <div className="expert-text">
-                    <h3>{carouselSlides[2].title}</h3>
-                    <p className="expert-description">
-                      {carouselSlides[2].description}
-                    </p>
-                  </div>
-                  <div className="expert-icon">👨‍💼</div>
+                <div className="tools-header">
+                  <h3>{carouselSlides[2].title}</h3>
+                  <p className="tools-description">
+                    {carouselSlides[2].description}
+                  </p>
                 </div>
-                <div className="expert-footer">
-                  <p className="expert-footer-title">
+                <div className="tools-grid">
+                  {carouselSlides[2].tools.map((tool, index) => (
+                    <div key={index} className="tool-card">
+                      <div className="tool-icon">{tool.icon}</div>
+                      <h4 className="tool-name">{tool.name}</h4>
+                      <p className="tool-description">{tool.description}</p>
+                      <div className="tool-benefit">✓ {tool.benefit}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="tools-footer">
+                  <p className="tools-footer-title">
                     {carouselSlides[2].footer}
                   </p>
-                  <p className="expert-footer-text">
+                  <p className="tools-footer-text">
                     {carouselSlides[2].tagline}
                   </p>
-                  <button className="carousel-cta">
+                  <button
+                    className="carousel-cta"
+                    onClick={() => navigate(carouselSlides[2].route)}
+                  >
                     {carouselSlides[2].buttonText}
                   </button>
                 </div>
@@ -355,11 +453,6 @@ const Dashboard = () => {
         </div>
 
         <div className="category-content">
-          <div className="content-header">
-            <input type="radio" name="filter" defaultChecked /> All
-            <input type="radio" name="filter" /> Active Investments
-          </div>
-
           <div className="category-info">
             <h3>{categoryContent[activeCategory].title}</h3>
             <p className="category-desc">
@@ -379,7 +472,12 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <button className="contact-button">Contact Us</button>
+        <button
+          className="know-more-button"
+          onClick={() => navigate(`/invest/${getCategoryPath(activeCategory)}`)}
+        >
+          Know More - {activeCategory}
+        </button>
       </div>
 
       {/* Create Goal is opened via Plan page now */}

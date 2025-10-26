@@ -11,13 +11,14 @@ const InvestmentCategory = () => {
   const getCategoryDisplayName = (urlCategory) => {
     const categoryMap = {
       "mutual-fund": "Mutual Fund",
-      ulip: "ULIP",
       gold: "Gold",
-      pms: "PMS",
-      liquiloans: "LiquiLoans",
       insurance: "Insurance",
-      protection: "Protection",
-      "unlisted-stocks": "Unlisted Stocks",
+      stocks: "Stocks",
+      cryptocurrency: "Cryptocurrency",
+      etf: "ETF",
+      bonds: "Bonds",
+      "fixed-deposits": "Fixed Deposits",
+      "real-estate": "Real Estate",
     };
     return categoryMap[urlCategory] || urlCategory;
   };
@@ -99,19 +100,6 @@ const InvestmentCategory = () => {
         { title: "Tax Benefit", icon: "tax" },
       ],
     },
-    ULIP: {
-      title: "Unit Linked Insurance Plans combine insurance with investment",
-      description:
-        "ULIP provides life cover along with investment in equity and debt instruments",
-      benefits: [
-        { title: "Dual Benefit", icon: "flexibility" },
-        { title: "Tax Benefits", icon: "tax" },
-        { title: "Flexibility", icon: "variety" },
-        { title: "Wealth Creation", icon: "investment" },
-        { title: "Market Participation", icon: "management" },
-        { title: "Life Cover", icon: "transparency" },
-      ],
-    },
     Gold: {
       title: "Gold investment offers stability and hedge against inflation",
       description:
@@ -123,31 +111,6 @@ const InvestmentCategory = () => {
         { title: "Portfolio Diversification", icon: "diversification" },
         { title: "No Storage Cost", icon: "cost" },
         { title: "Transparency", icon: "transparency" },
-      ],
-    },
-    PMS: {
-      title: "Portfolio Management Services for sophisticated investors",
-      description:
-        "Customized investment solutions managed by professional fund managers",
-      benefits: [
-        { title: "Personalized", icon: "management" },
-        { title: "Professional", icon: "investment" },
-        { title: "Transparency", icon: "transparency" },
-        { title: "Flexibility", icon: "flexibility" },
-        { title: "Direct Ownership", icon: "variety" },
-        { title: "Custom Strategy", icon: "diversification" },
-      ],
-    },
-    LiquiLoans: {
-      title: "Quick loans against your mutual fund investments",
-      description: "Get instant liquidity without redeeming your investments",
-      benefits: [
-        { title: "Instant Approval", icon: "flexibility" },
-        { title: "Low Interest", icon: "cost" },
-        { title: "No Redemption", icon: "investment" },
-        { title: "Quick Disbursal", icon: "liquidity" },
-        { title: "Continue Investment", icon: "management" },
-        { title: "Flexible Tenure", icon: "variety" },
       ],
     },
     Insurance: {
@@ -163,30 +126,82 @@ const InvestmentCategory = () => {
         { title: "Wide Coverage", icon: "transparency" },
       ],
     },
-    Protection: {
-      title: "Protect your family's financial future",
+    Stocks: {
+      title: "Build long-term wealth through equity investments",
       description:
-        "Term insurance and protection plans for comprehensive coverage",
+        "Direct ownership in companies with potential for high returns",
       benefits: [
-        { title: "High Coverage", icon: "flexibility" },
-        { title: "Affordable", icon: "cost" },
-        { title: "Tax Benefits", icon: "tax" },
-        { title: "Family Security", icon: "management" },
-        { title: "Easy Claims", icon: "liquidity" },
-        { title: "Pure Protection", icon: "transparency" },
+        { title: "Ownership", icon: "flexibility" },
+        { title: "Capital Appreciation", icon: "investment" },
+        { title: "Dividend Income", icon: "variety" },
+        { title: "Liquidity", icon: "liquidity" },
+        { title: "Voting Rights", icon: "management" },
+        { title: "Inflation Hedge", icon: "transparency" },
       ],
     },
-    "Unlisted Stocks": {
-      title: "Invest in high-growth unlisted companies",
+    Cryptocurrency: {
+      title: "Explore the world of digital currencies and blockchain",
       description:
-        "Access to pre-IPO companies with significant growth potential",
+        "High-risk, high-reward investment in decentralized digital assets",
       benefits: [
-        { title: "High Returns", icon: "investment" },
-        { title: "Early Access", icon: "flexibility" },
+        { title: "24/7 Trading", icon: "flexibility" },
+        { title: "High Returns Potential", icon: "investment" },
+        { title: "Decentralization", icon: "variety" },
+        { title: "Global Access", icon: "liquidity" },
+        { title: "Blockchain Technology", icon: "management" },
         { title: "Portfolio Diversification", icon: "diversification" },
-        { title: "Growth Potential", icon: "variety" },
-        { title: "Pre-IPO Benefits", icon: "management" },
-        { title: "Exclusive Opportunities", icon: "transparency" },
+      ],
+    },
+    ETF: {
+      title: "Exchange-Traded Funds for diversified, low-cost investing",
+      description:
+        "Combine benefits of mutual funds with flexibility of stock trading",
+      benefits: [
+        { title: "Low Cost", icon: "cost" },
+        { title: "Diversification", icon: "diversification" },
+        { title: "Flexibility", icon: "flexibility" },
+        { title: "Transparency", icon: "transparency" },
+        { title: "Tax Efficiency", icon: "tax" },
+        { title: "No Entry/Exit Load", icon: "liquidity" },
+      ],
+    },
+    Bonds: {
+      title: "Secure your future with stable, predictable returns",
+      description:
+        "Fixed income securities issued by governments and corporations",
+      benefits: [
+        { title: "Fixed Income", icon: "investment" },
+        { title: "Capital Preservation", icon: "flexibility" },
+        { title: "Diversification", icon: "diversification" },
+        { title: "Tax Benefits", icon: "tax" },
+        { title: "Liquidity Options", icon: "liquidity" },
+        { title: "Better than FDs", icon: "variety" },
+      ],
+    },
+    "Fixed Deposits": {
+      title: "Safe and guaranteed returns for risk-averse investors",
+      description:
+        "Traditional fixed deposits with assured returns and capital safety",
+      benefits: [
+        { title: "Guaranteed Returns", icon: "investment" },
+        { title: "Capital Safety", icon: "flexibility" },
+        { title: "Flexible Tenure", icon: "variety" },
+        { title: "Easy Investment", icon: "management" },
+        { title: "Loan Facility", icon: "liquidity" },
+        { title: "Senior Citizen Benefits", icon: "tax" },
+      ],
+    },
+    "Real Estate": {
+      title: "Build wealth through property ownership and investment",
+      description:
+        "Tangible asset investment with rental income and appreciation potential",
+      benefits: [
+        { title: "Tangible Asset", icon: "flexibility" },
+        { title: "Rental Income", icon: "investment" },
+        { title: "Capital Appreciation", icon: "variety" },
+        { title: "Inflation Hedge", icon: "transparency" },
+        { title: "Loan Collateral", icon: "liquidity" },
+        { title: "Tax Benefits", icon: "tax" },
       ],
     },
   };
@@ -217,7 +232,14 @@ const InvestmentCategory = () => {
           <div className="step-card">
             <div className="step-icon">🎯</div>
             <h3>Create your first goal</h3>
-            <button className="cta-button" onClick={() => navigate('/plan', { state: { tab: 'create-goal' } })}>Initiate</button>
+            <button
+              className="cta-button"
+              onClick={() =>
+                navigate("/plan", { state: { tab: "create-goal" } })
+              }
+            >
+              Initiate
+            </button>
           </div>
           <div className="step-card">
             <div className="step-icon">💰</div>
