@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// ✅ Income Subdocument Schema
 const incomeSourceSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -17,17 +18,16 @@ const incomeSourceSchema = new mongoose.Schema({
     enum: ['Monthly', 'Yearly'],
     default: 'Monthly'
   },
-  monthlyAmount: {
-    type: Number
-  }
+  monthlyAmount: Number
 });
 
-// Pre-save middleware for income subdocument
+// Automatically compute monthly amount for income
 incomeSourceSchema.pre('save', function (next) {
   this.monthlyAmount = this.period === 'Yearly' ? this.amount / 12 : this.amount;
   next();
 });
 
+// ✅ Expense Subdocument Schema
 const expenseSchema = new mongoose.Schema({
   category: {
     type: String,
@@ -45,25 +45,26 @@ const expenseSchema = new mongoose.Schema({
     enum: ['Monthly', 'Yearly'],
     default: 'Monthly'
   },
-  monthlyAmount: {
-    type: Number
-  }
+  monthlyAmount: Number
 });
 
-// Pre-save middleware for expense subdocument
+// Automatically compute monthly amount for expense
 expenseSchema.pre('save', function (next) {
   this.monthlyAmount = this.period === 'Yearly' ? this.amount / 12 : this.amount;
   next();
 });
 
+// ✅ Main IncomeExpense Schema
 const incomeExpenseSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
+
   incomes: [incomeSourceSchema],
   expenses: [expenseSchema],
+
   assets: [
     new mongoose.Schema({
       type: {
@@ -75,47 +76,32 @@ const incomeExpenseSchema = new mongoose.Schema({
       currentValue: { type: Number, required: true, min: 0 }
     }, { _id: true })
   ],
-  totalMonthlyIncome: {
-    type: Number,
-    default: 0
-  },
-  totalMonthlyExpenses: {
-    type: Number,
-    default: 0
-  },
-  totalAssetValue: {
-    type: Number,
-    default: 0
-  },
-  monthlySavings: {
-    type: Number,
-    default: 0
-  },
+
+  totalMonthlyIncome: { type: Number, default: 0 },
+  totalMonthlyExpenses: { type: Number, default: 0 },
+  totalAssetValue: { type: Number, default: 0 },
+  monthlySavings: { type: Number, default: 0 },
+
   savingsPlan: {
     essentials: { type: Number, default: 0 }, // 50%
     savings: { type: Number, default: 0 },    // 20%
     discretionary: { type: Number, default: 0 } // 30%
   },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
-  }
+
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
 });
 
-// Pre-save middleware to calculate monthly amounts and totals
+// ✅ Pre-save hook to calculate totals
 incomeExpenseSchema.pre('save', function (next) {
-  // Calculate monthly amounts for incomes
+  // Recalculate monthly amounts for incomes
   this.incomes.forEach(income => {
     if (!income.monthlyAmount) {
       income.monthlyAmount = income.period === 'Yearly' ? income.amount / 12 : income.amount;
     }
   });
 
-  // Calculate monthly amounts for expenses
+  // Recalculate monthly amounts for expenses
   this.expenses.forEach(expense => {
     if (!expense.monthlyAmount) {
       expense.monthlyAmount = expense.period === 'Yearly' ? expense.amount / 12 : expense.amount;
@@ -123,11 +109,11 @@ incomeExpenseSchema.pre('save', function (next) {
   });
 
   // Calculate totals
-  this.totalMonthlyIncome = this.incomes.reduce((total, income) => total + income.monthlyAmount, 0);
-  this.totalMonthlyExpenses = this.expenses.reduce((total, expense) => total + expense.monthlyAmount, 0);
+  this.totalMonthlyIncome = this.incomes.reduce((t, inc) => t + inc.monthlyAmount, 0);
+  this.totalMonthlyExpenses = this.expenses.reduce((t, exp) => t + exp.monthlyAmount, 0);
   this.monthlySavings = this.totalMonthlyIncome - this.totalMonthlyExpenses;
 
-  // Calculate 50/20/30 savings plan
+  // 50/20/30 rule
   this.savingsPlan.essentials = this.totalMonthlyIncome * 0.5;
   this.savingsPlan.savings = this.totalMonthlyIncome * 0.2;
   this.savingsPlan.discretionary = this.totalMonthlyIncome * 0.3;
@@ -136,7 +122,7 @@ incomeExpenseSchema.pre('save', function (next) {
   next();
 });
 
-// Update updatedAt field on findOneAndUpdate
+// ✅ Update updatedAt on findOneAndUpdate
 incomeExpenseSchema.pre('findOneAndUpdate', function (next) {
   this.set({ updatedAt: Date.now() });
   next();

@@ -6,11 +6,7 @@ const reportSchema = new mongoose.Schema({
     ref: 'User',
     required: [true, 'Report must belong to a user']
   },
-  financialPlan: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'FinancialPlan',
-    required: [true, 'Report must be associated with a financial plan']
-  },
+  // REMOVED: financialPlan field - no longer needed
   reportType: {
     type: String,
     enum: {
@@ -40,7 +36,6 @@ const reportSchema = new mongoose.Schema({
       monthlySavings: { type: Number, default: 0 },
       savingsRate: { type: Number, default: 0 }
     },
-    
     // Income breakdown
     incomeBreakdown: {
       salary: { type: Number, default: 0 },
@@ -49,21 +44,18 @@ const reportSchema = new mongoose.Schema({
       rentalIncome: { type: Number, default: 0 },
       investmentIncome: { type: Number, default: 0 }
     },
-    
     // Expense breakdown by category
     expenseBreakdown: [{
       category: String,
       amount: Number,
       percentage: Number
     }],
-    
     // Asset allocation
     assetAllocation: {
       mutualFunds: { type: Number, default: 0 },
       insurance: { type: Number, default: 0 },
       otherAssets: { type: Number, default: 0 }
     },
-    
     // Loan summary
     loanSummary: {
       totalLoans: { type: Number, default: 0 },
@@ -75,7 +67,6 @@ const reportSchema = new mongoose.Schema({
         totalOutstanding: Number
       }]
     },
-    
     // Goal progress
     goalProgress: [{
       goalId: mongoose.Schema.ObjectId,
@@ -86,7 +77,6 @@ const reportSchema = new mongoose.Schema({
       monthsRemaining: Number,
       status: String
     }],
-    
     // Financial health indicators
     healthIndicators: {
       debtToIncomeRatio: { type: Number, default: 0 },
@@ -94,7 +84,6 @@ const reportSchema = new mongoose.Schema({
       emergencyFundMonths: { type: Number, default: 0 },
       financialHealthScore: { type: Number, default: 0 }
     },
-    
     // Recommendations
     recommendations: [{
       category: String,
@@ -114,6 +103,5 @@ const reportSchema = new mongoose.Schema({
 
 // Index for faster queries
 reportSchema.index({ user: 1, createdAt: -1 });
-reportSchema.index({ financialPlan: 1 });
 
 module.exports = mongoose.model('Report', reportSchema);

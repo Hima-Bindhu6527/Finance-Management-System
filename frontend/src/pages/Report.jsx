@@ -1,59 +1,19 @@
 import React, { useState, useEffect } from "react";
 import "./Report.css";
-import { notificationService } from "../components/services/notificationService";
-
 
 const ReportPage = () => {
   const [activeTab, setActiveTab] = useState("overview");
   const [reports, setReports] = useState([]);
   const [selectedReport, setSelectedReport] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [financialPlans, setFinancialPlans] = useState([]);
   const [generating, setGenerating] = useState(false);
 
   // Form state for generating reports
   const [reportForm, setReportForm] = useState({
-    financialPlanId: "",
     reportType: "Comprehensive",
     startDate: "",
     endDate: "",
   });
-
-  // Fetch financial plans for the dropdown
-  const fetchFinancialPlans = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/financial-plans", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Financial Plans Response:", data);
-        
-        // Handle different response structures
-        if (Array.isArray(data)) {
-          setFinancialPlans(data);
-        } else if (data.data && Array.isArray(data.data)) {
-          setFinancialPlans(data.data);
-        } else if (data.financialPlans && Array.isArray(data.financialPlans)) {
-          setFinancialPlans(data.financialPlans);
-        } else if (data.plans && Array.isArray(data.plans)) {
-          setFinancialPlans(data.plans);
-        } else {
-          console.error("Unexpected response structure:", data);
-          setFinancialPlans([]);
-        }
-      } else {
-        console.error("Failed to fetch financial plans:", response.status);
-      }
-    } catch (error) {
-      console.error("Error fetching financial plans:", error);
-    }
-  };
 
   // Fetch reports from backend
   const fetchReports = async () => {
@@ -80,10 +40,6 @@ const ReportPage = () => {
 
   useEffect(() => {
     fetchReports();
-    fetchFinancialPlans();
-    
-    // Debug: Check if plans are loaded
-    console.log("Financial Plans loaded:", financialPlans);
   }, []);
 
   // Handle form input changes
@@ -97,18 +53,12 @@ const ReportPage = () => {
 
   // Generate new report
   const handleGenerateReport = async () => {
-    if (!reportForm.financialPlanId) {
-      alert("Please select a financial plan");
-      return;
-    }
-
     try {
       setGenerating(true);
       const token = localStorage.getItem("token");
       
       // Prepare the request body
       const requestBody = {
-        financialPlanId: reportForm.financialPlanId,
         reportType: reportForm.reportType
       };
       
@@ -132,7 +82,6 @@ const ReportPage = () => {
       });
 
       console.log("Response status:", response.status);
-      console.log("Response headers:", response.headers);
       
       // Check if response is JSON
       const contentType = response.headers.get("content-type");
@@ -148,9 +97,7 @@ const ReportPage = () => {
 
       if (response.ok) {
         alert("Report generated successfully!");
-
         setReportForm({
-          financialPlanId: "",
           reportType: "Comprehensive",
           startDate: "",
           endDate: "",
@@ -273,15 +220,6 @@ const ReportPage = () => {
                   View All Reports
                 </button>
               </div>
-
-              <div className="overview-card">
-                <div className="card-icon">💡</div>
-                <h3>Insights</h3>
-                <p>Get personalized recommendations to improve your financial health</p>
-                <button className="card-button" style={{opacity: 0.6}} disabled>
-                  Coming Soon
-                </button>
-              </div>
             </div>
 
             {reports.length > 0 && (
@@ -310,7 +248,7 @@ const ReportPage = () => {
                   {reports.slice(0, 3).map((report) => (
                     <div key={report._id} className="recent-report-card">
                       <div className="report-type-badge">{report.reportType}</div>
-                      <h4>{report.financialPlan?.planName || "Financial Plan"}</h4>
+                      <h4>Financial Report</h4>
                       <p className="report-date">Generated: {new Date(report.generatedAt).toLocaleDateString("en-IN")}</p>
                       <div className="health-score-mini">
                         <span>Health Score:</span>
@@ -333,36 +271,9 @@ const ReportPage = () => {
         return (
           <div className="generate-report-container">
             <h2>Generate Financial Report</h2>
-            <p className="subtitle">Create a comprehensive analysis of your financial plan</p>
+            <p className="subtitle">Create a comprehensive analysis based on your goals, income, expenses, and assets</p>
 
             <div className="report-form">
-              <div className="form-group">
-                <label htmlFor="financialPlanId">Select Financial Plan *</label>
-                <select
-                  id="financialPlanId"
-                  name="financialPlanId"
-                  value={reportForm.financialPlanId}
-                  onChange={handleInputChange}
-                  className="form-select"
-                >
-                  <option value="">-- Choose a Plan --</option>
-                  {financialPlans.length === 0 ? (
-                    <option value="" disabled>No financial plans available</option>
-                  ) : (
-                    financialPlans.map((plan) => (
-                      <option key={plan._id} value={plan._id}>
-                        {plan.planName || plan.name || "Unnamed Plan"}
-                      </option>
-                    ))
-                  )}
-                </select>
-                {financialPlans.length === 0 && (
-                  <small style={{color: '#999', fontSize: '0.85rem', marginTop: '0.25rem', display: 'block'}}>
-                    Please create a financial plan first in the Plan section
-                  </small>
-                )}
-              </div>
-
               <div className="form-group">
                 <label htmlFor="reportType">Report Type *</label>
                 <select
@@ -454,7 +365,7 @@ const ReportPage = () => {
                       </div>
                     </div>
 
-                    <h3>{report.financialPlan?.planName || "Financial Plan"}</h3>
+                    <h3>Financial Report</h3>
 
                     <div className="report-stats">
                       <div className="stat">
@@ -473,9 +384,6 @@ const ReportPage = () => {
                       <button onClick={() => handleViewReport(report)} className="btn-view">
                         View Details
                       </button>
-                      {/* <button onClick={() => handleDownloadPDF(report._id)} className="btn-download">
-                        📥 PDF
-                      </button> */}
                       <button onClick={() => handleDeleteReport(report._id)} className="btn-delete">
                         🗑️
                       </button>
@@ -507,14 +415,10 @@ const ReportPage = () => {
               <div>
                 <h2>{selectedReport.reportType}</h2>
                 <p className="report-meta">
-                  Plan: {selectedReport.financialPlan?.planName || "N/A"} | Generated:{" "}
-                  {new Date(selectedReport.generatedAt).toLocaleDateString("en-IN")}
+                  Generated: {new Date(selectedReport.generatedAt).toLocaleDateString("en-IN")}
                 </p>
               </div>
               <div className="header-actions">
-                {/* <button onClick={() => handleDownloadPDF(selectedReport._id)} className="btn-download-large">
-                  📥 Download PDF
-                </button> */}
                 <button onClick={() => setActiveTab("overview")} className="btn-secondary">
                   Back
                 </button>
