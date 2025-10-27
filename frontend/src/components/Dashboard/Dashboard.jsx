@@ -343,12 +343,22 @@ const Dashboard = () => {
           <div className="step-card">
             <div className="step-icon">💰</div>
             <h3>Quick SIP</h3>
-            <button className="cta-button">Start SIP</button>
+            <button
+              className="cta-button"
+              onClick={() => navigate("/tools/sip-calculator")}
+            >
+              Start SIP
+            </button>
           </div>
           <div className="step-card">
             <div className="step-icon">💳</div>
-            <h3>Start your tax saving</h3>
-            <button className="cta-button">Save Tax</button>
+            <h3>Start a Fixed Deposit</h3>
+            <button
+              className="cta-button"
+              onClick={() => navigate("/tools/fd-calculator")}
+            >
+              Start FD
+            </button>
           </div>
         </div>
       </div>

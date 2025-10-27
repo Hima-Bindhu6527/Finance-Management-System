@@ -12,7 +12,7 @@
 .welcome-banner-simple {
   max-width: 1400px;
   margin: 0 auto 24px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #02308f 0%, #0077ff 100%);;
   color: white;
   padding: 1rem 1.5rem;
   border-radius: 8px;
@@ -73,6 +73,7 @@
   }
 
   .welcome-banner-simple span {
+    color: #ffffff;
     font-size: 0.9rem;
   }
 

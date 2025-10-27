@@ -38,7 +38,7 @@ export default function FDCalculator() {
     <div className="fd-container">
       <div className="fd-wrapper">
         <div className="fd-card">
-          <div className="fd-header">
+          <div className="fd-header-calc">
             <Landmark className="fd-icon" />
             <h1 className="fd-title">FD Calculator</h1>
           </div>

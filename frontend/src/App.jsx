@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -25,7 +25,9 @@ import Bonds from "./components/Investment/Categories/Bonds";
 import FixedDeposits from "./components/Investment/Categories/FixedDeposits";
 import RealEstate from "./components/Investment/Categories/RealEstate";
 import Report from "./pages/Report";
-// import About from "./components/about";
+// Import images
+import financeImg1 from "./assets/8432.jpg";
+import financeImg2 from "./assets/Business innovation based on alternative financial services.jpg";
 import "./App.css";
 
 // Protected Route Component
@@ -41,6 +43,13 @@ const PublicRoute = ({ children }) => {
 };
 
 function AppRoutes() {
+  const [showAbout, setShowAbout] = useState(false);
+
+  const handleAboutToggle = () => {
+    setShowAbout(!showAbout);
+    console.log("About toggled:", !showAbout);
+  };
+
   return (
     <Router>
       <div className="app">
@@ -51,18 +60,81 @@ function AppRoutes() {
             element={
               <div className="home-container">
                 <div className="home-content">
-                  {/* <h1>Welcome to FinCart</h1>
-                  <p>Your personal finance management solution</p> */}
-                  <div>
-                    <h2>SOFTWARE ENGINEERING (IT303)</h2>
-                    <h1>PERSONEL FINANCE MANAGEMENT</h1>
-                    <div>
-                      <p>Carried out by</p>
-                      <p>Student 1 - Somalingam Neelesh - 231IT074</p>
-                      <p>Student 2 - Karthik Dodda - 231IT021</p>
-                      <p>Student 3 - BK Hima Bindu - 231IT014</p>
+                  {/* Hero Section */}
+                  <div className="hero-section">
+                    <h1 className="hero-title">Welcome to FinCart</h1>
+                    <p className="hero-subtitle">
+                      Your Complete Financial Management Solution
+                    </p>
+                  </div>
+
+                  {/* Feature Section 1 - Image Left, Content Right */}
+                  <div className="feature-section">
+                    <div className="feature-image">
+                      <img
+                        src={financeImg1}
+                        alt="Financial Planning"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                    <div className="feature-content">
+                      <h2>Smart Financial Planning</h2>
+                      <p>
+                        Take control of your financial future with our
+                        comprehensive planning tools. Set goals, track expenses,
+                        and monitor your investments all in one place.
+                      </p>
+                      <ul className="feature-list">
+                        <li>📊 Advanced Budget Tracking</li>
+                        <li>💰 Investment Portfolio Management</li>
+                        <li>🎯 Goal-Based Financial Planning</li>
+                        <li>📈 Real-time Market Data</li>
+                      </ul>
                     </div>
                   </div>
+
+                  {/* Feature Section 2 - Image Right, Content Left */}
+                  <div className="feature-section reverse">
+                    <div className="feature-content">
+                      <h2>Innovative Financial Services</h2>
+                      <p>
+                        Experience the future of personal finance management
+                        with AI-powered insights and automated investment
+                        strategies tailored to your needs.
+                      </p>
+                      <ul className="feature-list">
+                        <li>🤖 AI-Powered Financial Insights</li>
+                        <li>🔒 Bank-Level Security</li>
+                        <li>📱 Mobile-First Design</li>
+                        <li>🔔 Smart Notifications & Alerts</li>
+                      </ul>
+                    </div>
+                    <div className="feature-image">
+                      <img
+                        src={financeImg2}
+                        alt="Business Innovation"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                  </div>
+
+                  {/* About Section (Toggleable) */}
+                  {showAbout && (
+                    <div className="about">
+                      <h2>SOFTWARE ENGINEERING (IT303)</h2>
+                      <h1>PERSONAL FINANCE MANAGEMENT</h1>
+                      <div>
+                        <p>Carried out by</p>
+                        <p>Student 1 - Somalingam Neelesh - 231IT074</p>
+                        <p>Student 2 - Karthik Dodda - 231IT021</p>
+                        <p>Student 3 - BK Hima Bindu - 231IT014</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* CTA Buttons */}
                   <div className="home-buttons">
                     <a href="/login" className="home-button primary">
                       Get Started
@@ -72,7 +144,15 @@ function AppRoutes() {
                     </a>
                   </div>
                 </div>
-                <div className="about-content">{/* <About /> */}</div>
+
+                {/* Floating About Button */}
+                <button
+                  className="floating-about-btn"
+                  onClick={handleAboutToggle}
+                  aria-label="Toggle About"
+                >
+                  {showAbout ? "✕" : "ℹ️"}
+                </button>
               </div>
             }
           />

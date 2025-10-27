@@ -229,7 +229,7 @@ const CreateGoal = ({ onGoalCreated }) => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="targetAmount">Target Amount ($) *</label>
+            <label htmlFor="targetAmount">Target Amount (₹) *</label>
             <input
               type="number"
               id="targetAmount"
@@ -248,7 +248,7 @@ const CreateGoal = ({ onGoalCreated }) => {
 
           <div className="form-group">
             <label htmlFor="monthlyContribution">
-              Monthly Contribution ($) *
+              Monthly Contribution (₹) *
             </label>
             <input
               type="number"
@@ -326,8 +326,8 @@ const CreateGoal = ({ onGoalCreated }) => {
             <div className="info-card">
               <h4>Goal Projection</h4>
               <p>
-                At ${formData.monthlyContribution}/month, you'll reach your goal
-                of ${formData.targetAmount} in approximately{" "}
+                At ₹{formData.monthlyContribution}/month, you'll reach your goal
+                of ₹{formData.targetAmount} in approximately{" "}
                 <strong>{calculateMonthsToGoal()} months</strong>.
               </p>
             </div>

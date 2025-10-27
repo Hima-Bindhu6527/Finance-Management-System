@@ -18,7 +18,7 @@
 }
 
 /* Header */
-.fd-header {
+.fd-header-calc {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -38,7 +38,7 @@
   margin: 0;
 }
 
-.fd-subtitle {
+.fd-subtitle-calc {
   color: #6b7280;
   margin-bottom: 2rem;
 }
