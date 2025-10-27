@@ -1,3 +1,4 @@
+﻿/* Common Auth Styles - Used by Login and Signup */
 .auth-container {
   min-height: calc(100vh - 80px);
   display: flex;
@@ -59,6 +60,16 @@
   margin-bottom: 1.5rem;
   font-size: 0.9rem;
   border-left: 4px solid #c33;
+}
+
+.success-message {
+  background: #d4edda;
+  color: #155724;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  border-left: 4px solid #28a745;
 }
 
 .auth-form {
@@ -128,11 +139,23 @@
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s ease;
+  cursor: pointer;
 }
 
 .auth-link:hover {
   color: #764ba2;
   text-decoration: underline;
+}
+
+.forgot-password-link {
+  text-align: right;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.forgot-password-link .auth-link {
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 @media (max-width: 768px) {

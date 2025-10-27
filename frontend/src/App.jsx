@@ -9,6 +9,7 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 import Navbar from "./components/Navbar/Navbar";
 import Login from "./components/Auth/Login";
 import Signup from "./components/Auth/Signup";
+import ForgotPassword from "./components/Auth/ForgotPassword";
 import Dashboard from "./components/Dashboard/Dashboard";
 import PlanPage from "./pages/Planpage";
 import ToolsPage from "./pages/ToolsPage";
@@ -88,6 +89,14 @@ function AppRoutes() {
             element={
               <PublicRoute>
                 <Signup />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/forgot-password"
+            element={
+              <PublicRoute>
+                <ForgotPassword />
               </PublicRoute>
             }
           />

@@ -34,13 +34,38 @@ export const signup = async (userData) => {
   return response.data;
 };
 
-// Login user
+// Login user (Step 1: Get OTP)
 export const login = async (userData) => {
   const response = await api.post('/auth/login', userData);
+  // Don't store token yet - waiting for OTP verification
+  return response.data;
+};
+
+// Verify OTP (Step 2: Complete Login)
+export const verifyOTP = async (otpData) => {
+  const response = await api.post('/auth/verify-otp', otpData);
   if (response.data.token) {
     localStorage.setItem('token', response.data.token);
     localStorage.setItem('user', JSON.stringify(response.data.user));
   }
+  return response.data;
+};
+
+// Resend OTP
+export const resendOTP = async (userId) => {
+  const response = await api.post('/auth/resend-otp', { userId });
+  return response.data;
+};
+
+// Forgot Password
+export const forgotPassword = async (email) => {
+  const response = await api.post('/auth/forgot-password', { email });
+  return response.data;
+};
+
+// Reset Password
+export const resetPassword = async (userId, otp, newPassword) => {
+  const response = await api.post('/auth/reset-password', { userId, otp, newPassword });
   return response.data;
 };
 

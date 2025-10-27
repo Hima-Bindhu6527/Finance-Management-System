@@ -1,5 +1,7 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const { sendOTPEmail, sendWelcomeEmail } = require('../utils/emailService');
+const crypto = require('crypto');
 
 // Generate JWT Token
 const generateToken = (id) => {
@@ -8,7 +10,12 @@ const generateToken = (id) => {
   });
 };
 
-// @desc    Register new user
+// Generate 6-digit OTP
+const generateOTP = () => {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+};
+
+// @desc    Register new user (Step 1: Send OTP)
 // @route   POST /api/auth/signup
 // @access  Public
 exports.signup = async (req, res) => {
@@ -32,15 +39,40 @@ exports.signup = async (req, res) => {
     });
 
     if (user) {
-      res.status(201).json({
-        success: true,
-        token: generateToken(user._id),
-        user: {
-          id: user._id,
-          name: user.name,
-          email: user.email
-        }
-      });
+      // Generate OTP
+      const otp = generateOTP();
+      const otpExpires = new Date(Date.now() + (process.env.OTP_EXPIRE_MINUTES || 5) * 60 * 1000);
+
+      // Save OTP to user (hashed for security)
+      const hashedOTP = crypto.createHash('sha256').update(otp).digest('hex');
+      user.otp = hashedOTP;
+      user.otpExpires = otpExpires;
+      user.isOtpVerified = false;
+      await user.save();
+
+      // Send OTP via email
+      try {
+        await sendOTPEmail(user.email, otp, user.name);
+        
+        res.status(201).json({
+          success: true,
+          message: 'Account created! OTP sent to your email',
+          requiresOTP: true,
+          userId: user._id,
+          email: user.email,
+          name: user.name
+        });
+      } catch (emailError) {
+        console.error('Email sending failed:', emailError);
+        res.status(201).json({
+          success: true,
+          message: 'Account created, but OTP email failed. Please use resend OTP.',
+          requiresOTP: true,
+          userId: user._id,
+          email: user.email,
+          name: user.name
+        });
+      }
     }
   } catch (error) {
     res.status(400).json({
@@ -50,7 +82,7 @@ exports.signup = async (req, res) => {
   }
 };
 
-// @desc    Login user
+// @desc    Login user (Step 1: Send OTP)
 // @route   POST /api/auth/login
 // @access  Public
 exports.login = async (req, res) => {
@@ -77,14 +109,174 @@ exports.login = async (req, res) => {
       });
     }
 
+    // Generate OTP
+    const otp = generateOTP();
+    const otpExpires = new Date(Date.now() + (process.env.OTP_EXPIRE_MINUTES || 5) * 60 * 1000);
+
+    // Save OTP to user (hashed for security)
+    const hashedOTP = crypto.createHash('sha256').update(otp).digest('hex');
+    user.otp = hashedOTP;
+    user.otpExpires = otpExpires;
+    user.isOtpVerified = false;
+    await user.save();
+
+    // Send OTP via email
+    try {
+      await sendOTPEmail(user.email, otp, user.name);
+      
+      res.status(200).json({
+        success: true,
+        message: 'OTP sent to your email',
+        requiresOTP: true,
+        userId: user._id,
+        email: user.email
+      });
+    } catch (emailError) {
+      // If email fails, still return success but with different message
+      console.error('Email sending failed:', emailError);
+      res.status(200).json({
+        success: true,
+        message: 'Login successful, but OTP email failed. Please use resend OTP.',
+        requiresOTP: true,
+        userId: user._id,
+        email: user.email
+      });
+    }
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+// @desc    Forgot Password - Send OTP
+// @route   POST /api/auth/forgot-password
+// @access  Public
+exports.forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide email address'
+      });
+    }
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'No account found with this email'
+      });
+    }
+
+    // Generate OTP
+    const otp = generateOTP();
+    const otpExpires = new Date(Date.now() + (process.env.OTP_EXPIRE_MINUTES || 5) * 60 * 1000);
+
+    // Save OTP to user
+    const hashedOTP = crypto.createHash('sha256').update(otp).digest('hex');
+    user.otp = hashedOTP;
+    user.otpExpires = otpExpires;
+    user.isOtpVerified = false;
+    await user.save();
+
+    // Send OTP via email
+    try {
+      await sendOTPEmail(user.email, otp, user.name);
+      
+      res.status(200).json({
+        success: true,
+        message: 'OTP sent to your email',
+        requiresOTP: true,
+        userId: user._id,
+        email: user.email
+      });
+    } catch (emailError) {
+      console.error('Email sending failed:', emailError);
+      res.status(500).json({
+        success: false,
+        message: 'Failed to send OTP email. Please try again.'
+      });
+    }
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+// @desc    Reset Password (After OTP verification)
+// @route   POST /api/auth/reset-password
+// @access  Public
+exports.resetPassword = async (req, res) => {
+  try {
+    const { userId, otp, newPassword } = req.body;
+
+    if (!userId || !otp || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide all required fields'
+      });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: 'Password must be at least 6 characters'
+      });
+    }
+
+    // Get user with OTP fields
+    const user = await User.findById(userId).select('+otp +otpExpires +password');
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    // Check if OTP exists
+    if (!user.otp || !user.otpExpires) {
+      return res.status(400).json({
+        success: false,
+        message: 'No OTP found. Please request a new one.'
+      });
+    }
+
+    // Check if OTP has expired
+    if (user.otpExpires < Date.now()) {
+      return res.status(400).json({
+        success: false,
+        message: 'OTP has expired. Please request a new one.'
+      });
+    }
+
+    // Hash the provided OTP and compare
+    const hashedOTP = crypto.createHash('sha256').update(otp).digest('hex');
+
+    if (hashedOTP !== user.otp) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid OTP'
+      });
+    }
+
+    // OTP is valid - update password and clear OTP fields
+    user.password = newPassword;
+    user.otp = undefined;
+    user.otpExpires = undefined;
+    user.isOtpVerified = true;
+    await user.save();
+
     res.status(200).json({
       success: true,
-      token: generateToken(user._id),
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email
-      }
+      message: 'Password reset successful. You can now login with your new password.'
     });
   } catch (error) {
     res.status(400).json({
@@ -189,5 +381,144 @@ exports.updateProfile = async (req, res) => {
     res.status(200).json({ success: true, user });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Verify OTP (Step 2: Complete Login)
+// @route   POST /api/auth/verify-otp
+// @access  Public
+exports.verifyOTP = async (req, res) => {
+  try {
+    const { userId, otp } = req.body;
+
+    if (!userId || !otp) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide user ID and OTP'
+      });
+    }
+
+    // Get user with OTP fields
+    const user = await User.findById(userId).select('+otp +otpExpires +isOtpVerified');
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    // Check if OTP exists
+    if (!user.otp || !user.otpExpires) {
+      return res.status(400).json({
+        success: false,
+        message: 'No OTP found. Please request a new one.'
+      });
+    }
+
+    // Check if OTP has expired
+    if (user.otpExpires < Date.now()) {
+      return res.status(400).json({
+        success: false,
+        message: 'OTP has expired. Please request a new one.'
+      });
+    }
+
+    // Hash the provided OTP and compare
+    const hashedOTP = crypto.createHash('sha256').update(otp).digest('hex');
+
+    if (hashedOTP !== user.otp) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid OTP'
+      });
+    }
+
+    // OTP is valid - clear OTP fields and mark as verified
+    user.otp = undefined;
+    user.otpExpires = undefined;
+    user.isOtpVerified = true;
+    await user.save();
+
+    // Send welcome email for new signups (non-blocking)
+    sendWelcomeEmail(user.email, user.name).catch(err => 
+      console.error('Failed to send welcome email:', err)
+    );
+
+    // Generate JWT token
+    const token = generateToken(user._id);
+
+    res.status(200).json({
+      success: true,
+      message: 'Login successful',
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email
+      }
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+// @desc    Resend OTP
+// @route   POST /api/auth/resend-otp
+// @access  Public
+exports.resendOTP = async (req, res) => {
+  try {
+    const { userId } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide user ID'
+      });
+    }
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    // Generate new OTP
+    const otp = generateOTP();
+    const otpExpires = new Date(Date.now() + (process.env.OTP_EXPIRE_MINUTES || 5) * 60 * 1000);
+
+    // Save new OTP to user
+    const hashedOTP = crypto.createHash('sha256').update(otp).digest('hex');
+    user.otp = hashedOTP;
+    user.otpExpires = otpExpires;
+    user.isOtpVerified = false;
+    await user.save();
+
+    // Send OTP via email
+    try {
+      await sendOTPEmail(user.email, otp, user.name);
+      
+      res.status(200).json({
+        success: true,
+        message: 'New OTP sent to your email'
+      });
+    } catch (emailError) {
+      console.error('Email sending failed:', emailError);
+      res.status(500).json({
+        success: false,
+        message: 'Failed to send OTP email. Please try again.'
+      });
+    }
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message
+    });
   }
 };

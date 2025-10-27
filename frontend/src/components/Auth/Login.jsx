@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { Link } from "react-router-dom";
+import OTPVerification from "./OTPVerification";
 import "./Auth.css";
 
 const Login = () => {
@@ -10,9 +10,8 @@ const Login = () => {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const { login } = useAuth();
-  const navigate = useNavigate();
+  const [showOTP, setShowOTP] = useState(false);
+  const [otpData, setOtpData] = useState(null);
 
   const { email, password } = formData;
 
@@ -34,16 +33,50 @@ const Login = () => {
 
     setLoading(true);
 
-    const result = await login(email, password);
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (result.success) {
-      navigate("/dashboard");
-    } else {
-      setError(result.message);
+      const data = await response.json();
+
+      if (data.success && data.requiresOTP) {
+        // Show OTP verification screen
+        setOtpData({
+          userId: data.userId,
+          email: data.email,
+        });
+        setShowOTP(true);
+      } else if (!data.success) {
+        setError(data.message || "Login failed");
+      }
+    } catch (err) {
+      setError("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
+
+  const handleBackToLogin = () => {
+    setShowOTP(false);
+    setOtpData(null);
+    setFormData({ email: "", password: "" });
+  };
+
+  // Show OTP verification screen if needed
+  if (showOTP && otpData) {
+    return (
+      <OTPVerification
+        userId={otpData.userId}
+        email={otpData.email}
+        onBack={handleBackToLogin}
+      />
+    );
+  }
 
   return (
     <div className="auth-container">
@@ -81,6 +114,11 @@ const Login = () => {
               placeholder="Enter your password"
               required
             />
+            <div className="forgot-password-link">
+              <Link to="/forgot-password" className="auth-link">
+                Forgot Password?
+              </Link>
+            </div>
           </div>
 
           <button type="submit" className="auth-button" disabled={loading}>

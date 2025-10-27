@@ -8,7 +8,7 @@ const Bonds = () => {
     {
       title: "Government Bonds (G-Secs)",
       description:
-        "Issued by the Central or State governments, these are the safest debt instruments with sovereign guarantee",
+        "Issued by the Centra or State governments, these are the safest debt instruments with sovereign guarantee",
       features: [
         "Zero default risk",
         "Fixed interest rates",

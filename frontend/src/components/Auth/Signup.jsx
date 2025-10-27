@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { Link } from "react-router-dom";
+import OTPVerification from "./OTPVerification";
 import "./Auth.css";
 
 const Signup = () => {
@@ -12,9 +12,8 @@ const Signup = () => {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const { signup } = useAuth();
-  const navigate = useNavigate();
+  const [showOTP, setShowOTP] = useState(false);
+  const [otpData, setOtpData] = useState(null);
 
   const { name, email, password, confirmPassword } = formData;
 
@@ -46,16 +45,54 @@ const Signup = () => {
 
     setLoading(true);
 
-    const result = await signup(name, email, password);
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
 
-    if (result.success) {
-      navigate("/dashboard");
-    } else {
-      setError(result.message);
+      const data = await response.json();
+
+      if (data.success && data.requiresOTP) {
+        // Show OTP verification screen
+        setOtpData({
+          userId: data.userId,
+          email: data.email,
+          name: data.name,
+          isSignup: true,
+        });
+        setShowOTP(true);
+      } else if (!data.success) {
+        setError(data.message || "Signup failed");
+      }
+    } catch (err) {
+      setError("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
+
+  const handleBackToSignup = () => {
+    setShowOTP(false);
+    setOtpData(null);
+    setFormData({ name: "", email: "", password: "", confirmPassword: "" });
+  };
+
+  // Show OTP verification screen if needed
+  if (showOTP && otpData) {
+    return (
+      <OTPVerification
+        userId={otpData.userId}
+        email={otpData.email}
+        userName={otpData.name}
+        isSignup={true}
+        onBack={handleBackToSignup}
+      />
+    );
+  }
 
   return (
     <div className="auth-container">

@@ -26,8 +26,21 @@ const userSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
-  }
-  ,
+  },
+  // OTP fields for 2FA
+  otp: {
+    type: String,
+    select: false
+  },
+  otpExpires: {
+    type: Date,
+    select: false
+  },
+  isOtpVerified: {
+    type: Boolean,
+    default: false,
+    select: false
+  },
   // Profile fields
   fullNameAsPerPAN: {
     type: String,
