@@ -435,6 +435,9 @@ exports.verifyOTP = async (req, res) => {
     }
 
     // OTP is valid - clear OTP fields and mark as verified
+    // Update login timestamps
+    user.previousLoginAt = user.lastLoginAt; // Store previous login time
+    user.lastLoginAt = new Date(); // Set current login time
     user.otp = undefined;
     user.otpExpires = undefined;
     user.isOtpVerified = true;
@@ -455,7 +458,10 @@ exports.verifyOTP = async (req, res) => {
       user: {
         id: user._id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        lastLoginAt: user.lastLoginAt,
+        previousLoginAt: user.previousLoginAt,
+        lastLogoutAt: user.lastLogoutAt
       }
     });
   } catch (error) {
@@ -517,6 +523,38 @@ exports.resendOTP = async (req, res) => {
     }
   } catch (error) {
     res.status(400).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+// @desc    Logout user and track logout time
+// @route   POST /api/auth/logout
+// @access  Private
+exports.logout = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    // Update last logout time
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    user.lastLogoutAt = new Date();
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Logout successful',
+      lastLogoutAt: user.lastLogoutAt
+    });
+  } catch (error) {
+    res.status(500).json({
       success: false,
       message: error.message
     });

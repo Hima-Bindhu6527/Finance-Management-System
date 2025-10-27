@@ -1,11 +1,27 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import "./Dashboard.css";
 
 const Dashboard = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [activeCategory, setActiveCategory] = useState("Mutual Fund");
+  const [showWelcome, setShowWelcome] = useState(true);
   const navigate = useNavigate();
+  const { user } = useAuth();
+
+  const formatDateTime = (dateString) => {
+    if (!dateString) return null;
+    const date = new Date(dateString);
+    const options = {
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    };
+    return date.toLocaleString("en-US", options);
+  };
 
   // Function to convert category name to URL-friendly path
   const getCategoryPath = (categoryName) => {
@@ -288,6 +304,28 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
+      {/* Welcome Message Banner */}
+      {showWelcome && user && (
+        <div className="welcome-banner-simple">
+          <span>
+            👋 Welcome back, <strong>{user.name}</strong>!
+            {user.previousLoginAt && (
+              <> Last login: {formatDateTime(user.previousLoginAt)}</>
+            )}
+            {user.lastLogoutAt && (
+              <> • Last logout: {formatDateTime(user.lastLogoutAt)}</>
+            )}
+          </span>
+          <button
+            className="close-banner"
+            onClick={() => setShowWelcome(false)}
+            aria-label="Close"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
       <div className="suggested-steps">
         <h2>Suggested next steps:</h2>
         <div className="steps-container">

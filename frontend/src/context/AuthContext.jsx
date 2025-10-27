@@ -57,13 +57,14 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
-    logoutApi();
+  const logout = async () => {
+    await logoutApi();
     setUser(null);
   };
 
   const value = {
     user,
+    setUser,
     loading,
     error,
     login,

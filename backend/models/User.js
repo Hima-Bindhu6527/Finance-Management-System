@@ -85,6 +85,16 @@ const userSchema = new mongoose.Schema({
   numberOfDependents: {
     type: Number,
     default: 0,
+  },
+  // Login/Logout tracking
+  lastLoginAt: {
+    type: Date,
+  },
+  lastLogoutAt: {
+    type: Date,
+  },
+  previousLoginAt: {
+    type: Date,
   }
 });
 

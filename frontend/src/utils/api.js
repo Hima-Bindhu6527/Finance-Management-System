@@ -76,9 +76,15 @@ export const getMe = async () => {
 };
 
 // Logout
-export const logout = () => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('user');
+export const logout = async () => {
+  try {
+    await api.post('/auth/logout');
+  } catch (error) {
+    console.error('Logout error:', error);
+  } finally {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+  }
 };
 
 // Change password

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import { verifyOTP, resendOTP } from "../../utils/api";
 import "./OTPVerification.css";
 
@@ -20,6 +21,7 @@ const OTPVerification = ({
 
   const inputRefs = useRef([]);
   const navigate = useNavigate();
+  const { setUser } = useAuth();
 
   useEffect(() => {
     // Focus first input on mount
@@ -101,6 +103,9 @@ const OTPVerification = ({
       const data = await verifyOTP({ userId, otp: otpString });
 
       if (data.success) {
+        // Update auth context with user data
+        setUser(data.user);
+
         setSuccessMessage(
           isSignup
             ? "Account verified! Redirecting..."
@@ -108,7 +113,6 @@ const OTPVerification = ({
         );
         setTimeout(() => {
           navigate("/dashboard");
-          window.location.reload(); // Refresh to update auth context
         }, 1500);
       }
     } catch (err) {
