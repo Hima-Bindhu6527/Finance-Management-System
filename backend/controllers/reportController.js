@@ -179,37 +179,160 @@ async function calculateReportData(userId, goals, incomeExpenseData) {
     recommendations: []
   };
 
-  // ✅ Income & Expenses Calculation
-  const totalIncome =
-    (incomeExpenseData.income?.salary || 0) +
-    (incomeExpenseData.income?.bonuses || 0) +
-    (incomeExpenseData.income?.otherIncome || 0);
+  // ✅ Income & Expenses Calculation using the new schema structure
+  const totalIncome = incomeExpenseData.totalMonthlyIncome || 0;
+  const totalExpenses = incomeExpenseData.totalMonthlyExpenses || 0;
+  const monthlySavings = incomeExpenseData.monthlySavings || 0;
+  const savingsRate = totalIncome > 0 ? (monthlySavings / totalIncome) * 100 : 0;
 
-  let totalExpenses = 0;
-  if (incomeExpenseData.expenses?.fixedExpenses) {
-    incomeExpenseData.expenses.fixedExpenses.forEach(exp => {
-      totalExpenses += exp.amount || 0;
+  // Calculate total assets
+  const totalAssets = incomeExpenseData.totalAssetValue || 0;
+
+  reportData.summary = { 
+    totalIncome, 
+    totalExpenses, 
+    monthlySavings, 
+    savingsRate,
+    totalAssets,
+    netWorth: totalAssets // Simplified net worth (assets only, no liabilities in current schema)
+  };
+
+  // ✅ Income Breakdown - convert array to object for better visualization
+  reportData.incomeBreakdown = {};
+  if (incomeExpenseData.incomes && incomeExpenseData.incomes.length > 0) {
+    incomeExpenseData.incomes.forEach(income => {
+      reportData.incomeBreakdown[income.name] = income.monthlyAmount || income.amount;
     });
   }
 
-  const monthlySavings = totalIncome - totalExpenses;
-  const savingsRate = totalIncome > 0 ? (monthlySavings / totalIncome) * 100 : 0;
+  // ✅ Expense Breakdown with percentages
+  reportData.expenseBreakdown = [];
+  if (incomeExpenseData.expenses && incomeExpenseData.expenses.length > 0) {
+    incomeExpenseData.expenses.forEach(expense => {
+      const monthlyAmt = expense.monthlyAmount || expense.amount;
+      reportData.expenseBreakdown.push({
+        category: expense.category,
+        amount: monthlyAmt,
+        percentage: totalExpenses > 0 ? ((monthlyAmt / totalExpenses) * 100).toFixed(2) : 0
+      });
+    });
+  }
 
-  reportData.summary = { totalIncome, totalExpenses, monthlySavings, savingsRate };
+  // ✅ Asset Allocation
+  reportData.assetAllocation = {
+    mutualFunds: 0,
+    equity: 0,
+    other: 0,
+    // frontend expects 'insurance' and 'otherAssets' keys in some places — keep them in sync
+    insurance: 0,
+    otherAssets: 0
+  };
+  if (incomeExpenseData.assets && incomeExpenseData.assets.length > 0) {
+    incomeExpenseData.assets.forEach(asset => {
+      const type = (asset.type || '').toLowerCase();
+      const value = asset.currentValue || 0;
+      if (type === 'mutualfund' || type === 'mutualfunds') {
+        reportData.assetAllocation.mutualFunds += value;
+      } else if (type === 'equity') {
+        reportData.assetAllocation.equity += value;
+      } else if (type === 'insurance') {
+        reportData.assetAllocation.insurance += value;
+      } else {
+        reportData.assetAllocation.other += value;
+      }
+    });
 
-  // ✅ Breakdown
-  reportData.incomeBreakdown = incomeExpenseData.income;
-  reportData.expenseBreakdown = incomeExpenseData.expenses?.fixedExpenses || [];
+    // Mirror fields expected by frontend
+    reportData.assetAllocation.otherAssets = reportData.assetAllocation.other;
+  }
 
   // ✅ Goals progress
   reportData.goalProgress = goals.map(goal => ({
+    goalId: goal._id,
     goalName: goal.goalName,
     targetAmount: goal.targetAmount,
     currentAmount: goal.currentAmount,
-    progress: goal.targetAmount ? ((goal.currentAmount / goal.targetAmount) * 100).toFixed(2) : 0
+    progressPercentage: goal.targetAmount ? ((goal.currentAmount / goal.targetAmount) * 100).toFixed(2) : 0,
+    status: goal.status || 'In Progress'
   }));
 
+  // ✅ Financial Health Indicators
+  reportData.healthIndicators = {
+    savingsToIncomeRatio: totalIncome > 0 ? ((monthlySavings / totalIncome) * 100).toFixed(2) : 0,
+    emergencyFundMonths: monthlySavings > 0 && totalExpenses > 0 ? (totalAssets / totalExpenses).toFixed(1) : 0,
+    financialHealthScore: calculateHealthScore(savingsRate, totalAssets, totalExpenses)
+  };
+
+  // ✅ Recommendations based on data
+  reportData.recommendations = generateRecommendations(savingsRate, totalIncome, totalExpenses, totalAssets);
+
   return reportData;
+}
+
+// Helper function to calculate financial health score
+function calculateHealthScore(savingsRate, totalAssets, totalExpenses) {
+  let score = 0;
+  
+  // Savings rate (40 points max)
+  if (savingsRate >= 20) score += 40;
+  else if (savingsRate >= 10) score += 30;
+  else if (savingsRate >= 5) score += 20;
+  else score += 10;
+  
+  // Emergency fund (40 points max)
+  const emergencyFundMonths = totalExpenses > 0 ? totalAssets / totalExpenses : 0;
+  if (emergencyFundMonths >= 6) score += 40;
+  else if (emergencyFundMonths >= 3) score += 30;
+  else if (emergencyFundMonths >= 1) score += 20;
+  else score += 10;
+  
+  // Asset growth (20 points max)
+  if (totalAssets > 100000) score += 20;
+  else if (totalAssets > 50000) score += 15;
+  else if (totalAssets > 10000) score += 10;
+  else score += 5;
+  
+  return Math.min(score, 100);
+}
+
+// Helper function to generate recommendations
+function generateRecommendations(savingsRate, totalIncome, totalExpenses, totalAssets) {
+  const recommendations = [];
+  
+  if (savingsRate < 10) {
+    recommendations.push({
+      category: 'Savings',
+      priority: 'HIGH',
+      recommendation: 'Your savings rate is below 10%. Try to reduce expenses or increase income to save at least 20% of your income.'
+    });
+  }
+  
+  const emergencyFundMonths = totalExpenses > 0 ? totalAssets / totalExpenses : 0;
+  if (emergencyFundMonths < 3) {
+    recommendations.push({
+      category: 'Emergency Fund',
+      priority: 'HIGH',
+      recommendation: 'Build an emergency fund covering at least 3-6 months of expenses for financial security.'
+    });
+  }
+  
+  if (totalExpenses > totalIncome * 0.8) {
+    recommendations.push({
+      category: 'Expenses',
+      priority: 'MEDIUM',
+      recommendation: 'Your expenses are consuming over 80% of your income. Review and optimize your spending.'
+    });
+  }
+  
+  if (savingsRate >= 20) {
+    recommendations.push({
+      category: 'Investment',
+      priority: 'LOW',
+      recommendation: 'Great savings rate! Consider diversifying investments for long-term wealth growth.'
+    });
+  }
+  
+  return recommendations;
 }
 
 // ===========================
@@ -219,16 +342,110 @@ function generatePDFContent(doc, report) {
   const { reportData, reportType, reportPeriod, user } = report;
   const formatCurrency = num => `₹${Math.round(num).toLocaleString('en-IN')}`;
 
-  doc.fontSize(20).text('Financial Report', { align: 'center' });
+  // Header
+  doc.fontSize(24).fillColor('#2c3e50').text('Financial Report', { align: 'center' });
   doc.moveDown();
-  doc.fontSize(14).text(`Report Type: ${reportType}`);
-  doc.text(`User: ${user.name}`);
-  doc.text(`Generated On: ${new Date(report.generatedAt).toLocaleDateString('en-IN')}`);
-  doc.moveDown();
+  doc.fontSize(12).fillColor('#7f8c8d');
+  doc.text(`Report Type: ${reportType}`, { align: 'center' });
+  doc.text(`User: ${user.name}`, { align: 'center' });
+  doc.text(`Generated On: ${new Date(report.generatedAt).toLocaleDateString('en-IN')}`, { align: 'center' });
+  doc.text(`Period: ${new Date(reportPeriod.startDate).toLocaleDateString('en-IN')} - ${new Date(reportPeriod.endDate).toLocaleDateString('en-IN')}`, { align: 'center' });
+  doc.moveDown(2);
 
-  doc.fontSize(16).text('Summary', { underline: true });
-  doc.fontSize(12).text(`Total Income: ${formatCurrency(reportData.summary.totalIncome)}`);
+  // Summary Section
+  doc.fontSize(16).fillColor('#2c3e50').text('Financial Summary', { underline: true });
+  doc.moveDown(0.5);
+  doc.fontSize(12).fillColor('#34495e');
+  doc.text(`Total Income: ${formatCurrency(reportData.summary.totalIncome)}`);
   doc.text(`Total Expenses: ${formatCurrency(reportData.summary.totalExpenses)}`);
   doc.text(`Monthly Savings: ${formatCurrency(reportData.summary.monthlySavings)}`);
   doc.text(`Savings Rate: ${reportData.summary.savingsRate.toFixed(2)}%`);
+  doc.text(`Total Assets: ${formatCurrency(reportData.summary.totalAssets || 0)}`);
+  doc.moveDown(1.5);
+
+  // Income Breakdown (handle Map or plain object)
+  const incomeBreakdown = reportData.incomeBreakdown instanceof Map ? Object.fromEntries(reportData.incomeBreakdown) : (reportData.incomeBreakdown || {});
+  if (incomeBreakdown && Object.keys(incomeBreakdown).length > 0) {
+    doc.fontSize(16).fillColor('#2c3e50').text('Income Breakdown', { underline: true });
+    doc.moveDown(0.5);
+    doc.fontSize(12).fillColor('#34495e');
+    for (const [source, amount] of Object.entries(incomeBreakdown)) {
+      doc.text(`${source}: ${formatCurrency(amount)}`);
+    }
+    doc.moveDown(1.5);
+  }
+
+  // Expense Breakdown
+  if (reportData.expenseBreakdown && reportData.expenseBreakdown.length > 0) {
+    doc.fontSize(16).fillColor('#2c3e50').text('Expense Breakdown', { underline: true });
+    doc.moveDown(0.5);
+    doc.fontSize(12).fillColor('#34495e');
+    reportData.expenseBreakdown.forEach(expense => {
+      doc.text(`${expense.category}: ${formatCurrency(expense.amount)} (${expense.percentage}%)`);
+    });
+    doc.moveDown(1.5);
+  }
+
+  // Asset Allocation
+  if (reportData.assetAllocation) {
+    const assets = reportData.assetAllocation;
+    const hasAssets = assets.mutualFunds > 0 || assets.equity > 0 || assets.other > 0;
+    if (hasAssets) {
+      doc.fontSize(16).fillColor('#2c3e50').text('Asset Allocation', { underline: true });
+      doc.moveDown(0.5);
+      doc.fontSize(12).fillColor('#34495e');
+      if (assets.mutualFunds > 0) doc.text(`Mutual Funds: ${formatCurrency(assets.mutualFunds)}`);
+      if (assets.equity > 0) doc.text(`Equity: ${formatCurrency(assets.equity)}`);
+      if (assets.other > 0) doc.text(`Other Assets: ${formatCurrency(assets.other)}`);
+      doc.moveDown(1.5);
+    }
+  }
+
+  // Goal Progress
+  if (reportData.goalProgress && reportData.goalProgress.length > 0) {
+    doc.fontSize(16).fillColor('#2c3e50').text('Goal Progress', { underline: true });
+    doc.moveDown(0.5);
+    doc.fontSize(12).fillColor('#34495e');
+    reportData.goalProgress.forEach(goal => {
+      doc.text(`${goal.goalName}: ${goal.progressPercentage}% (${formatCurrency(goal.currentAmount)} / ${formatCurrency(goal.targetAmount)})`);
+    });
+    doc.moveDown(1.5);
+  }
+
+  // Financial Health Indicators
+  if (reportData.healthIndicators) {
+    doc.fontSize(16).fillColor('#2c3e50').text('Financial Health Indicators', { underline: true });
+    doc.moveDown(0.5);
+    doc.fontSize(12).fillColor('#34495e');
+    doc.text(`Financial Health Score: ${reportData.healthIndicators.financialHealthScore}/100`);
+    doc.text(`Savings to Income Ratio: ${reportData.healthIndicators.savingsToIncomeRatio}%`);
+    doc.text(`Emergency Fund Coverage: ${reportData.healthIndicators.emergencyFundMonths} months`);
+    doc.moveDown(1.5);
+  }
+
+  // Recommendations
+  if (reportData.recommendations && reportData.recommendations.length > 0) {
+    doc.addPage();
+    doc.fontSize(16).fillColor('#2c3e50').text('Recommendations', { underline: true });
+    doc.moveDown(0.5);
+    doc.fontSize(12).fillColor('#34495e');
+    reportData.recommendations.forEach((rec, index) => {
+      doc.fillColor('#e74c3c').text(`[${rec.priority}] ${rec.category}`, { continued: false });
+      doc.fillColor('#34495e').text(`${rec.recommendation}`);
+      doc.moveDown(0.5);
+    });
+  }
+
+  // Footer
+  doc.fontSize(10).fillColor('#95a5a6');
+  const pages = doc.bufferedPageRange();
+  for (let i = 0; i < pages.count; i++) {
+    doc.switchToPage(i);
+    doc.text(
+      `Page ${i + 1} of ${pages.count}`,
+      0,
+      doc.page.height - 50,
+      { align: 'center' }
+    );
+  }
 }

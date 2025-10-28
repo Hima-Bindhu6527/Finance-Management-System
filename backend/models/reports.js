@@ -36,13 +36,12 @@ const reportSchema = new mongoose.Schema({
       monthlySavings: { type: Number, default: 0 },
       savingsRate: { type: Number, default: 0 }
     },
-    // Income breakdown
+    // Income breakdown - allow dynamic named income sources (e.g. Salary, Freelance, Rental)
+    // Use a Map so arbitrary income source names are preserved when saving reports
     incomeBreakdown: {
-      salary: { type: Number, default: 0 },
-      bonuses: { type: Number, default: 0 },
-      otherIncome: { type: Number, default: 0 },
-      rentalIncome: { type: Number, default: 0 },
-      investmentIncome: { type: Number, default: 0 }
+      type: Map,
+      of: Number,
+      default: {}
     },
     // Expense breakdown by category
     expenseBreakdown: [{
@@ -50,11 +49,11 @@ const reportSchema = new mongoose.Schema({
       amount: Number,
       percentage: Number
     }],
-    // Asset allocation
+    // Asset allocation - use a Map to keep flexible keys (mutualFunds, equity, insurance, other, etc.)
     assetAllocation: {
-      mutualFunds: { type: Number, default: 0 },
-      insurance: { type: Number, default: 0 },
-      otherAssets: { type: Number, default: 0 }
+      type: Map,
+      of: Number,
+      default: {}
     },
     // Loan summary
     loanSummary: {
