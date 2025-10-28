@@ -31,6 +31,7 @@ const ReportPage = () => {
 
       if (response.ok) {
         const data = await response.json();
+        console.log("Fetched reports:", data.data);
         setReports(data.data || []);
       }
     } catch (error) {
@@ -120,6 +121,13 @@ const ReportPage = () => {
   };
 
   const handleViewReport = (report) => {
+    console.log("Viewing report:", report);
+    console.log("Report data breakdown:", {
+      incomeBreakdown: report.reportData?.incomeBreakdown,
+      expenseBreakdown: report.reportData?.expenseBreakdown,
+      assetAllocation: report.reportData?.assetAllocation,
+      goalProgress: report.reportData?.goalProgress,
+    });
     setSelectedReport(report);
     setActiveTab("view-report");
   };
@@ -519,6 +527,42 @@ const ReportPage = () => {
               </div>
             </div>
 
+            {/* Info banner if data is missing */}
+            {(!reportData.incomeBreakdown ||
+              Object.keys(reportData.incomeBreakdown).length === 0 ||
+              !reportData.expenseBreakdown ||
+              reportData.expenseBreakdown.length === 0 ||
+              !reportData.assetAllocation ||
+              Object.values(reportData.assetAllocation).every(
+                (v) => v === 0
+              )) && (
+              <div
+                className="info-banner"
+                style={{
+                  backgroundColor: "#fff3cd",
+                  border: "1px solid #ffc107",
+                  borderRadius: "8px",
+                  padding: "1rem",
+                  margin: "1rem 0",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                }}
+              >
+                <span style={{ fontSize: "1.5rem" }}>ℹ️</span>
+                <div>
+                  <strong>Limited Data Available:</strong> Some sections may not
+                  appear because you haven't added income, expenses, or assets
+                  yet.
+                  <br />
+                  <span style={{ fontSize: "0.9rem" }}>
+                    Please visit the <strong>Income & Expense Tracker</strong>{" "}
+                    to add your financial data for a complete report.
+                  </span>
+                </div>
+              </div>
+            )}
+
             <div className="report-sections">
               {/* Financial Summary */}
               <section className="report-section">
@@ -694,56 +738,83 @@ const ReportPage = () => {
               </section>
 
               {/* Income Breakdown */}
-              {reportData.incomeBreakdown && (
-                <section className="report-section">
-                  <h3 className="section-title">📈 Income Breakdown</h3>
-                  <div className="breakdown-list">
-                    {Object.entries(reportData.incomeBreakdown).map(
-                      ([key, value]) =>
-                        value > 0 && (
-                          <div key={key} className="breakdown-item">
-                            <span className="breakdown-label">
-                              {key.charAt(0).toUpperCase() +
-                                key.slice(1).replace(/([A-Z])/g, " $1")}
-                            </span>
-                            <span className="breakdown-value">
-                              {formatCurrency(value)}
-                            </span>
-                          </div>
-                        )
-                    )}
-                  </div>
-                </section>
-              )}
+              {reportData.incomeBreakdown &&
+                Object.keys(reportData.incomeBreakdown).length > 0 &&
+                Object.values(reportData.incomeBreakdown).some(
+                  (v) => v > 0
+                ) && (
+                  <section className="report-section">
+                    <h3 className="section-title">📈 Income Breakdown</h3>
+                    <div className="breakdown-list">
+                      {Object.entries(reportData.incomeBreakdown).map(
+                        ([key, value]) =>
+                          value > 0 && (
+                            <div key={key} className="breakdown-item">
+                              <span className="breakdown-label">
+                                {key.charAt(0).toUpperCase() +
+                                  key.slice(1).replace(/([A-Z])/g, " $1")}
+                              </span>
+                              <span className="breakdown-value">
+                                {formatCurrency(value)}
+                              </span>
+                            </div>
+                          )
+                      )}
+                    </div>
+                  </section>
+                )}
 
               {/* Asset Allocation */}
-              {reportData.assetAllocation && (
-                <section className="report-section">
-                  <h3 className="section-title">🏦 Asset Allocation</h3>
-                  <div className="breakdown-list">
-                    <div className="breakdown-item">
-                      <span className="breakdown-label">Mutual Funds</span>
-                      <span className="breakdown-value">
-                        {formatCurrency(reportData.assetAllocation.mutualFunds)}
-                      </span>
+              {reportData.assetAllocation &&
+                Object.values(reportData.assetAllocation).some(
+                  (v) => v > 0
+                ) && (
+                  <section className="report-section">
+                    <h3 className="section-title">🏦 Asset Allocation</h3>
+                    <div className="breakdown-list">
+                      {reportData.assetAllocation.mutualFunds > 0 && (
+                        <div className="breakdown-item">
+                          <span className="breakdown-label">Mutual Funds</span>
+                          <span className="breakdown-value">
+                            {formatCurrency(
+                              reportData.assetAllocation.mutualFunds
+                            )}
+                          </span>
+                        </div>
+                      )}
+                      {reportData.assetAllocation.equity > 0 && (
+                        <div className="breakdown-item">
+                          <span className="breakdown-label">Equity</span>
+                          <span className="breakdown-value">
+                            {formatCurrency(reportData.assetAllocation.equity)}
+                          </span>
+                        </div>
+                      )}
+                      {reportData.assetAllocation.insurance > 0 && (
+                        <div className="breakdown-item">
+                          <span className="breakdown-label">
+                            Insurance Coverage
+                          </span>
+                          <span className="breakdown-value">
+                            {formatCurrency(
+                              reportData.assetAllocation.insurance
+                            )}
+                          </span>
+                        </div>
+                      )}
+                      {reportData.assetAllocation.otherAssets > 0 && (
+                        <div className="breakdown-item">
+                          <span className="breakdown-label">Other Assets</span>
+                          <span className="breakdown-value">
+                            {formatCurrency(
+                              reportData.assetAllocation.otherAssets
+                            )}
+                          </span>
+                        </div>
+                      )}
                     </div>
-                    <div className="breakdown-item">
-                      <span className="breakdown-label">
-                        Insurance Coverage
-                      </span>
-                      <span className="breakdown-value">
-                        {formatCurrency(reportData.assetAllocation.insurance)}
-                      </span>
-                    </div>
-                    <div className="breakdown-item">
-                      <span className="breakdown-label">Other Assets</span>
-                      <span className="breakdown-value">
-                        {formatCurrency(reportData.assetAllocation.otherAssets)}
-                      </span>
-                    </div>
-                  </div>
-                </section>
-              )}
+                  </section>
+                )}
 
               {/* Loan Summary */}
               {reportData.loanSummary &&
