@@ -26,9 +26,47 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showSessionTimeout, setShowSessionTimeout] = useState(false);
   const sessionCheckIntervalRef = useRef(null);
+  const inactivityTimerRef = useRef(null);
+  const lastActivityRef = useRef(Date.now());
 
-  // Function to check if session is still valid
+  // Session timeout duration (1 hour = 3600000 ms)
+  const SESSION_TIMEOUT = 60 * 60 * 1000; // 1 hour
+  const WARNING_TIME = 5 * 60 * 1000; // Show warning 5 minutes before timeout
+
+  // Update last activity time
+  const updateActivity = () => {
+    lastActivityRef.current = Date.now();
+    localStorage.setItem("lastActivity", Date.now().toString());
+  };
+
+  // Reset inactivity timer
+  const resetInactivityTimer = () => {
+    if (inactivityTimerRef.current) {
+      clearTimeout(inactivityTimerRef.current);
+    }
+
+    // Set timer to show warning before session expires
+    inactivityTimerRef.current = setTimeout(() => {
+      setShowSessionTimeout(true);
+    }, SESSION_TIMEOUT - WARNING_TIME);
+  };
+
+  // Extend session
+  const extendSession = () => {
+    updateActivity();
+    setShowSessionTimeout(false);
+    resetInactivityTimer();
+  };
+
+  // Handle session timeout
+  const handleSessionTimeout = async () => {
+    setShowSessionTimeout(false);
+    await logout();
+    alert("Your session has expired due to inactivity. Please log in again.");
+    window.location.href = "/login";
+  };
   const checkSessionValidity = async () => {
     const token = localStorage.getItem("token");
     if (!token || !user) return;
@@ -58,9 +96,27 @@ export const AuthProvider = ({ children }) => {
     // Check if user is logged in
     const token = localStorage.getItem("token");
     const userData = localStorage.getItem("user");
+    const lastActivity = localStorage.getItem("lastActivity");
 
     if (token && userData) {
       setUser(JSON.parse(userData));
+
+      // Check if session has expired
+      if (lastActivity) {
+        const timeSinceLastActivity = Date.now() - parseInt(lastActivity);
+        if (timeSinceLastActivity > SESSION_TIMEOUT) {
+          // Session expired
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          localStorage.removeItem("lastActivity");
+          alert("Your session has expired. Please log in again.");
+          window.location.href = "/login";
+          return;
+        }
+        lastActivityRef.current = parseInt(lastActivity);
+      } else {
+        updateActivity();
+      }
     }
     setLoading(false);
   }, []);
@@ -71,16 +127,45 @@ export const AuthProvider = ({ children }) => {
       // Initial check
       checkSessionValidity();
 
+      // Start inactivity timer
+      resetInactivityTimer();
+
       // Set up interval
       sessionCheckIntervalRef.current = setInterval(
         checkSessionValidity,
         30000
       );
 
+      // Track user activity
+      const activityEvents = [
+        "mousedown",
+        "keydown",
+        "scroll",
+        "touchstart",
+        "click",
+      ];
+
+      const handleUserActivity = () => {
+        updateActivity();
+        if (!showSessionTimeout) {
+          resetInactivityTimer();
+        }
+      };
+
+      activityEvents.forEach((event) => {
+        window.addEventListener(event, handleUserActivity);
+      });
+
       // Check session when tab becomes visible
       const handleVisibilityChange = () => {
         if (!document.hidden) {
           checkSessionValidity();
+
+          // Check if session expired while tab was hidden
+          const timeSinceLastActivity = Date.now() - lastActivityRef.current;
+          if (timeSinceLastActivity > SESSION_TIMEOUT) {
+            handleSessionTimeout();
+          }
         }
       };
 
@@ -92,6 +177,13 @@ export const AuthProvider = ({ children }) => {
           clearInterval(sessionCheckIntervalRef.current);
           sessionCheckIntervalRef.current = null;
         }
+        if (inactivityTimerRef.current) {
+          clearTimeout(inactivityTimerRef.current);
+          inactivityTimerRef.current = null;
+        }
+        activityEvents.forEach((event) => {
+          window.removeEventListener(event, handleUserActivity);
+        });
         document.removeEventListener(
           "visibilitychange",
           handleVisibilityChange
@@ -103,14 +195,19 @@ export const AuthProvider = ({ children }) => {
         clearInterval(sessionCheckIntervalRef.current);
         sessionCheckIntervalRef.current = null;
       }
+      if (inactivityTimerRef.current) {
+        clearTimeout(inactivityTimerRef.current);
+        inactivityTimerRef.current = null;
+      }
     }
-  }, [user]);
+  }, [user, showSessionTimeout]);
 
   const login = async (email, password) => {
     try {
       setError(null);
       const data = await loginApi({ email, password });
       setUser(data.user);
+      updateActivity(); // Set activity timestamp on login
       return { success: true };
     } catch (err) {
       const message = err.response?.data?.message || "Login failed";
@@ -124,6 +221,7 @@ export const AuthProvider = ({ children }) => {
       setError(null);
       const data = await signupApi({ name, email, password });
       setUser(data.user);
+      updateActivity(); // Set activity timestamp on signup
       return { success: true };
     } catch (err) {
       const message = err.response?.data?.message || "Signup failed";
@@ -135,6 +233,8 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     await logoutApi();
     setUser(null);
+    localStorage.removeItem("lastActivity");
+    setShowSessionTimeout(false);
   };
 
   const value = {
@@ -146,6 +246,9 @@ export const AuthProvider = ({ children }) => {
     signup,
     logout,
     isAuthenticated: !!user,
+    showSessionTimeout,
+    extendSession,
+    handleSessionTimeout,
   };
 
   return (

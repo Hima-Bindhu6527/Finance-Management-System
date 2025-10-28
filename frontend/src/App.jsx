@@ -11,6 +11,7 @@ import Login from "./components/Auth/Login";
 import Signup from "./components/Auth/Signup";
 import ForgotPassword from "./components/Auth/ForgotPassword";
 import Dashboard from "./components/Dashboard/Dashboard";
+import SessionTimeoutModal from "./components/SessionTimeoutModal";
 import PlanPage from "./pages/Planpage";
 import ToolsPage from "./pages/ToolsPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -324,6 +325,7 @@ function AppRoutes() {
 function App() {
   return (
     <AuthProvider>
+      <SessionTimeoutModal />
       <AppRoutes />
     </AuthProvider>
   );
