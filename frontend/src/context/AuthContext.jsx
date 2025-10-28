@@ -72,8 +72,10 @@ export const AuthProvider = ({ children }) => {
     if (!token || !user) return;
 
     try {
+      const API_URL =
+        import.meta.env.VITE_API_URL || "http://localhost:5000/api";
       // Make a lightweight API call to verify token
-      await axios.get("http://localhost:5000/api/auth/me", {
+      await axios.get(`${API_URL}/auth/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

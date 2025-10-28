@@ -11,6 +11,8 @@ import {
 import { Pie, Bar } from "react-chartjs-2";
 import "./IncomeExpenseTracker.css";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 ChartJS.register(
   ArcElement,
   Tooltip,
@@ -42,7 +44,7 @@ const IncomeExpenseTracker = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/income-expense", {
+      const response = await fetch(`${API_URL}/income-expense`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -70,17 +72,14 @@ const IncomeExpenseTracker = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(
-        "http://localhost:5000/api/income-expense/income",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(incomeForm),
-        }
-      );
+      const response = await fetch(`${API_URL}/income-expense/income`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(incomeForm),
+      });
 
       if (response.ok) {
         const data = await response.json();
@@ -98,17 +97,14 @@ const IncomeExpenseTracker = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(
-        "http://localhost:5000/api/income-expense/expense",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(expenseForm),
-        }
-      );
+      const response = await fetch(`${API_URL}/income-expense/expense`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(expenseForm),
+      });
 
       if (response.ok) {
         const data = await response.json();
@@ -124,7 +120,7 @@ const IncomeExpenseTracker = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5000/api/income-expense/income/${incomeId}`,
+        `${API_URL}/income-expense/income/${incomeId}`,
         {
           method: "DELETE",
           headers: {
@@ -147,7 +143,7 @@ const IncomeExpenseTracker = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5000/api/income-expense/expense/${expenseId}`,
+        `${API_URL}/income-expense/expense/${expenseId}`,
         {
           method: "DELETE",
           headers: {
@@ -181,7 +177,7 @@ const IncomeExpenseTracker = () => {
     try {
       if (editingAssetId) {
         const response = await fetch(
-          `http://localhost:5000/api/income-expense/asset/${editingAssetId}`,
+          `${API_URL}/income-expense/asset/${editingAssetId}`,
           {
             method: "PUT",
             headers: {
@@ -202,20 +198,17 @@ const IncomeExpenseTracker = () => {
           setEditingAssetId(null);
         }
       } else {
-        const response = await fetch(
-          "http://localhost:5000/api/income-expense/asset",
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              ...assetForm,
-              currentValue: Number(assetForm.currentValue),
-            }),
-          }
-        );
+        const response = await fetch(`${API_URL}/income-expense/asset`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...assetForm,
+            currentValue: Number(assetForm.currentValue),
+          }),
+        });
 
         if (response.ok) {
           const data = await response.json();
@@ -242,7 +235,7 @@ const IncomeExpenseTracker = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5000/api/income-expense/asset/${assetId}`,
+        `${API_URL}/income-expense/asset/${assetId}`,
         {
           method: "DELETE",
           headers: {
@@ -312,7 +305,12 @@ const IncomeExpenseTracker = () => {
   };
 
   const generateAssetChartData = () => {
-    if (!incomeExpenseData || !incomeExpenseData.assets || !incomeExpenseData.assets.length) return null;
+    if (
+      !incomeExpenseData ||
+      !incomeExpenseData.assets ||
+      !incomeExpenseData.assets.length
+    )
+      return null;
 
     return {
       labels: incomeExpenseData.assets.map((asset) => asset.name),
@@ -422,29 +420,33 @@ const IncomeExpenseTracker = () => {
 
       <div className="tracker-tabs">
         <button
-          className={`tracker-tab ${activeSection === "income" ? "active" : ""
-            }`}
+          className={`tracker-tab ${
+            activeSection === "income" ? "active" : ""
+          }`}
           onClick={() => setActiveSection("income")}
         >
           📈 Income
         </button>
         <button
-          className={`tracker-tab ${activeSection === "expenses" ? "active" : ""
-            }`}
+          className={`tracker-tab ${
+            activeSection === "expenses" ? "active" : ""
+          }`}
           onClick={() => setActiveSection("expenses")}
         >
           📊 Expenses
         </button>
         <button
-          className={`tracker-tab ${activeSection === "assets" ? "active" : ""
-            }`}
+          className={`tracker-tab ${
+            activeSection === "assets" ? "active" : ""
+          }`}
           onClick={() => setActiveSection("assets")}
         >
           🧾 Assets
         </button>
         <button
-          className={`tracker-tab ${activeSection === "analysis" ? "active" : ""
-            }`}
+          className={`tracker-tab ${
+            activeSection === "analysis" ? "active" : ""
+          }`}
           onClick={() => setActiveSection("analysis")}
         >
           📋 Analysis
@@ -741,8 +743,8 @@ const IncomeExpenseTracker = () => {
             <div className="data-container">
               <h3>Your Assets</h3>
               {incomeExpenseData &&
-                incomeExpenseData.assets &&
-                incomeExpenseData.assets.length > 0 ? (
+              incomeExpenseData.assets &&
+              incomeExpenseData.assets.length > 0 ? (
                 <div className="data-table">
                   <table>
                     <thead>
@@ -794,14 +796,16 @@ const IncomeExpenseTracker = () => {
             </div>
           </div>
 
-          {incomeExpenseData && incomeExpenseData.assets && incomeExpenseData.assets.length > 0 && (
-            <div className="chart-container full-width">
-              <h3>Asset Distribution</h3>
-              <div className="chart-wrapper">
-                <Pie data={generateAssetChartData()} options={chartOptions} />
+          {incomeExpenseData &&
+            incomeExpenseData.assets &&
+            incomeExpenseData.assets.length > 0 && (
+              <div className="chart-container full-width">
+                <h3>Asset Distribution</h3>
+                <div className="chart-wrapper">
+                  <Pie data={generateAssetChartData()} options={chartOptions} />
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
       )}
 
@@ -823,10 +827,11 @@ const IncomeExpenseTracker = () => {
             <div className="summary-card savings">
               <h3>💰 Monthly Savings</h3>
               <div
-                className={`amount ${incomeExpenseData.monthlySavings >= 0
+                className={`amount ${
+                  incomeExpenseData.monthlySavings >= 0
                     ? "positive"
                     : "negative"
-                  }`}
+                }`}
               >
                 ₹{incomeExpenseData.monthlySavings.toLocaleString()}
               </div>
@@ -889,18 +894,18 @@ const IncomeExpenseTracker = () => {
 
             {incomeExpenseData.monthlySavings <
               incomeExpenseData.savingsPlan.savings && (
-                <div className="savings-alert">
-                  <h4>⚠️ Savings Alert</h4>
-                  <p>
-                    Your current savings (₹
-                    {incomeExpenseData.monthlySavings.toLocaleString()}) are below
-                    the recommended 20% (₹
-                    {incomeExpenseData.savingsPlan.savings.toLocaleString()}).
-                    Consider reducing discretionary spending or increasing income
-                    sources.
-                  </p>
-                </div>
-              )}
+              <div className="savings-alert">
+                <h4>⚠️ Savings Alert</h4>
+                <p>
+                  Your current savings (₹
+                  {incomeExpenseData.monthlySavings.toLocaleString()}) are below
+                  the recommended 20% (₹
+                  {incomeExpenseData.savingsPlan.savings.toLocaleString()}).
+                  Consider reducing discretionary spending or increasing income
+                  sources.
+                </p>
+              </div>
+            )}
           </div>
         </div>
       )}

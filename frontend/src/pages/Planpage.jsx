@@ -5,6 +5,8 @@ import GoalsList from "../components/GoalsList";
 import IncomeExpenseTracker from "../components/IncomeExpenseTracker";
 import "./Planpage.css";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 const PlanPage = () => {
   const [activeTab, setActiveTab] = useState("overview");
   const [goals, setGoals] = useState([]);
@@ -14,7 +16,7 @@ const PlanPage = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/goals", {
+      const response = await fetch(`${API_URL}/goals`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",

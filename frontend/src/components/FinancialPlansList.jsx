@@ -1,5 +1,7 @@
 import React from "react";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 const FinancialPlansList = ({ plans, onPlansChange, loading }) => {
   if (loading) {
     return (
@@ -177,7 +179,7 @@ const FinancialPlansList = ({ plans, onPlansChange, loading }) => {
                     try {
                       const token = localStorage.getItem("token");
                       const res = await fetch(
-                        `http://localhost:5000/api/financial-plans/${plan._id}`,
+                        `${API_URL}/financial-plans/${plan._id}`,
                         {
                           method: "PUT",
                           headers: {
@@ -225,7 +227,7 @@ const FinancialPlansList = ({ plans, onPlansChange, loading }) => {
                     try {
                       const token = localStorage.getItem("token");
                       const res = await fetch(
-                        `http://localhost:5000/api/financial-plans/${plan._id}`,
+                        `${API_URL}/financial-plans/${plan._id}`,
                         {
                           method: "DELETE",
                           headers: {

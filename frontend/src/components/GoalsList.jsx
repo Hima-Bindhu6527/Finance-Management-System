@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./GoalsList.css";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 const GoalsList = ({ goals, onGoalsChange, loading }) => {
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-US", {
@@ -52,14 +54,11 @@ const GoalsList = ({ goals, onGoalsChange, loading }) => {
     setHistoryLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(
-        `http://localhost:5000/api/goals/${goalId}/history`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await fetch(`${API_URL}/goals/${goalId}/history`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const data = await res.json();
       if (res.ok && data.data) {
         // Get progress history and sort newest first
@@ -191,17 +190,14 @@ const GoalsList = ({ goals, onGoalsChange, loading }) => {
                     if (!newName || newName.trim() === "") return;
                     try {
                       const token = localStorage.getItem("token");
-                      const res = await fetch(
-                        `http://localhost:5000/api/goals/${goal._id}`,
-                        {
-                          method: "PUT",
-                          headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${token}`,
-                          },
-                          body: JSON.stringify({ goalName: newName }),
-                        }
-                      );
+                      const res = await fetch(`${API_URL}/goals/${goal._id}`, {
+                        method: "PUT",
+                        headers: {
+                          "Content-Type": "application/json",
+                          Authorization: `Bearer ${token}`,
+                        },
+                        body: JSON.stringify({ goalName: newName }),
+                      });
 
                       const data = await res.json();
                       if (res.ok) {
@@ -230,15 +226,12 @@ const GoalsList = ({ goals, onGoalsChange, loading }) => {
                       return;
                     try {
                       const token = localStorage.getItem("token");
-                      const res = await fetch(
-                        `http://localhost:5000/api/goals/${goal._id}`,
-                        {
-                          method: "DELETE",
-                          headers: {
-                            Authorization: `Bearer ${token}`,
-                          },
-                        }
-                      );
+                      const res = await fetch(`${API_URL}/goals/${goal._id}`, {
+                        method: "DELETE",
+                        headers: {
+                          Authorization: `Bearer ${token}`,
+                        },
+                      });
                       const data = await res.json();
                       if (res.ok) {
                         alert("Goal deleted");
@@ -292,7 +285,7 @@ const GoalsList = ({ goals, onGoalsChange, loading }) => {
                       }
 
                       const res = await fetch(
-                        `http://localhost:5000/api/goals/${goal._id}/progress`,
+                        `${API_URL}/goals/${goal._id}/progress`,
                         {
                           method: "PUT",
                           headers: {
