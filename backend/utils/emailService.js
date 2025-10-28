@@ -1,28 +1,17 @@
-const nodemailer = require('nodemailer');
+const Brevo = require('@getbrevo/brevo');
 
-// Create transporter
-const createTransporter = () => {
-  return nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASSWORD,
-    },
-  });
-};
+// Initialize Brevo client
+const brevo = new Brevo.TransactionalEmailsApi();
+brevo.setApiKey(Brevo.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY);
 
 // Send OTP email
 const sendOTPEmail = async (email, otp, name) => {
   try {
-    const transporter = createTransporter();
-
-    const mailOptions = {
-      from: `"FinCart" <${process.env.EMAIL_FROM}>`,
-      to: email,
+    await brevo.sendTransacEmail({
+      sender: { name: 'FinCart', email: process.env.EMAIL_FROM },
+      to: [{ email }],
       subject: 'Your FinCart Login OTP Code',
-      html: `
+      htmlContent: `
         <!DOCTYPE html>
         <html>
         <head>
@@ -106,27 +95,22 @@ const sendOTPEmail = async (email, otp, name) => {
         </body>
         </html>
       `,
-    };
-
-    const info = await transporter.sendMail(mailOptions);
-    console.log('OTP Email sent: %s', info.messageId);
-    return { success: true, messageId: info.messageId };
+    });
+    console.log('✅ OTP email sent to:', email);
   } catch (error) {
-    console.error('Error sending OTP email:', error);
+    console.error('❌ Error sending OTP via Brevo API:', error.response?.body || error);
     throw new Error('Failed to send OTP email');
   }
 };
 
-// Send welcome email (optional)
+// Optional welcome email
 const sendWelcomeEmail = async (email, name) => {
   try {
-    const transporter = createTransporter();
-
-    const mailOptions = {
-      from: `"FinCart" <${process.env.EMAIL_FROM}>`,
-      to: email,
+    await brevo.sendTransacEmail({
+      sender: { name: 'FinCart', email: process.env.EMAIL_FROM },
+      to: [{ email }],
       subject: 'Welcome to FinCart!',
-      html: `
+      htmlContent: `
         <!DOCTYPE html>
         <html>
         <head>
@@ -179,17 +163,12 @@ const sendWelcomeEmail = async (email, name) => {
         </body>
         </html>
       `,
-    };
-
-    await transporter.sendMail(mailOptions);
-    console.log('Welcome email sent to:', email);
+    });
+    console.log('✅ Welcome email sent to:', email);
   } catch (error) {
-    console.error('Error sending welcome email:', error);
-    // Don't throw error for welcome email - it's not critical
+    console.error('❌ Error sending welcome email:', error.response?.body || error);
   }
 };
 
-module.exports = {
-  sendOTPEmail,
-  sendWelcomeEmail,
-};
+module.exports = { sendOTPEmail, sendWelcomeEmail };
+

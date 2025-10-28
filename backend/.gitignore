@@ -24,6 +24,11 @@ out/
 /.turbo/
 
 # Env files
+.env
+
+# Environment files
+.env
+.env.*
 
 
 # Coverage
