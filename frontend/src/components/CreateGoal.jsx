@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./CreateGoal.css";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 const CreateGoal = ({ onGoalCreated }) => {
   const [formData, setFormData] = useState({
     goalName: "",
@@ -112,7 +114,7 @@ const CreateGoal = ({ onGoalCreated }) => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/goals", {
+      const response = await fetch(`${API_URL}/goals`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

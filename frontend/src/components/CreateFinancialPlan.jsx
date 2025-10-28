@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./CreateFinancialPlan.css";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 const CreateFinancialPlan = ({ onPlanCreated }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -58,7 +60,7 @@ const CreateFinancialPlan = ({ onPlanCreated }) => {
   const fetchGoals = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/goals", {
+      const response = await fetch(`${API_URL}/goals`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -78,7 +80,7 @@ const CreateFinancialPlan = ({ onPlanCreated }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "http://localhost:5000/api/financial-plans/general-details",
+        `${API_URL}/financial-plans/general-details`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -212,17 +214,14 @@ const CreateFinancialPlan = ({ onPlanCreated }) => {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(
-        "http://localhost:5000/api/financial-plans",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch(`${API_URL}/financial-plans`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
       const data = await response.json();
 
