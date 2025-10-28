@@ -398,8 +398,8 @@ exports.verifyOTP = async (req, res) => {
       });
     }
 
-    // Get user with OTP fields
-    const user = await User.findById(userId).select('+otp +otpExpires +isOtpVerified');
+    // Get user with OTP fields and token fields
+    const user = await User.findById(userId).select('+otp +otpExpires +isOtpVerified +activeToken +tokenCreatedAt');
 
     if (!user) {
       return res.status(404).json({
@@ -441,15 +441,25 @@ exports.verifyOTP = async (req, res) => {
     user.otp = undefined;
     user.otpExpires = undefined;
     user.isOtpVerified = true;
+    
+    // Generate JWT token
+    const token = generateToken(user._id);
+    
+    // Store active token and timestamp for single device login
+    user.activeToken = token;
+    user.tokenCreatedAt = new Date();
+    
+    console.log('Saving user with activeToken:', user.activeToken ? 'Token present' : 'No token');
+    console.log('tokenCreatedAt:', user.tokenCreatedAt);
+    
     await user.save();
+    
+    console.log('User saved successfully with activeToken');
 
     // Send welcome email for new signups (non-blocking)
     sendWelcomeEmail(user.email, user.name).catch(err => 
       console.error('Failed to send welcome email:', err)
     );
-
-    // Generate JWT token
-    const token = generateToken(user._id);
 
     res.status(200).json({
       success: true,
@@ -536,8 +546,8 @@ exports.logout = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    // Update last logout time
-    const user = await User.findById(userId);
+    // Update last logout time and clear active token
+    const user = await User.findById(userId).select('+activeToken');
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -546,6 +556,8 @@ exports.logout = async (req, res) => {
     }
 
     user.lastLogoutAt = new Date();
+    user.activeToken = undefined; // Clear active token on logout
+    user.tokenCreatedAt = undefined;
     await user.save();
 
     res.status(200).json({

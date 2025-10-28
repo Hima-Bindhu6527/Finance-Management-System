@@ -15,8 +15,28 @@ const protect = async (req, res, next) => {
       // Verify token
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      // Get user from token
-      req.user = await User.findById(decoded.id).select('-password');
+      // Get user from token with activeToken field
+      const user = await User.findById(decoded.id).select('-password +activeToken');
+      
+      if (!user) {
+        return res.status(401).json({
+          success: false,
+          message: 'User not found'
+        });
+      }
+
+      // Check if this token matches the active token (single device login)
+      if (user.activeToken && user.activeToken !== token) {
+        return res.status(401).json({
+          success: false,
+          message: 'Session expired. You have been logged in from another device.',
+          code: 'SESSION_REPLACED'
+        });
+      }
+
+      // Remove activeToken from user object before attaching to request
+      user.activeToken = undefined;
+      req.user = user;
 
       next();
     } catch (error) {

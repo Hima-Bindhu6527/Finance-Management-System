@@ -95,6 +95,15 @@ const userSchema = new mongoose.Schema({
   },
   previousLoginAt: {
     type: Date,
+  },
+  // Active session management (single device login)
+  activeToken: {
+    type: String,
+    select: false,
+  },
+  tokenCreatedAt: {
+    type: Date,
+    select: false,
   }
 });
 

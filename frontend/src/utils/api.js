@@ -24,6 +24,25 @@ api.interceptors.request.use(
   }
 );
 
+// Add response interceptor to handle session replacement
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.data?.code === 'SESSION_REPLACED') {
+      // Clear local storage and redirect to login
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      
+      // Show alert to user
+      alert('You have been logged out because you logged in from another device.');
+      
+      // Redirect to login page
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
 // Signup user
 export const signup = async (userData) => {
   const response = await api.post('/auth/signup', userData);
